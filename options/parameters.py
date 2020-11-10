@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 import json
+import argparse
 import constant as const
+
+parser = argparse.ArgumentParser(
+    description='Creates JSON file with all allowed AUGUSTUS parameters.')
+parser.add_argument('-n', '--filename',
+                    help='Desired file name for the JSON export. Default: parameters.json.')
+args = parser.parse_args()
 
 allowed_parameters = [
     {
@@ -158,5 +165,13 @@ allowed_parameters = [
 ]
 
 
-with open('parameters.json', 'w') as file:
-    json.dump(allowed_parameters, file, indent=4, sort_keys=False)
+def export(filename='parameters.json'):
+    with open(filename, 'w') as file:
+        json.dump(allowed_parameters, file, indent=4, sort_keys=False)
+
+
+if __name__ == '__main__':
+    if args.filename is not None:
+        export(args.filename)
+    else:
+        export()
