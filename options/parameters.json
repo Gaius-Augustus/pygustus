@@ -1,0 +1,186 @@
+[
+    {
+        "name": "species",
+        "type": "string",
+        "usage": "--species=SPECIES queryfilename",
+        "description": "The \"queryfilename\" is the filename (including relative path) to the file containing the query sequence(s) and SPECIES is an identifier for the species. Use --species=help to see a list in fasta format."
+    },
+    {
+        "name": "strand",
+        "type": "string",
+        "usage": "--strand=both/forward/backward",
+        "values": [
+            "both",
+            "forward",
+            "backward"
+        ],
+        "default": "both",
+        "description": "Report predicted genes on both strands, just the forward or just the backward strand."
+    },
+    {
+        "name": "genemodel",
+        "type": "string",
+        "usage": "--genemodel=partial/intronless/complete/atleastone/exactlyone",
+        "values": [
+            "partial",
+            "intronless",
+            "complete",
+            "atleastone",
+            "exactlyone"
+        ],
+        "default": "partial",
+        "description": {
+            "partial": "allow prediction of incomplete genes at the sequence boundaries (default)",
+            "intronless": "only predict single-exon genes like in prokaryotes and some eukaryotes",
+            "complete": "only predict complete genes",
+            "atleastone": "predict at least one complete gene",
+            "exactlyone": "predict exactly one complete gene"
+        }
+    },
+    {
+        "name": "UTR",
+        "type": "string",
+        "usage": "--UTR=on/off",
+        "values": [
+            "on",
+            "off"
+        ],
+        "description": "Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species."
+    },
+    {
+        "name": "singlestrand",
+        "type": "string",
+        "usage": "--singlestrand=true",
+        "values": [
+            "true"
+        ],
+        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands. This option is turned off by default."
+    },
+    {
+        "name": "hintsfile",
+        "type": "string",
+        "usage": "--hintsfile=hintsfilename",
+        "description": "When this option is used the prediction considering hints (extrinsic information) is turned on. The hintsfile contains the hints in gff format."
+    },
+    {
+        "name": "AUGUSTUS_CONFIG_PATH",
+        "type": "string",
+        "usage": "--AUGUSTUS_CONFIG_PATH=path",
+        "description": "Path to config directory (if not specified as environment variable)."
+    },
+    {
+        "name": "alternatives-from-evidence",
+        "type": "string",
+        "usage": "--alternatives-from-evidence=true/false",
+        "values": [
+            "true",
+            "false"
+        ],
+        "description": "Report alternative transcripts when they are suggested by hints."
+    },
+    {
+        "name": "alternatives-from-sampling",
+        "type": "string",
+        "usage": "--alternatives-from-sampling=true/false",
+        "values": [
+            "true",
+            "false"
+        ],
+        "description": "Report alternative transcripts generated through probabilistic sampling."
+    },
+    {
+        "name": "sample",
+        "type": "int",
+        "usage": "--sample=n",
+        "default": 100,
+        "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate."
+    },
+    {
+        "name": "minexonintronprob",
+        "type": "float",
+        "usage": "--minexonintronprob=p",
+        "description": "For a description see section 4 of README.TXT"
+    },
+    {
+        "name": "minmeanexonintronprob",
+        "type": "float",
+        "usage": "--minmeanexonintronprob=p",
+        "description": "For a description see section 4 of README.TXT"
+    },
+    {
+        "name": "maxtracks",
+        "type": "int",
+        "usage": "--maxtracks=n",
+        "description": "For a description see section 4 of README.TXT"
+    },
+    {
+        "name": "proteinprofile",
+        "type": "string",
+        "usage": "--proteinprofile=filename",
+        "description": "When this option is used the prediction will consider the protein profile provided as parameter. The protein profile extension is described in section 7 of README.TXT."
+    },
+    {
+        "name": "progress",
+        "type": "string",
+        "usage": "--progress=true",
+        "values": [
+            "true"
+        ],
+        "description": "Show a progressmeter."
+    },
+    {
+        "name": "gff3",
+        "type": "string",
+        "usage": "--gff3=on/off",
+        "values": [
+            "on",
+            "off"
+        ],
+        "description": "Output in gff3 format."
+    },
+    {
+        "name": "predictionStart",
+        "type": "string",
+        "usage": "--predictionStart=A --predictionEnd=B",
+        "description": "A and B define the range of the sequence for which predictions should be found.",
+        "dependencies": "predictionEnd"
+    },
+    {
+        "name": "predictionEnd",
+        "type": "string",
+        "usage": "--predictionStart=A --predictionEnd=B",
+        "description": "A and B define the range of the sequence for which predictions should be found.",
+        "dependencies": "predictionStart"
+    },
+    {
+        "name": "noInFrameStop",
+        "type": "string",
+        "usage": "--noInFrameStop=true/false",
+        "values": [
+            "true",
+            "false"
+        ],
+        "default": "false",
+        "description": "Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur."
+    },
+    {
+        "name": "noprediction",
+        "type": "string",
+        "usage": "--noprediction=true/false",
+        "values": [
+            "true",
+            "false"
+        ],
+        "description": "If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences."
+    },
+    {
+        "name": "uniqueGeneId",
+        "type": "string",
+        "usage": "--uniqueGeneId=true/false",
+        "values": [
+            "true",
+            "false"
+        ],
+        "description": "If true, output gene identifyers like this: seqname.gN."
+    }
+]
