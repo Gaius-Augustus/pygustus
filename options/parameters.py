@@ -161,7 +161,15 @@ allowed_parameters = [
         USAGE: '--uniqueGeneId=true/false',
         VALUES: ['true', 'false'],
         DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN.'
-    }
+    },
+    {
+        NAME: 'softmasking',
+        TYPE: TYPE_BOOL,
+        USAGE: '--softmasking=True/False',
+        VALUES: [True, False],
+        DEFAULT: True,
+        DESCRIPTION: 'If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on.'
+    }    
 ]
 
 

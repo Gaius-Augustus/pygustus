@@ -182,5 +182,16 @@
             "false"
         ],
         "description": "If true, output gene identifyers like this: seqname.gN."
+    },
+    {
+        "name": "softmasking",
+        "type": "bool",
+        "usage": "--softmasking=True/False",
+        "values": [
+            true,
+            false
+        ],
+        "default": true,
+        "description": "If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on."
     }
 ]
