@@ -1,6 +1,7 @@
 import subprocess
 import sys
 import json
+from option import Option
 
 __all__ = ['run']
 
@@ -9,9 +10,10 @@ AUGUSTUS_COMMAND = "augustus"
 
 parameter_file = '../options/parameters.json'
 
+
 class AugustusOptions:
     # can easily be read from file, validation info could also be stored there - could also be ignored.
-    _allowed_options = []
+    _allowed_options = {}
 
     def __init__(self, *args, **kwargs):
         self.load_options()
@@ -32,14 +34,19 @@ class AugustusOptions:
     def get_arguments(self):
         return self._args
 
-    def set_value(self, option, value):
-        print(option)
-        if option not in self._allowed_options:
-            raise ValueError('Invalid Parameter for Augustus: %s' % option)
+    def set_value(self, option_name, value):
+        print(option_name)
+        if option_name not in self._allowed_options.keys():
+            raise ValueError(
+                'Invalid Parameter for Augustus: %s' % option_name)
             # TODO disable check for now
             # pass
         # TODO possibly also validate type of option and value here
-        self._options[option] = value
+        option = self._allowed_options[option_name]
+        option.set_value(value)
+        print(option.value)
+        #TODO: validation error handling
+        self._options[option_name] = option.value
 
     def get_value(self, option):
         if option not in self._options:
@@ -63,11 +70,13 @@ class AugustusOptions:
 
     def load_options(self):
         with open(parameter_file, 'r') as file:
-                options = json.load(file)
+            options = json.load(file)
 
         # Currently only the name of the option is used, other properties will follow
         for o in options:
-            self._allowed_options.append(o['name'])
+            option = Option(o.get('name'), o.get('type'), o.get('values'), o.get(
+                'description'), o.get('usage'), o.get('default'), o.get('dependencies'))
+            self._allowed_options.update({option.name: option})
 
 
 def run(*args, options=None, **kwargs):
@@ -83,7 +92,7 @@ def run(*args, options=None, **kwargs):
     process = subprocess.Popen(
         [AUGUSTUS_COMMAND] + options.get_options(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     # TODO better output handling including stderr
-    #for line in process.stdout:
+    # for line in process.stdout:
     #    sys.stdout.write(line)
 
     output = process.stdout.read()
