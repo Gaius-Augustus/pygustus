@@ -33,10 +33,11 @@ class AugustusOptions:
         return self._args
 
     def set_value(self, option, value):
+        print(option)
         if option not in self._allowed_options:
-            # raise ValueError('Invalid Parameter for Augustus: %s' % option)
+            raise ValueError('Invalid Parameter for Augustus: %s' % option)
             # TODO disable check for now
-            pass
+            # pass
         # TODO possibly also validate type of option and value here
         self._options[option] = value
 
@@ -80,7 +81,13 @@ def run(*args, options=None, **kwargs):
 
     cmd = "%s %s" % (AUGUSTUS_COMMAND, options)
     process = subprocess.Popen(
-        [AUGUSTUS_COMMAND] + options.get_options(), stdout=subprocess.PIPE)
+        [AUGUSTUS_COMMAND] + options.get_options(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     # TODO better output handling including stderr
-    for line in process.stdout:
-        sys.stdout.write(line)
+    #for line in process.stdout:
+    #    sys.stdout.write(line)
+
+    output = process.stdout.read()
+    error = process.stderr.read()
+
+    print(output)
+    print(error)
