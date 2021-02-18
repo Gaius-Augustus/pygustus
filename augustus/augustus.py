@@ -1,5 +1,4 @@
 import subprocess
-import sys
 import json
 from option import Option
 
@@ -12,7 +11,6 @@ parameter_file = '../options/parameters.json'
 
 
 class AugustusOptions:
-    # can easily be read from file, validation info could also be stored there - could also be ignored.
     _allowed_options = {}
 
     def __init__(self, *args, **kwargs):
@@ -39,8 +37,6 @@ class AugustusOptions:
         if option_name not in self._allowed_options.keys():
             raise ValueError(
                 'Invalid Parameter for Augustus: %s' % option_name)
-            # TODO disable check for now
-            # pass
         # TODO possibly also validate type of option and value here
         option = self._allowed_options[option_name]
         option.set_value(value)
@@ -72,7 +68,6 @@ class AugustusOptions:
         with open(parameter_file, 'r') as file:
             options = json.load(file)
 
-        # Currently only the name of the option is used, other properties will follow
         for o in options:
             option = Option(o.get('name'), o.get('type'), o.get('values'), o.get(
                 'description'), o.get('usage'), o.get('default'), o.get('dependencies'))
@@ -91,9 +86,7 @@ def run(*args, options=None, **kwargs):
     cmd = "%s %s" % (AUGUSTUS_COMMAND, options)
     process = subprocess.Popen(
         [AUGUSTUS_COMMAND] + options.get_options(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    # TODO better output handling including stderr
-    # for line in process.stdout:
-    #    sys.stdout.write(line)
+    # TODO improve output handling?
 
     output = process.stdout.read()
     error = process.stderr.read()
