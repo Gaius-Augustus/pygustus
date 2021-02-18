@@ -64,6 +64,14 @@ class AugustusOptions:
             optstr += " ".join(self._args)
         return optstr
 
+    def check_dependencies(self):
+        for o in self._options.keys():
+            option = self._allowed_options[o]
+            if not option.get_dependencies() is None:
+                for d in option.get_dependencies():
+                    if not d in self._options.keys():
+                        raise ValueError(f'Not fulfilled dependency for parameter --{option.get_name()}! Missing: --{d}.')
+
     def load_options(self):
         with open(parameter_file, 'r') as file:
             options = json.load(file)
@@ -82,6 +90,8 @@ def run(*args, options=None, **kwargs):
             options.add_argument(arg)
         for option, value in kwargs.items():
             options.set_value(option, value)
+
+    options.check_dependencies()
 
     cmd = "%s %s" % (AUGUSTUS_COMMAND, options)
     process = subprocess.Popen(

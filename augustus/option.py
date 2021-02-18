@@ -44,4 +44,9 @@ class Option:
         if check_fail:
              raise ValueError(f'Invalid value type for parameter --{self.name}! Expected {self.type}.')
 
-    #def check_dependencies(): #TODO: possible dependency check after all otpions are instantiated
+
+    def get_dependencies(self):
+        return self.dependencies
+
+    def get_name(self):
+        return self.name
