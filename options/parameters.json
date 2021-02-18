@@ -9,26 +9,26 @@
         "name": "strand",
         "type": "string",
         "usage": "--strand=both/forward/backward",
-        "values": [
+        "possible_values": [
             "both",
             "forward",
             "backward"
         ],
-        "default": "both",
+        "default_values": "both",
         "description": "Report predicted genes on both strands, just the forward or just the backward strand."
     },
     {
         "name": "genemodel",
         "type": "string",
         "usage": "--genemodel=partial/intronless/complete/atleastone/exactlyone",
-        "values": [
+        "possible_values": [
             "partial",
             "intronless",
             "complete",
             "atleastone",
             "exactlyone"
         ],
-        "default": "partial",
+        "default_values": "partial",
         "description": {
             "partial": "allow prediction of incomplete genes at the sequence boundaries (default)",
             "intronless": "only predict single-exon genes like in prokaryotes and some eukaryotes",
@@ -41,7 +41,7 @@
         "name": "UTR",
         "type": "string",
         "usage": "--UTR=on/off",
-        "values": [
+        "possible_values": [
             "on",
             "off"
         ],
@@ -51,7 +51,7 @@
         "name": "singlestrand",
         "type": "string",
         "usage": "--singlestrand=true",
-        "values": [
+        "possible_values": [
             "true"
         ],
         "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands. This option is turned off by default."
@@ -72,7 +72,7 @@
         "name": "alternatives-from-evidence",
         "type": "string",
         "usage": "--alternatives-from-evidence=true/false",
-        "values": [
+        "possible_values": [
             "true",
             "false"
         ],
@@ -82,7 +82,7 @@
         "name": "alternatives-from-sampling",
         "type": "string",
         "usage": "--alternatives-from-sampling=true/false",
-        "values": [
+        "possible_values": [
             "true",
             "false"
         ],
@@ -92,7 +92,7 @@
         "name": "sample",
         "type": "int",
         "usage": "--sample=n",
-        "default": 100,
+        "default_values": 100,
         "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate."
     },
     {
@@ -123,7 +123,7 @@
         "name": "progress",
         "type": "string",
         "usage": "--progress=true",
-        "values": [
+        "possible_values": [
             "true"
         ],
         "description": "Show a progressmeter."
@@ -132,7 +132,7 @@
         "name": "gff3",
         "type": "string",
         "usage": "--gff3=on/off",
-        "values": [
+        "possible_values": [
             "on",
             "off"
         ],
@@ -156,18 +156,18 @@
         "name": "noInFrameStop",
         "type": "string",
         "usage": "--noInFrameStop=true/false",
-        "values": [
+        "possible_values": [
             "true",
             "false"
         ],
-        "default": "false",
+        "default_values": "false",
         "description": "Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur."
     },
     {
         "name": "noprediction",
         "type": "string",
         "usage": "--noprediction=true/false",
-        "values": [
+        "possible_values": [
             "true",
             "false"
         ],
@@ -177,7 +177,7 @@
         "name": "uniqueGeneId",
         "type": "string",
         "usage": "--uniqueGeneId=true/false",
-        "values": [
+        "possible_values": [
             "true",
             "false"
         ],
@@ -187,11 +187,11 @@
         "name": "softmasking",
         "type": "bool",
         "usage": "--softmasking=True/False",
-        "values": [
+        "possible_values": [
             true,
             false
         ],
-        "default": true,
+        "default_values": true,
         "description": "If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on."
     }
 ]

@@ -69,8 +69,8 @@ class AugustusOptions:
             options = json.load(file)
 
         for o in options:
-            option = Option(o.get('name'), o.get('type'), o.get('values'), o.get(
-                'description'), o.get('usage'), o.get('default'), o.get('dependencies'))
+            option = Option(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
+                'description'), o.get('usage'), o.get('default_values'), o.get('dependencies'))
             self._allowed_options.update({option.name: option})
 
 

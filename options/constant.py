@@ -1,10 +1,10 @@
 # Keys for the JSON parameter file
 NAME = 'name'
 TYPE = 'type'
-VALUES = 'values'
+VALUES = 'possible_values'
 DESCRIPTION = 'description'
 USAGE = 'usage'
-DEFAULT = 'default'
+DEFAULT = 'default_values'
 DEPENDENCIES = 'dependencies'
 
 # Used types
