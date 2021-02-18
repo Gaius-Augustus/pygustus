@@ -140,17 +140,21 @@
     },
     {
         "name": "predictionStart",
-        "type": "string",
+        "type": "int",
         "usage": "--predictionStart=A --predictionEnd=B",
         "description": "A and B define the range of the sequence for which predictions should be found.",
-        "dependencies": "predictionEnd"
+        "dependencies": [
+            "predictionEnd"
+        ]
     },
     {
         "name": "predictionEnd",
-        "type": "string",
+        "type": "int",
         "usage": "--predictionStart=A --predictionEnd=B",
         "description": "A and B define the range of the sequence for which predictions should be found.",
-        "dependencies": "predictionStart"
+        "dependencies": [
+            "predictionStart"
+        ]
     },
     {
         "name": "noInFrameStop",

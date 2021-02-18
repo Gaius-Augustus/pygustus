@@ -128,17 +128,17 @@ allowed_parameters = [
     },
     {
         NAME: 'predictionStart',
-        TYPE: TYPE_STRING,
+        TYPE: TYPE_INT,
         USAGE: '--predictionStart=A --predictionEnd=B',
         DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
-        DEPENDENCIES: 'predictionEnd'
+        DEPENDENCIES: ['predictionEnd']
     },
     {
         NAME: 'predictionEnd',
-        TYPE: TYPE_STRING,
+        TYPE: TYPE_INT,
         USAGE: '--predictionStart=A --predictionEnd=B',
         DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
-        DEPENDENCIES: 'predictionStart'
+        DEPENDENCIES: ['predictionStart']
     },
     {
         NAME: 'noInFrameStop',
