@@ -4,7 +4,7 @@ TYPE = 'type'
 VALUES = 'possible_values'
 DESCRIPTION = 'description'
 USAGE = 'usage'
-DEFAULT = 'default_values'
+DEFAULT = 'default_value'
 DEPENDENCIES = 'dependencies'
 
 # Used types

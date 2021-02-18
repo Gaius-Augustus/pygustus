@@ -14,7 +14,7 @@
             "forward",
             "backward"
         ],
-        "default_values": "both",
+        "default_value": "both",
         "description": "Report predicted genes on both strands, just the forward or just the backward strand."
     },
     {
@@ -28,7 +28,7 @@
             "atleastone",
             "exactlyone"
         ],
-        "default_values": "partial",
+        "default_value": "partial",
         "description": {
             "partial": "allow prediction of incomplete genes at the sequence boundaries (default)",
             "intronless": "only predict single-exon genes like in prokaryotes and some eukaryotes",
@@ -92,7 +92,7 @@
         "name": "sample",
         "type": "int",
         "usage": "--sample=n",
-        "default_values": 100,
+        "default_value": 100,
         "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate."
     },
     {
@@ -160,7 +160,7 @@
             "true",
             "false"
         ],
-        "default_values": "false",
+        "default_value": "false",
         "description": "Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur."
     },
     {
@@ -191,7 +191,7 @@
             true,
             false
         ],
-        "default_values": true,
+        "default_value": true,
         "description": "If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on."
     }
 ]
