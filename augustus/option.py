@@ -14,9 +14,9 @@ class Option:
         if check:
             self.check_value(value)
         self.value = value
-    
+
     def check_value(self, value):
-        #TODO: check given value according to option properties
+        # TODO: check given value according to option properties
         self.check_values(value)
         self.check_type(value)
 
@@ -24,7 +24,8 @@ class Option:
         # TODO: check if property is iterable
         if not self.possible_values is None:
             if not value in self.possible_values:
-                raise ValueError(f'Invalid value for parameter --{self.name}! Expected {self.possible_values}.')
+                raise ValueError(
+                    f'Invalid value for parameter --{self.name}! Expected {self.possible_values}.')
 
     def check_type(self, value):
         check_fail = False
@@ -42,8 +43,8 @@ class Option:
             check_fail = True
 
         if check_fail:
-             raise ValueError(f'Invalid value type for parameter --{self.name}! Expected {self.type}.')
-
+            raise ValueError(
+                f'Invalid value type for parameter --{self.name}! Expected {self.type}.')
 
     def get_dependencies(self):
         return self.dependencies

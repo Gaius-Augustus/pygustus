@@ -41,7 +41,7 @@ class AugustusOptions:
         option = self._allowed_options[option_name]
         option.set_value(value)
         print(option.value)
-        #TODO: validation error handling
+        # TODO: validation error handling
         self._options[option_name] = option.value
 
     def get_value(self, option):
@@ -70,7 +70,8 @@ class AugustusOptions:
             if not option.get_dependencies() is None:
                 for d in option.get_dependencies():
                     if not d in self._options.keys():
-                        raise ValueError(f'Not fulfilled dependency for parameter --{option.get_name()}! Missing: --{d}.')
+                        raise ValueError(
+                            f'Not fulfilled dependency for parameter --{option.get_name()}! Missing: --{d}.')
 
     def load_options(self):
         with open(parameter_file, 'r') as file:
