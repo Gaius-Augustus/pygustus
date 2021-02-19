@@ -1,5 +1,6 @@
 import subprocess
 import json
+import sys
 from option import Option
 
 __all__ = ['run']
@@ -26,22 +27,19 @@ class AugustusOptions:
         self._args += args
 
     def add_argument(self, arg):
-        print(arg)
         self._args.append(arg)
 
     def get_arguments(self):
         return self._args
 
     def set_value(self, option_name, value):
-        print(option_name)
         if option_name not in self._allowed_options.keys():
             raise ValueError(
                 'Invalid Parameter for Augustus: %s' % option_name)
-        # TODO possibly also validate type of option and value here
+
         option = self._allowed_options[option_name]
         option.set_value(value)
-        print(option.value)
-        # TODO: validation error handling
+
         self._options[option_name] = option.value
 
     def get_value(self, option):
@@ -84,15 +82,18 @@ class AugustusOptions:
 
 
 def run(*args, options=None, **kwargs):
-    if options is None:
-        options = AugustusOptions(*args, **kwargs)
-    else:
-        for arg in args:
-            options.add_argument(arg)
-        for option, value in kwargs.items():
-            options.set_value(option, value)
-
-    options.check_dependencies()
+    try:
+        if options is None:
+            options = AugustusOptions(*args, **kwargs)
+        else:
+            for arg in args:
+                options.add_argument(arg)
+            for option, value in kwargs.items():
+                options.set_value(option, value)
+        options.check_dependencies()
+    except ValueError as ve:
+        print(ve)
+        sys.exit()
 
     cmd = "%s %s" % (AUGUSTUS_COMMAND, options)
     process = subprocess.Popen(
