@@ -3,10 +3,15 @@
 import augustus
 
 
+def run_augustus_help():
+    augustus.run('--help')
+
+
 def run_augustus_simple():
-    augustus.run('../tests/data/example.fa', species='human', UTR='on',
-                 softmasking=False, augustus_parameter_file='../augustus/options/parameters.json')
+    augustus.run('../tests/data/example.fa', species='human',
+                 UTR='on', softmasking=False)
 
 
 if __name__ == '__main__':
+    #run_augustus_help()
     run_augustus_simple()

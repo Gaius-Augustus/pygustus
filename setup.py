@@ -18,6 +18,7 @@ setup(
     url='https://github.com/Gaius-Augustus/pygustus',
     download_url='https://github.com/Gaius-Augustus/pygustus/zipball/master',
     packages=find_packages(),
+    package_data={'augustus': ['options/parameters.json']},
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",

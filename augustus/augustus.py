@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-
+from pkg_resources import resource_filename
 
 from augustus.options.aug_options import *
 
@@ -9,7 +9,7 @@ __all__ = ['run']
 
 # can be overriden by user to specify path to AUGUSTUS or path to parameter file
 AUGUSTUS_COMMAND = "augustus"
-PARAMETER_FILE = 'options/parameters.json'
+PARAMETER_FILE = resource_filename('augustus.options', 'parameters.json')
 
 # pygustus options
 AUG_BINARY = 'augustus_binary'
