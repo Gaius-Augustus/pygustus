@@ -3,7 +3,7 @@ import subprocess
 import sys
 
 
-from options.aug_options import *
+from augustus.options.aug_options import *
 
 __all__ = ['run']
 
