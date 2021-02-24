@@ -1,14 +1,14 @@
 import subprocess
 import json
 import sys
-from option import Option
+from options.option import *
 
 __all__ = ['run']
 
 # can be overriden by user to specify path to AUGUSTUS
 AUGUSTUS_COMMAND = "augustus"
 
-parameter_file = '../options/parameters.json'
+parameter_file = 'options/parameters.json'
 
 
 class AugustusOptions:
