@@ -1,7 +1,7 @@
 import subprocess
 
 import sys
-from options.option import *
+from options.aug_options import *
 
 __all__ = ['run']
 

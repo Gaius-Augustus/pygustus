@@ -1,6 +1,6 @@
 import json
 
-class Option:
+class AugustusOption:
 
     def __init__(self, name, type, possible_values, description, usage, default_value, dependencies):
         self.name = name
@@ -120,6 +120,6 @@ class AugustusOptions:
             options = json.load(file)
 
         for o in options:
-            option = Option(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
+            option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
                 'description'), o.get('usage'), o.get('default_value'), o.get('dependencies'))
             self._allowed_options.update({option.name: option})
