@@ -36,7 +36,7 @@ def run(*args, options=None, **kwargs):
         options.check_dependencies()
     except ValueError as ve:
         print(ve)
-        sys.exit()
+        os._exit(0)
 
     cmd = "%s %s" % (AUGUSTUS_COMMAND, options)
     process = subprocess.Popen(
