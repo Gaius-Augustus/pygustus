@@ -1,6 +1,9 @@
+"""
+A python wrapper for the gene prediction program AUGUSTUS.
+"""
+
 import os
 import subprocess
-import sys
 from pkg_resources import resource_filename
 
 from augustus.options.aug_options import *
@@ -17,6 +20,13 @@ AUG_PARAMETER_FILE = 'augustus_parameter_file'
 
 
 def run(*args, options=None, **kwargs):
+
+    """
+    Executes AUGUSTUS and passes the given parameters as command line arguments.
+
+    TODO: parameter descritption
+    """
+
     if AUG_BINARY in kwargs.keys():
         set_aug_command(kwargs[AUG_BINARY])
         kwargs.pop(AUG_BINARY, None)
