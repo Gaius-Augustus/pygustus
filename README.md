@@ -1,3 +1,5 @@
+[![Build Test and Publish](https://github.com/Gaius-Augustus/pygustus/workflows/Build%20Test%20and%20Publish/badge.svg)](https://github.com/Gaius-Augustus/pygustus/actions?query=workflow%3A"Build+Test+and+Publish")
+
 # Pygustus
 A python wrapper for the gene prediction program AUGUSTUS.
 
