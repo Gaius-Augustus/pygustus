@@ -25,6 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
+        pip install -U pytest
         sudo apt install augustus
     - name: Test with pytest
       run: |
