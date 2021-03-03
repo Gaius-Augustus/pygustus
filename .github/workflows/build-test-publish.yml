@@ -29,7 +29,12 @@ jobs:
         python -m pip install -U pytest
         python -m pip install 'pydoc-markdown>=3.0.0,<4.0.0'
         python -m pip install mkdocs
+        python -m pip install flake8
         sudo apt install augustus
+    - name: Lint with flake8
+      run: |
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     - name: Test with pytest
       run: pytest --tb=no -v tests/
     - name: Build a binary wheel and a source tarball
