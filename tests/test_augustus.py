@@ -8,7 +8,7 @@ def test_augustus_help():
 
 def test_augustus_simple():
     augustus.run('data/example.fa', species='human',
-                 UTR='on', softmaskingg=False)
+                 UTR='on', softmasking=False)
 
 
 def test_augustus_wrong_parameter():
