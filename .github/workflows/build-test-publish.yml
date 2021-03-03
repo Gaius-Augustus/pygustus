@@ -27,8 +27,15 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install setuptools wheel
         python -m pip install -U pytest
+        python -m pip install 'pydoc-markdown>=3.0.0,<4.0.0'
+        python -m pip install mkdocs
         sudo apt install augustus
     - name: Test with pytest
       run: pytest --tb=no -v tests/
     - name: Build a binary wheel and a source tarball
       run: python setup.py sdist bdist_wheel
+    - name: Build documentation
+      run: |
+        pydoc-markdown
+        cd build/docs/
+        mkdocs build
