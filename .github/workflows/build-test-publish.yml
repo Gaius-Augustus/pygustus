@@ -29,7 +29,6 @@ jobs:
         python -m pip install -U pytest
         sudo apt install augustus
     - name: Test with pytest
-      run: |
-        pytest --tb=no -v tests/
+      run: pytest --tb=no -v tests/
     - name: Build a binary wheel and a source tarball
       run: python setup.py sdist bdist_wheel
