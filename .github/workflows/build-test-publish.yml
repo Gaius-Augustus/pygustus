@@ -39,3 +39,9 @@ jobs:
         pydoc-markdown
         cd build/docs/
         mkdocs build
+    - name: Publish documentation of main branch on gh-pages
+      if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.python-version=='3.8'}}
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/docs/site/
