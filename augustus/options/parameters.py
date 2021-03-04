@@ -169,7 +169,13 @@ allowed_parameters = [
         VALUES: [True, False],
         DEFAULT: True,
         DESCRIPTION: 'If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on.'
-    }    
+    },
+    {
+        NAME: 'allow_hinted_splicesites',
+        TYPE: TYPE_LIST_STRING,
+        USAGE: '--allow_hinted_splicesites=gcag,atac',
+        DESCRIPTION: 'Allows other non-standard splice sites, such as ac-at.'
+    }
 ]
 
 

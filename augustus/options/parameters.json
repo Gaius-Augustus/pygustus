@@ -197,5 +197,11 @@
         ],
         "default_value": true,
         "description": "If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on."
+    },
+    {
+        "name": "allow_hinted_splicesites",
+        "type": "list<string>",
+        "usage": "--allow_hinted_splicesites=gcag,atac",
+        "description": "Allows other non-standard splice sites, such as ac-at."
     }
 ]
