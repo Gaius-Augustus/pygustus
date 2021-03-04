@@ -44,6 +44,16 @@ class AugustusOption:
         if self.type == 'bool' and not isinstance(value, bool):
             check_fail = True
 
+        if self.type == 'list<string>' and not isinstance(value, list):
+            check_fail = True
+        else:
+            if not value:
+                raise ValueError(f'Empty list for parameter --{self.name} is not supported! Expected {self.type}.')
+            else:
+                for s in value:
+                    if not isinstance(s, str):
+                        check_fail = True
+
         if check_fail:
             raise ValueError(
                 f'Invalid value type for parameter --{self.name}! Expected {self.type}.')
@@ -94,7 +104,10 @@ class AugustusOptions:
     def get_options(self):
         opts = []
         for option, value in self._options.items():
-            opts.append("--%s=%s" % (option, value))
+            if isinstance(value, list):
+                opts.append("--%s=%s" % (option, ','.join(value)))
+            else:
+                opts.append("--%s=%s" % (option, value))
         opts += self._args
         return opts
 
