@@ -46,7 +46,7 @@ class AugustusOption:
 
         if self.type == 'list<string>' and not isinstance(value, list):
             check_fail = True
-        else:
+        elif self.type == 'list<string>' and isinstance(value, list):
             if not value:
                 raise ValueError(f'Empty list for parameter --{self.name} is not supported! Expected {self.type}.')
             else:
