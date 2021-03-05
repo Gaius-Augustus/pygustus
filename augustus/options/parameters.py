@@ -13,12 +13,14 @@ args = parser.parse_args()
 allowed_parameters = [
     {
         NAME: 'species',
+        DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--species=SPECIES queryfilename',
         DESCRIPTION: 'The "queryfilename" is the filename (including relative path) to the file containing the query sequence(s) and SPECIES is an identifier for the species. Use --species=help to see a list in fasta format.'
     },
     {
         NAME: 'strand',
+        DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--strand=both/forward/backward',
         VALUES: ['both', 'forward', 'backward'],
@@ -27,6 +29,7 @@ allowed_parameters = [
     },
     {
         NAME: 'genemodel',
+        DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--genemodel=partial/intronless/complete/atleastone/exactlyone',
         VALUES: ['partial', 'intronless', 'complete', 'atleastone', 'exactlyone'],
@@ -40,6 +43,7 @@ allowed_parameters = [
     },
     {
         NAME: 'UTR',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--UTR=true/false',
         VALUES: [True, False],
@@ -48,6 +52,7 @@ allowed_parameters = [
     },
     {
         NAME: 'singlestrand',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--singlestrand=true/false',
         VALUES:  [True, False],
@@ -56,18 +61,21 @@ allowed_parameters = [
     },
     {
         NAME: 'hintsfile',
+        DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--hintsfile=hintsfilename',
         DESCRIPTION: 'When this option is used the prediction considering hints (extrinsic information) is turned on. The hintsfile contains the hints in gff format.'
     },
     {
         NAME: 'AUGUSTUS_CONFIG_PATH',
+        DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--AUGUSTUS_CONFIG_PATH=path',
         DESCRIPTION: 'Path to config directory (if not specified as environment variable).'
     },
     {
         NAME: 'alternatives-from-evidence',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-evidence=true/false',
         VALUES: [True, False],
@@ -75,6 +83,7 @@ allowed_parameters = [
     },
     {
         NAME: 'alternatives-from-sampling',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-sampling=true/false',
         VALUES: [True, False],
@@ -82,6 +91,7 @@ allowed_parameters = [
     },
     {
         NAME: 'sample',
+        DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--sample=n',
         DEFAULT: 100,
@@ -89,6 +99,7 @@ allowed_parameters = [
     },
     {
         NAME: 'minexonintronprob',
+        DEVELOPMENT: False,
         TYPE: TYPE_FLOAT,
         USAGE: '--minexonintronprob=p',
         # TODO: add some text and/or update reference? Dependencies?
@@ -96,6 +107,7 @@ allowed_parameters = [
     },
     {
         NAME: 'minmeanexonintronprob',
+        DEVELOPMENT: False,
         TYPE: TYPE_FLOAT,
         USAGE: '--minmeanexonintronprob=p',
         # TODO: add some text and/or update reference? Dependencies?
@@ -103,6 +115,7 @@ allowed_parameters = [
     },
     {
         NAME: 'maxtracks',
+        DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--maxtracks=n',
         # TODO: add some text and/or update reference? Dependencies?
@@ -110,12 +123,14 @@ allowed_parameters = [
     },
     {
         NAME: 'proteinprofile',
+        DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--proteinprofile=filename',
         DESCRIPTION: 'When this option is used the prediction will consider the protein profile provided as parameter. The protein profile extension is described in section 7 of README.TXT.'  # TODO: update reference?
     },
     {
         NAME: 'progress',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--progress=true',
         VALUES: [True, False],
@@ -124,6 +139,7 @@ allowed_parameters = [
     },
     {
         NAME: 'gff3',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--gff3=true/false',
         VALUES: [True, False],
@@ -131,18 +147,21 @@ allowed_parameters = [
     },
     {
         NAME: 'predictionStart',
+        DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--predictionStart=A --predictionEnd=B', # TODO: update usage and description
         DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
     },
     {
         NAME: 'predictionEnd',
+        DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--predictionStart=A --predictionEnd=B', # TODO: update usage and description
         DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
     },
     {
         NAME: 'noInFrameStop',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--noInFrameStop=true/false',
         VALUES: [True, False],
@@ -151,6 +170,7 @@ allowed_parameters = [
     },
     {
         NAME: 'noprediction',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--noprediction=true/false',
         VALUES: [True, False],
@@ -158,6 +178,7 @@ allowed_parameters = [
     },
     {
         NAME: 'uniqueGeneId',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--uniqueGeneId=true/false',
         VALUES: [True, False],
@@ -165,6 +186,7 @@ allowed_parameters = [
     },
     {
         NAME: 'softmasking',
+        DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--softmasking=True/False',
         VALUES: [True, False],
@@ -173,6 +195,7 @@ allowed_parameters = [
     },
     {
         NAME: 'allow_hinted_splicesites',
+        DEVELOPMENT: False,
         TYPE: TYPE_LIST_STRING,
         USAGE: '--allow_hinted_splicesites=gcag,atac',
         DESCRIPTION: 'Allows other non-standard splice sites, such as ac-at.'
