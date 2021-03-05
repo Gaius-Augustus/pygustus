@@ -9,7 +9,7 @@ def run_augustus_help():
 
 def run_augustus_simple():
     augustus.run('../tests/data/example.fa', species='human',
-                 UTR='on', softmasking=False)
+                 UTR=True, softmasking=False)
 
 
 if __name__ == '__main__':

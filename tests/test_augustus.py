@@ -8,10 +8,10 @@ def test_augustus_help():
 
 def test_augustus_simple():
     augustus.run('data/example.fa', species='human',
-                 UTR='on', softmasking=False)
+                 UTR=True, softmasking=False)
 
 
 def test_augustus_wrong_parameter():
     with pytest.raises(ValueError):
         augustus.run('data/example.fa', species='human',
-                     UTR='on', smasking=False)
+                     UTR=True, smasking=False)

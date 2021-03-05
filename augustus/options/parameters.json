@@ -39,22 +39,25 @@
     },
     {
         "name": "UTR",
-        "type": "string",
-        "usage": "--UTR=on/off",
+        "type": "bool",
+        "usage": "--UTR=true/false",
         "possible_values": [
-            "on",
-            "off"
+            true,
+            false
         ],
+        "default_value": false,
         "description": "Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species."
     },
     {
         "name": "singlestrand",
-        "type": "string",
-        "usage": "--singlestrand=true",
+        "type": "bool",
+        "usage": "--singlestrand=true/false",
         "possible_values": [
-            "true"
+            true,
+            false
         ],
-        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands. This option is turned off by default."
+        "default_value": false,
+        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands."
     },
     {
         "name": "hintsfile",
@@ -70,21 +73,21 @@
     },
     {
         "name": "alternatives-from-evidence",
-        "type": "string",
+        "type": "bool",
         "usage": "--alternatives-from-evidence=true/false",
         "possible_values": [
-            "true",
-            "false"
+            true,
+            false
         ],
         "description": "Report alternative transcripts when they are suggested by hints."
     },
     {
         "name": "alternatives-from-sampling",
-        "type": "string",
+        "type": "bool",
         "usage": "--alternatives-from-sampling=true/false",
         "possible_values": [
-            "true",
-            "false"
+            true,
+            false
         ],
         "description": "Report alternative transcripts generated through probabilistic sampling."
     },
@@ -121,20 +124,22 @@
     },
     {
         "name": "progress",
-        "type": "string",
+        "type": "bool",
         "usage": "--progress=true",
         "possible_values": [
-            "true"
+            true,
+            false
         ],
+        "default_value": false,
         "description": "Show a progressmeter."
     },
     {
         "name": "gff3",
-        "type": "string",
-        "usage": "--gff3=on/off",
+        "type": "bool",
+        "usage": "--gff3=true/false",
         "possible_values": [
-            "on",
-            "off"
+            true,
+            false
         ],
         "description": "Output in gff3 format."
     },
@@ -142,48 +147,42 @@
         "name": "predictionStart",
         "type": "int",
         "usage": "--predictionStart=A --predictionEnd=B",
-        "description": "A and B define the range of the sequence for which predictions should be found.",
-        "dependencies": [
-            "predictionEnd"
-        ]
+        "description": "A and B define the range of the sequence for which predictions should be found."
     },
     {
         "name": "predictionEnd",
         "type": "int",
         "usage": "--predictionStart=A --predictionEnd=B",
-        "description": "A and B define the range of the sequence for which predictions should be found.",
-        "dependencies": [
-            "predictionStart"
-        ]
+        "description": "A and B define the range of the sequence for which predictions should be found."
     },
     {
         "name": "noInFrameStop",
-        "type": "string",
+        "type": "bool",
         "usage": "--noInFrameStop=true/false",
         "possible_values": [
-            "true",
-            "false"
+            true,
+            false
         ],
-        "default_value": "false",
+        "default_value": false,
         "description": "Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur."
     },
     {
         "name": "noprediction",
-        "type": "string",
+        "type": "bool",
         "usage": "--noprediction=true/false",
         "possible_values": [
-            "true",
-            "false"
+            true,
+            false
         ],
         "description": "If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences."
     },
     {
         "name": "uniqueGeneId",
-        "type": "string",
+        "type": "bool",
         "usage": "--uniqueGeneId=true/false",
         "possible_values": [
-            "true",
-            "false"
+            true,
+            false
         ],
         "description": "If true, output gene identifyers like this: seqname.gN."
     },

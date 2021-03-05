@@ -40,17 +40,19 @@ allowed_parameters = [
     },
     {
         NAME: 'UTR',
-        TYPE: TYPE_STRING,
-        USAGE: '--UTR=on/off',
-        VALUES: ['on', 'off'],
+        TYPE: TYPE_BOOL,
+        USAGE: '--UTR=true/false',
+        VALUES: [True, False],
+        DEFAULT: False,
         DESCRIPTION: 'Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species.'
     },
     {
         NAME: 'singlestrand',
-        TYPE: TYPE_STRING,  # TODO: bool??
-        USAGE: '--singlestrand=true',
-        VALUES: ['true'],
-        DESCRIPTION: 'Predict genes independently on each strand, allow overlapping genes on opposite strands. This option is turned off by default.'
+        TYPE: TYPE_BOOL,
+        USAGE: '--singlestrand=true/false',
+        VALUES:  [True, False],
+        DEFAULT: False,
+        DESCRIPTION: 'Predict genes independently on each strand, allow overlapping genes on opposite strands.'
     },
     {
         NAME: 'hintsfile',
@@ -66,16 +68,16 @@ allowed_parameters = [
     },
     {
         NAME: 'alternatives-from-evidence',
-        TYPE: TYPE_STRING,  # TODO: bool??
+        TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-evidence=true/false',
-        VALUES: ['true', 'false'],
+        VALUES: [True, False],
         DESCRIPTION: 'Report alternative transcripts when they are suggested by hints.'
     },
     {
         NAME: 'alternatives-from-sampling',
-        TYPE: TYPE_STRING,  # TODO: bool??
+        TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-sampling=true/false',
-        VALUES: ['true', 'false'],
+        VALUES: [True, False],
         DESCRIPTION: 'Report alternative transcripts generated through probabilistic sampling.'
     },
     {
@@ -114,52 +116,51 @@ allowed_parameters = [
     },
     {
         NAME: 'progress',
-        TYPE: TYPE_STRING,  # TODO: bool??
+        TYPE: TYPE_BOOL,
         USAGE: '--progress=true',
-        VALUES: ['true'],
+        VALUES: [True, False],
+        DEFAULT: False,
         DESCRIPTION: 'Show a progressmeter.'
     },
     {
         NAME: 'gff3',
-        TYPE: TYPE_STRING,
-        USAGE: '--gff3=on/off',
-        VALUES: ['on', 'off'],
+        TYPE: TYPE_BOOL,
+        USAGE: '--gff3=true/false',
+        VALUES: [True, False],
         DESCRIPTION: 'Output in gff3 format.'
     },
     {
         NAME: 'predictionStart',
         TYPE: TYPE_INT,
-        USAGE: '--predictionStart=A --predictionEnd=B',
+        USAGE: '--predictionStart=A --predictionEnd=B', # TODO: update usage and description
         DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
-        DEPENDENCIES: ['predictionEnd']
     },
     {
         NAME: 'predictionEnd',
         TYPE: TYPE_INT,
-        USAGE: '--predictionStart=A --predictionEnd=B',
+        USAGE: '--predictionStart=A --predictionEnd=B', # TODO: update usage and description
         DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
-        DEPENDENCIES: ['predictionStart']
     },
     {
         NAME: 'noInFrameStop',
-        TYPE: TYPE_STRING,  # TODO: bool??
+        TYPE: TYPE_BOOL,
         USAGE: '--noInFrameStop=true/false',
-        VALUES: ['true', 'false'],
-        DEFAULT: 'false',
+        VALUES: [True, False],
+        DEFAULT: False,
         DESCRIPTION: 'Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur.'
     },
     {
         NAME: 'noprediction',
-        TYPE: TYPE_STRING,  # TODO: bool??
+        TYPE: TYPE_BOOL,
         USAGE: '--noprediction=true/false',
-        VALUES: ['true', 'false'],
+        VALUES: [True, False],
         DESCRIPTION: 'If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences.'
     },
     {
         NAME: 'uniqueGeneId',
-        TYPE: TYPE_STRING,  # TODO: bool??
+        TYPE: TYPE_BOOL,
         USAGE: '--uniqueGeneId=true/false',
-        VALUES: ['true', 'false'],
+        VALUES: [True, False],
         DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN.'
     },
     {

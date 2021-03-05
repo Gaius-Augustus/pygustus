@@ -5,7 +5,6 @@ VALUES = 'possible_values'
 DESCRIPTION = 'description'
 USAGE = 'usage'
 DEFAULT = 'default_value'
-DEPENDENCIES = 'dependencies'
 
 # Used types
 TYPE_STRING = 'string'
