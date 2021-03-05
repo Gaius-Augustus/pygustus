@@ -8,10 +8,11 @@ from pkg_resources import resource_filename
 
 from augustus.options.aug_options import *
 
-__all__ = ['predict']
+__all__ = ['predict', 'training']
 
 # can be overriden by user to specify path to AUGUSTUS or path to parameter file
 AUGUSTUS_COMMAND = "augustus"
+ETRAINING_COMMAND = "etraining"
 PARAMETER_FILE = resource_filename('augustus.options', 'parameters.json')
 
 # pygustus options
@@ -20,7 +21,6 @@ AUG_PARAMETER_FILE = 'augustus_parameter_file'
 
 
 def predict(*args, options=None, **kwargs):
-
     """
     Executes AUGUSTUS and passes the given parameters as command line arguments.
 
@@ -53,6 +53,11 @@ def predict(*args, options=None, **kwargs):
     error = process.stderr.read()
     print(output)
     print(error)
+
+
+def training():
+    # TODO: implement
+    pass
 
 
 def set_aug_command(augustus_binary):
