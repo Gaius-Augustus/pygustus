@@ -8,7 +8,7 @@ from pkg_resources import resource_filename
 
 from augustus.options.aug_options import *
 
-__all__ = ['run']
+__all__ = ['predict']
 
 # can be overriden by user to specify path to AUGUSTUS or path to parameter file
 AUGUSTUS_COMMAND = "augustus"
@@ -19,7 +19,7 @@ AUG_BINARY = 'augustus_binary'
 AUG_PARAMETER_FILE = 'augustus_parameter_file'
 
 
-def run(*args, options=None, **kwargs):
+def predict(*args, options=None, **kwargs):
 
     """
     Executes AUGUSTUS and passes the given parameters as command line arguments.

@@ -4,11 +4,11 @@ import augustus
 
 
 def run_augustus_help():
-    augustus.run('--help')
+    augustus.predict('--help')
 
 
 def run_augustus_simple():
-    augustus.run('../tests/data/example.fa', species='human',
+    augustus.predict('../tests/data/example.fa', species='human',
                  UTR=True, softmasking=False)
 
 
