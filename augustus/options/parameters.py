@@ -208,7 +208,11 @@ def export(filename='parameters.json'):
         json.dump(allowed_parameters, file, indent=4, sort_keys=False)
 
 
+def sort_key(item):
+    return item[NAME].lower()
+
 if __name__ == '__main__':
+    allowed_parameters.sort(key=sort_key)
     if args.filename is not None:
         export(args.filename)
     else:

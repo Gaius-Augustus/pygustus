@@ -1,82 +1,10 @@
 [
     {
-        "name": "species",
+        "name": "allow_hinted_splicesites",
         "development": false,
-        "type": "string",
-        "usage": "--species=SPECIES queryfilename",
-        "description": "The \"queryfilename\" is the filename (including relative path) to the file containing the query sequence(s) and SPECIES is an identifier for the species. Use --species=help to see a list in fasta format."
-    },
-    {
-        "name": "strand",
-        "development": false,
-        "type": "string",
-        "usage": "--strand=both/forward/backward",
-        "possible_values": [
-            "both",
-            "forward",
-            "backward"
-        ],
-        "default_value": "both",
-        "description": "Report predicted genes on both strands, just the forward or just the backward strand."
-    },
-    {
-        "name": "genemodel",
-        "development": false,
-        "type": "string",
-        "usage": "--genemodel=partial/intronless/complete/atleastone/exactlyone",
-        "possible_values": [
-            "partial",
-            "intronless",
-            "complete",
-            "atleastone",
-            "exactlyone"
-        ],
-        "default_value": "partial",
-        "description": {
-            "partial": "allow prediction of incomplete genes at the sequence boundaries (default)",
-            "intronless": "only predict single-exon genes like in prokaryotes and some eukaryotes",
-            "complete": "only predict complete genes",
-            "atleastone": "predict at least one complete gene",
-            "exactlyone": "predict exactly one complete gene"
-        }
-    },
-    {
-        "name": "UTR",
-        "development": false,
-        "type": "bool",
-        "usage": "--UTR=true/false",
-        "possible_values": [
-            true,
-            false
-        ],
-        "default_value": false,
-        "description": "Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species."
-    },
-    {
-        "name": "singlestrand",
-        "development": false,
-        "type": "bool",
-        "usage": "--singlestrand=true/false",
-        "possible_values": [
-            true,
-            false
-        ],
-        "default_value": false,
-        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands."
-    },
-    {
-        "name": "hintsfile",
-        "development": false,
-        "type": "string",
-        "usage": "--hintsfile=hintsfilename",
-        "description": "When this option is used the prediction considering hints (extrinsic information) is turned on. The hintsfile contains the hints in gff format."
-    },
-    {
-        "name": "AUGUSTUS_CONFIG_PATH",
-        "development": false,
-        "type": "string",
-        "usage": "--AUGUSTUS_CONFIG_PATH=path",
-        "description": "Path to config directory (if not specified as environment variable)."
+        "type": "list<string>",
+        "usage": "--allow_hinted_splicesites=gcag,atac",
+        "description": "Allows other non-standard splice sites, such as ac-at."
     },
     {
         "name": "alternatives-from-evidence",
@@ -101,12 +29,57 @@
         "description": "Report alternative transcripts generated through probabilistic sampling."
     },
     {
-        "name": "sample",
+        "name": "AUGUSTUS_CONFIG_PATH",
+        "development": false,
+        "type": "string",
+        "usage": "--AUGUSTUS_CONFIG_PATH=path",
+        "description": "Path to config directory (if not specified as environment variable)."
+    },
+    {
+        "name": "genemodel",
+        "development": false,
+        "type": "string",
+        "usage": "--genemodel=partial/intronless/complete/atleastone/exactlyone",
+        "possible_values": [
+            "partial",
+            "intronless",
+            "complete",
+            "atleastone",
+            "exactlyone"
+        ],
+        "default_value": "partial",
+        "description": {
+            "partial": "allow prediction of incomplete genes at the sequence boundaries (default)",
+            "intronless": "only predict single-exon genes like in prokaryotes and some eukaryotes",
+            "complete": "only predict complete genes",
+            "atleastone": "predict at least one complete gene",
+            "exactlyone": "predict exactly one complete gene"
+        }
+    },
+    {
+        "name": "gff3",
+        "development": false,
+        "type": "bool",
+        "usage": "--gff3=true/false",
+        "possible_values": [
+            true,
+            false
+        ],
+        "description": "Output in gff3 format."
+    },
+    {
+        "name": "hintsfile",
+        "development": false,
+        "type": "string",
+        "usage": "--hintsfile=hintsfilename",
+        "description": "When this option is used the prediction considering hints (extrinsic information) is turned on. The hintsfile contains the hints in gff format."
+    },
+    {
+        "name": "maxtracks",
         "development": false,
         "type": "int",
-        "usage": "--sample=n",
-        "default_value": 100,
-        "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate."
+        "usage": "--maxtracks=n",
+        "description": "For a description see section 4 of README.TXT"
     },
     {
         "name": "minexonintronprob",
@@ -121,57 +94,6 @@
         "type": "float",
         "usage": "--minmeanexonintronprob=p",
         "description": "For a description see section 4 of README.TXT"
-    },
-    {
-        "name": "maxtracks",
-        "development": false,
-        "type": "int",
-        "usage": "--maxtracks=n",
-        "description": "For a description see section 4 of README.TXT"
-    },
-    {
-        "name": "proteinprofile",
-        "development": false,
-        "type": "string",
-        "usage": "--proteinprofile=filename",
-        "description": "When this option is used the prediction will consider the protein profile provided as parameter. The protein profile extension is described in section 7 of README.TXT."
-    },
-    {
-        "name": "progress",
-        "development": false,
-        "type": "bool",
-        "usage": "--progress=true",
-        "possible_values": [
-            true,
-            false
-        ],
-        "default_value": false,
-        "description": "Show a progressmeter."
-    },
-    {
-        "name": "gff3",
-        "development": false,
-        "type": "bool",
-        "usage": "--gff3=true/false",
-        "possible_values": [
-            true,
-            false
-        ],
-        "description": "Output in gff3 format."
-    },
-    {
-        "name": "predictionStart",
-        "development": false,
-        "type": "int",
-        "usage": "--predictionStart=A --predictionEnd=B",
-        "description": "A and B define the range of the sequence for which predictions should be found."
-    },
-    {
-        "name": "predictionEnd",
-        "development": false,
-        "type": "int",
-        "usage": "--predictionStart=A --predictionEnd=B",
-        "description": "A and B define the range of the sequence for which predictions should be found."
     },
     {
         "name": "noInFrameStop",
@@ -197,15 +119,57 @@
         "description": "If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences."
     },
     {
-        "name": "uniqueGeneId",
+        "name": "predictionEnd",
+        "development": false,
+        "type": "int",
+        "usage": "--predictionStart=A --predictionEnd=B",
+        "description": "A and B define the range of the sequence for which predictions should be found."
+    },
+    {
+        "name": "predictionStart",
+        "development": false,
+        "type": "int",
+        "usage": "--predictionStart=A --predictionEnd=B",
+        "description": "A and B define the range of the sequence for which predictions should be found."
+    },
+    {
+        "name": "progress",
         "development": false,
         "type": "bool",
-        "usage": "--uniqueGeneId=true/false",
+        "usage": "--progress=true",
         "possible_values": [
             true,
             false
         ],
-        "description": "If true, output gene identifyers like this: seqname.gN."
+        "default_value": false,
+        "description": "Show a progressmeter."
+    },
+    {
+        "name": "proteinprofile",
+        "development": false,
+        "type": "string",
+        "usage": "--proteinprofile=filename",
+        "description": "When this option is used the prediction will consider the protein profile provided as parameter. The protein profile extension is described in section 7 of README.TXT."
+    },
+    {
+        "name": "sample",
+        "development": false,
+        "type": "int",
+        "usage": "--sample=n",
+        "default_value": 100,
+        "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate."
+    },
+    {
+        "name": "singlestrand",
+        "development": false,
+        "type": "bool",
+        "usage": "--singlestrand=true/false",
+        "possible_values": [
+            true,
+            false
+        ],
+        "default_value": false,
+        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands."
     },
     {
         "name": "softmasking",
@@ -220,10 +184,46 @@
         "description": "If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on."
     },
     {
-        "name": "allow_hinted_splicesites",
+        "name": "species",
         "development": false,
-        "type": "list<string>",
-        "usage": "--allow_hinted_splicesites=gcag,atac",
-        "description": "Allows other non-standard splice sites, such as ac-at."
+        "type": "string",
+        "usage": "--species=SPECIES queryfilename",
+        "description": "The \"queryfilename\" is the filename (including relative path) to the file containing the query sequence(s) and SPECIES is an identifier for the species. Use --species=help to see a list in fasta format."
+    },
+    {
+        "name": "strand",
+        "development": false,
+        "type": "string",
+        "usage": "--strand=both/forward/backward",
+        "possible_values": [
+            "both",
+            "forward",
+            "backward"
+        ],
+        "default_value": "both",
+        "description": "Report predicted genes on both strands, just the forward or just the backward strand."
+    },
+    {
+        "name": "uniqueGeneId",
+        "development": false,
+        "type": "bool",
+        "usage": "--uniqueGeneId=true/false",
+        "possible_values": [
+            true,
+            false
+        ],
+        "description": "If true, output gene identifyers like this: seqname.gN."
+    },
+    {
+        "name": "UTR",
+        "development": false,
+        "type": "bool",
+        "usage": "--UTR=true/false",
+        "possible_values": [
+            true,
+            false
+        ],
+        "default_value": false,
+        "description": "Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species."
     }
 ]
