@@ -2,14 +2,13 @@ import json
 
 class AugustusOption:
 
-    def __init__(self, name, type, possible_values, description, usage, default_value, dependencies):
+    def __init__(self, name, type, possible_values, description, usage, default_value):
         self.name = name
         self.type = type
         self.possible_values = possible_values
         self.description = description
         self.usage = usage
         self.default_value = default_value
-        self.dependencies = dependencies
         self.value = None
 
     def set_value(self, value, check=True):
@@ -57,9 +56,6 @@ class AugustusOption:
         if check_fail:
             raise ValueError(
                 f'Invalid value type for parameter --{self.name}! Expected {self.type}.')
-
-    def get_dependencies(self):
-        return self.dependencies
 
     def get_name(self):
         return self.name
@@ -119,20 +115,11 @@ class AugustusOptions:
             optstr += " ".join(self._args)
         return optstr
 
-    def check_dependencies(self):
-        for o in self._options.keys():
-            option = self._allowed_options[o]
-            if not option.get_dependencies() is None:
-                for d in option.get_dependencies():
-                    if not d in self._options.keys():
-                        raise ValueError(
-                            f'Not fulfilled dependency for parameter --{option.get_name()}! Missing: --{d}.')
-
     def load_options(self):
         with open(self._parameter_file, 'r') as file:
             options = json.load(file)
 
         for o in options:
             option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
-                'description'), o.get('usage'), o.get('default_value'), o.get('dependencies'))
+                'description'), o.get('usage'), o.get('default_value'))
             self._allowed_options.update({option.name: option})

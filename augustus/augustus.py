@@ -43,7 +43,6 @@ def predict(*args, options=None, **kwargs):
             options.add_argument(arg)
         for option, value in kwargs.items():
             options.set_value(option, value)
-    options.check_dependencies()
 
     # execute AUGUSTUS with given options
     process = subprocess.Popen(
