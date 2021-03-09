@@ -11,6 +11,7 @@ from augustus.options.aug_options import *
 __all__ = ['predict', 'train']
 
 # can be overriden by user to specify path to AUGUSTUS or path to parameter file
+# TODO: add config file to persist user specifications
 AUGUSTUS_COMMAND = "augustus"
 ETRAINING_COMMAND = "etraining"
 PARAMETER_FILE = resource_filename('augustus.options', 'parameters.json')

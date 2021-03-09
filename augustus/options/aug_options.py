@@ -122,5 +122,5 @@ class AugustusOptions:
 
         for o in options:
             option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
-                'description'), o.get('usage'), o.get('default_value'))
+                'description'), o.get('usage'), o.get('default_value'), o.get('development'))
             self._allowed_options.update({option.name: option})
