@@ -2,8 +2,9 @@ import json
 
 class AugustusOption:
 
-    def __init__(self, name, type, possible_values, description, usage, default_value):
+    def __init__(self, name, type, possible_values, description, usage, default_value, development):
         self.name = name
+        self.development = development
         self.type = type
         self.possible_values = possible_values
         self.description = description
