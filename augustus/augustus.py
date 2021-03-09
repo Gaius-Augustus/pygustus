@@ -8,7 +8,7 @@ from pkg_resources import resource_filename
 
 from augustus.options.aug_options import *
 
-__all__ = ['predict', 'training']
+__all__ = ['predict', 'train']
 
 # can be overriden by user to specify path to AUGUSTUS or path to parameter file
 AUGUSTUS_COMMAND = "augustus"
@@ -54,7 +54,7 @@ def predict(*args, options=None, **kwargs):
     print(error)
 
 
-def training():
+def train():
     # TODO: implement
     pass
 
