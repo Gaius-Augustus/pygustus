@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import augustus
+from pygustus import augustus
 
 
 def run_augustus_help():

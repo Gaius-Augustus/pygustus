@@ -1,5 +1,5 @@
 import pytest
-from augustus import *
+from pygustus import *
 
 
 def test_augustus_help():

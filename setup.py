@@ -8,8 +8,8 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 setup(
-    name='augustus',
-    version='0.1.0',
+    name='pygustus',
+    version='0.1.1',
     description='Python wrapper for AUGUSTUS.',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -18,7 +18,7 @@ setup(
     url='https://github.com/Gaius-Augustus/pygustus',
     download_url='https://github.com/Gaius-Augustus/pygustus/zipball/master',
     packages=find_packages(),
-    package_data={'augustus': ['options/parameters.json']},
+    package_data={'pygustus': ['options/parameters.json']},
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",

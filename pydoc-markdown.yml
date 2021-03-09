@@ -12,7 +12,7 @@ renderer:
       source: README.md
     - title: API Documentation
       contents:
-        - 'augustus.augustus*'
+        - 'pygustus.augustus*'
   mkdocs_config:
     site_name: Pygustus
     theme: readthedocs

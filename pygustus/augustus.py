@@ -6,7 +6,7 @@ import os
 import subprocess
 from pkg_resources import resource_filename
 
-from augustus.options.aug_options import *
+from pygustus.options.aug_options import *
 
 __all__ = ['predict', 'train']
 
@@ -14,7 +14,7 @@ __all__ = ['predict', 'train']
 # TODO: add config file to persist user specifications
 AUGUSTUS_COMMAND = "augustus"
 ETRAINING_COMMAND = "etraining"
-PARAMETER_FILE = resource_filename('augustus.options', 'parameters.json')
+PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
 
 # pygustus options
 AUG_BINARY = 'augustus_binary'
