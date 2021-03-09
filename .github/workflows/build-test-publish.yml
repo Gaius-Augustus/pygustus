@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - main
+  release:
+    types: [released, prereleased]
 
 jobs:
   build-n-test:
@@ -32,21 +34,31 @@ jobs:
         python -m pip install flake8
         sudo apt install augustus
     - name: Lint with flake8
+      if: ${{ github.event_name != 'release' }}
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     - name: Test with pytest
+      if: ${{ github.event_name != 'release' }}
       run: pytest --tb=no -v tests/
     - name: Build a binary wheel and a source tarball
       run: python setup.py sdist bdist_wheel
     - name: Build documentation
+      if: ${{ github.event_name != 'release' }}
       run: |
         pydoc-markdown
         cd build/docs/
         mkdocs build
     - name: Publish documentation of main branch on gh-pages
-      if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.python-version=='3.8'}}
+      if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.python-version=='3.8' }}
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build/docs/site/
+    - name: Publish pre-releases on TestPyPI
+      if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'release' && github.event.action == 'prereleased' && matrix.python-version=='3.8' }}
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        user: __token__
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
