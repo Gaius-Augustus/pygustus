@@ -31,6 +31,8 @@ def predict(*args, options=None, **kwargs):
     if AUG_BINARY in kwargs.keys():
         set_aug_command(kwargs[AUG_BINARY])
         kwargs.pop(AUG_BINARY, None)
+    else:
+        util.check_bin(AUGUSTUS_COMMAND)
 
     if AUG_PARAMETER_FILE in kwargs.keys():
         set_parameter_file(kwargs[AUG_PARAMETER_FILE])
