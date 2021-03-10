@@ -7,6 +7,7 @@ import subprocess
 from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
+import pygustus.util as util
 
 __all__ = ['train']
 
@@ -46,14 +47,7 @@ def train(*args, options=None, **kwargs):
         for option, value in kwargs.items():
             options.set_value(option, value)
 
-    # execute AUGUSTUS with given options
-    process = subprocess.Popen(
-        [ETRAINING_COMMAND] + options.get_options(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
-    output = process.stdout.read()
-    error = process.stderr.read()
-    print(output)
-    print(error)
+    util.execute_bin(ETRAINING_COMMAND, options.get_options())
 
 
 def set_train_command(etraining_binary):
