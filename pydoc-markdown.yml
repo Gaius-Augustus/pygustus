@@ -13,6 +13,7 @@ renderer:
     - title: API Documentation
       contents:
         - 'pygustus.augustus*'
+        - 'pygustus.etraining*'
   mkdocs_config:
     site_name: Pygustus
     theme: readthedocs
