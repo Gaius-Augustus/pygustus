@@ -1,5 +1,5 @@
 """
-A python wrapper for the gene prediction program AUGUSTUS.
+A python wrapper for the training of AUGUSTUS.
 """
 
 import os
@@ -8,27 +8,29 @@ from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
 
-__all__ = ['predict']
+__all__ = ['train']
 
-# can be overriden by user to specify path to AUGUSTUS or path to parameter file
+# can be overriden by user to specify path to etraining or path to parameter file
 # TODO: add config file to persist user specifications
-AUGUSTUS_COMMAND = "augustus"
+ETRAINING_COMMAND = "etraining"
 PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
+# TODO: mark possible training parameters or create own config file?
+
 
 # pygustus options
-AUG_BINARY = 'augustus_binary'
+AUG_BINARY = 'etraining_binary'
 AUG_PARAMETER_FILE = 'augustus_parameter_file'
 
 
-def predict(*args, options=None, **kwargs):
+def train(*args, options=None, **kwargs):
     """
-    Executes AUGUSTUS and passes the given parameters as command line arguments.
+    Executes etraining and passes the given parameters as command line arguments.
 
     TODO: parameter descritption
     """
 
     if AUG_BINARY in kwargs.keys():
-        set_aug_command(kwargs[AUG_BINARY])
+        set_train_command(kwargs[AUG_BINARY])
         kwargs.pop(AUG_BINARY, None)
 
     if AUG_PARAMETER_FILE in kwargs.keys():
@@ -46,7 +48,7 @@ def predict(*args, options=None, **kwargs):
 
     # execute AUGUSTUS with given options
     process = subprocess.Popen(
-        [AUGUSTUS_COMMAND] + options.get_options(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        [ETRAINING_COMMAND] + options.get_options(), stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
     output = process.stdout.read()
     error = process.stderr.read()
@@ -54,13 +56,13 @@ def predict(*args, options=None, **kwargs):
     print(error)
 
 
-def set_aug_command(augustus_binary):
-    if not os.path.exists(augustus_binary):
+def set_train_command(etraining_binary):
+    if not os.path.exists(etraining_binary):
         raise ValueError(
-            f'AUGUSTUS binaries cannot be found under specified path: {augustus_binary}.')
+            f'Etraining binaries cannot be found under specified path: {etraining_binary}.')
     else:
-        global AUGUSTUS_COMMAND
-        AUGUSTUS_COMMAND = augustus_binary
+        global ETRAINING_COMMAND
+        ETRAINING_COMMAND = etraining_binary
 
 
 def set_parameter_file(parameter_file):
