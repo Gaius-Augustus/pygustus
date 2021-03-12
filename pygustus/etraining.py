@@ -56,15 +56,15 @@ def set_train_command(etraining_binary):
     if not os.path.exists(etraining_binary):
         raise ValueError(
             f'Etraining binaries cannot be found under specified path: {etraining_binary}.')
-    else:
-        global ETRAINING_COMMAND
-        ETRAINING_COMMAND = etraining_binary
+
+    global ETRAINING_COMMAND
+    ETRAINING_COMMAND = etraining_binary
 
 
 def set_parameter_file(parameter_file):
     if not os.path.exists(parameter_file):
         raise ValueError(
             f'AUGUSTUS parameter file cannot be found under specified path: {parameter_file}.')
-    else:
-        global PARAMETER_FILE
-        PARAMETER_FILE = parameter_file
+
+    global PARAMETER_FILE
+    PARAMETER_FILE = parameter_file

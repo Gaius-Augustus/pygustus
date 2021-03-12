@@ -54,15 +54,15 @@ def set_aug_command(augustus_binary):
     if not os.path.exists(augustus_binary):
         raise ValueError(
             f'AUGUSTUS binaries cannot be found under specified path: {augustus_binary}.')
-    else:
-        global AUGUSTUS_COMMAND
-        AUGUSTUS_COMMAND = augustus_binary
+
+    global AUGUSTUS_COMMAND
+    AUGUSTUS_COMMAND = augustus_binary
 
 
 def set_parameter_file(parameter_file):
     if not os.path.exists(parameter_file):
         raise ValueError(
             f'AUGUSTUS parameter file cannot be found under specified path: {parameter_file}.')
-    else:
-        global PARAMETER_FILE
-        PARAMETER_FILE = parameter_file
+
+    global PARAMETER_FILE
+    PARAMETER_FILE = parameter_file
