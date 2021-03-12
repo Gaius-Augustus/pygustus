@@ -12,6 +12,22 @@ args = parser.parse_args()
 
 allowed_parameters = [
     {
+        NAME: 'path_to_param_file',
+        DEVELOPMENT: False,
+        TYPE: TYPE_STRING,
+        USAGE: 'path_to_param_file=path/to/parameter_file',
+        DESCRIPTION: 'Sets the path to the desired parameter file in JSON format. The path is not saved for further executions.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'path_to_binary',
+        DEVELOPMENT: False,
+        TYPE: TYPE_STRING,
+        USAGE: 'path_to_binary=path/to/binary',
+        DESCRIPTION: 'Sets the path to the desired executable version of AUGUSTUS when augustus.predict() is called or etraining when etraining.train() is called. The path is not saved for further executions.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
         NAME: 'species',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,

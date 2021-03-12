@@ -1254,6 +1254,28 @@
         "description": ""
     },
     {
+        "name": "path_to_binary",
+        "development": false,
+        "type": "string",
+        "usage": "path_to_binary=path/to/binary",
+        "description": "Sets the path to the desired executable version of AUGUSTUS when augustus.predict() is called or etraining when etraining.train() is called. The path is not saved for further executions.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
+    },
+    {
+        "name": "path_to_param_file",
+        "development": false,
+        "type": "string",
+        "usage": "path_to_param_file=path/to/parameter_file",
+        "description": "Sets the path to the desired parameter file in JSON format. The path is not saved for further executions.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
+    },
+    {
         "name": "predictionEnd",
         "development": false,
         "type": "int",
