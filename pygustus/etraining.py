@@ -3,7 +3,6 @@ A python wrapper for the training of AUGUSTUS.
 """
 
 import os
-import subprocess
 from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
