@@ -2,7 +2,6 @@
 A python wrapper for the gene prediction program AUGUSTUS.
 """
 
-import os
 from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
@@ -28,13 +27,13 @@ def predict(*args, options=None, **kwargs):
     """
 
     if AUG_BINARY in kwargs.keys():
-        set_aug_command(kwargs[AUG_BINARY])
+        util.set_path_to_bin(kwargs[AUG_BINARY], 'AUGUSTUS')
         kwargs.pop(AUG_BINARY, None)
     else:
         util.check_bin(AUGUSTUS_COMMAND)
 
     if AUG_PARAMETER_FILE in kwargs.keys():
-        set_parameter_file(kwargs[AUG_PARAMETER_FILE])
+        util.set_parameter_file(kwargs[AUG_PARAMETER_FILE])
         kwargs.pop(AUG_PARAMETER_FILE, None)
 
     if options is None:
@@ -47,21 +46,3 @@ def predict(*args, options=None, **kwargs):
             options.set_value(option, value)
 
     util.execute_bin(AUGUSTUS_COMMAND, options.get_options())
-
-
-def set_aug_command(augustus_binary):
-    if not os.path.exists(augustus_binary):
-        raise ValueError(
-            f'AUGUSTUS binaries cannot be found under specified path: {augustus_binary}.')
-
-    global AUGUSTUS_COMMAND
-    AUGUSTUS_COMMAND = augustus_binary
-
-
-def set_parameter_file(parameter_file):
-    if not os.path.exists(parameter_file):
-        raise ValueError(
-            f'AUGUSTUS parameter file cannot be found under specified path: {parameter_file}.')
-
-    global PARAMETER_FILE
-    PARAMETER_FILE = parameter_file

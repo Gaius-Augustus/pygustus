@@ -2,7 +2,6 @@
 A python wrapper for the training of AUGUSTUS.
 """
 
-import os
 from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
@@ -30,13 +29,13 @@ def train(*args, options=None, **kwargs):
     """
 
     if AUG_BINARY in kwargs.keys():
-        set_train_command(kwargs[AUG_BINARY])
+        util.set_path_to_bin(kwargs[AUG_BINARY], 'Etraining')
         kwargs.pop(AUG_BINARY, None)
     else:
         util.check_bin(ETRAINING_COMMAND)
 
     if AUG_PARAMETER_FILE in kwargs.keys():
-        set_parameter_file(kwargs[AUG_PARAMETER_FILE])
+        util.set_parameter_file(kwargs[AUG_PARAMETER_FILE])
         kwargs.pop(AUG_PARAMETER_FILE, None)
 
     if options is None:
@@ -49,21 +48,3 @@ def train(*args, options=None, **kwargs):
             options.set_value(option, value)
 
     util.execute_bin(ETRAINING_COMMAND, options.get_options())
-
-
-def set_train_command(etraining_binary):
-    if not os.path.exists(etraining_binary):
-        raise ValueError(
-            f'Etraining binaries cannot be found under specified path: {etraining_binary}.')
-
-    global ETRAINING_COMMAND
-    ETRAINING_COMMAND = etraining_binary
-
-
-def set_parameter_file(parameter_file):
-    if not os.path.exists(parameter_file):
-        raise ValueError(
-            f'AUGUSTUS parameter file cannot be found under specified path: {parameter_file}.')
-
-    global PARAMETER_FILE
-    PARAMETER_FILE = parameter_file
