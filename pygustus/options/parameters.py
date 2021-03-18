@@ -12,14 +12,6 @@ args = parser.parse_args()
 
 allowed_parameters = [
     {
-        NAME: 'path_to_param_file',
-        DEVELOPMENT: False,
-        TYPE: TYPE_STRING,
-        USAGE: 'path_to_param_file=path/to/parameter_file',
-        DESCRIPTION: 'Sets the path to the desired parameter file in JSON format. The path is not saved for further executions.',
-        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
-    },
-    {
         NAME: 'path_to_bin',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,

@@ -1265,17 +1265,6 @@
         ]
     },
     {
-        "name": "path_to_param_file",
-        "development": false,
-        "type": "string",
-        "usage": "path_to_param_file=path/to/parameter_file",
-        "description": "Sets the path to the desired parameter file in JSON format. The path is not saved for further executions.",
-        "exclude_apps": [
-            "augustus",
-            "etraining"
-        ]
-    },
-    {
         "name": "predictionEnd",
         "development": false,
         "type": "int",
