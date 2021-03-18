@@ -1,6 +1,7 @@
 import subprocess
 import os
 from shutil import which
+from pygustus.options.aug_options import *
 
 
 def execute_bin(cmd, options):
@@ -17,22 +18,24 @@ def execute_bin(cmd, options):
 def check_bin(bin):
     if which(bin) is None:
         raise RuntimeError(
-            f'Executable {bin} cannot be found! Make sure the program is installed correctly or specify a path.')
+            f'{bin} cannot be found or is not executable!')
 
 
-def set_path_to_bin(bin_file, program):
-    if not os.path.exists(bin_file):
+def get_options(*args, options, path_to_params, program, **kwargs):
+    if options is None:
+        options = AugustusOptions(
+            *args, parameter_file=path_to_params, app=program, **kwargs)
+    else:
+        for arg in args:
+            options.add_argument(arg)
+        for option, value in kwargs.items():
+            options.set_value(option, value)
+    return options
+
+
+def get_path_to_binary(options, program):
+    bin = options.get_value_or_none('path_to_bin')
+    if bin and not os.path.exists(bin):
         raise ValueError(
-            f'{program} binaries cannot be found under specified path: {bin_file}.')
-
-    global ETRAINING_COMMAND
-    ETRAINING_COMMAND = bin_file
-
-
-def set_parameter_file(parameter_file):
-    if not os.path.exists(parameter_file):
-        raise ValueError(
-            f'AUGUSTUS parameter file cannot be found under specified path: {parameter_file}.')
-
-    global PARAMETER_FILE
-    PARAMETER_FILE = parameter_file
+            f'{program} binaries cannot be found under specified path: {bin}.')
+    return bin

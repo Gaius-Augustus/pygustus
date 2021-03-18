@@ -20,7 +20,7 @@ allowed_parameters = [
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
-        NAME: 'path_to_binary',
+        NAME: 'path_to_bin',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: 'path_to_binary=path/to/binary',

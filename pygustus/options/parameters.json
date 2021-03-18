@@ -1254,7 +1254,7 @@
         "description": ""
     },
     {
-        "name": "path_to_binary",
+        "name": "path_to_bin",
         "development": false,
         "type": "string",
         "usage": "path_to_binary=path/to/binary",

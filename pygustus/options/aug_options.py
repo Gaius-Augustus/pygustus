@@ -1,8 +1,9 @@
 import json
 
+
 class AugustusOption:
 
-    def __init__(self, name, type, possible_values, description, usage, default_value, development):
+    def __init__(self, name, type, possible_values, description, usage, default_value, development, exclude):
         self.name = name
         self.development = development
         self.type = type
@@ -10,6 +11,7 @@ class AugustusOption:
         self.description = description
         self.usage = usage
         self.default_value = default_value
+        self.exclude = exclude
         self.value = None
 
     def set_value(self, value, check=True):
@@ -48,7 +50,8 @@ class AugustusOption:
             check_fail = True
         elif self.type == 'list<string>' and isinstance(value, list):
             if not value:
-                raise ValueError(f'Empty list for parameter --{self.name} is not supported! Expected {self.type}.')
+                raise ValueError(
+                    f'Empty list for parameter --{self.name} is not supported! Expected {self.type}.')
 
             for s in value:
                 if not isinstance(s, str):
@@ -61,12 +64,20 @@ class AugustusOption:
     def get_name(self):
         return self.name
 
+    def get_exclude(self):
+        if self.exclude:
+            return self.exclude
+        else:
+            return []
+
+
 class AugustusOptions:
     _allowed_options = {}
 
-    def __init__(self, *args, parameter_file, **kwargs):
+    def __init__(self, *args, parameter_file, app, **kwargs):
         self._parameter_file = parameter_file
         self._options = {}
+        self._app = app
         self._args = []
         self.load_options()
         if len(args) > 0:
@@ -98,6 +109,9 @@ class AugustusOptions:
             raise ValueError('Unknown option: %s' % option)
         return self._options[option]
 
+    def get_value_or_none(self, name):
+        return self._options.get(name)
+
     def get_options(self):
         opts = []
         for option, value in self._options.items():
@@ -122,5 +136,11 @@ class AugustusOptions:
 
         for o in options:
             option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
-                'description'), o.get('usage'), o.get('default_value'), o.get('development'))
-            self._allowed_options.update({option.name: option})
+                'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
+
+            if self._app == 'pygustus':
+                if 'augustus' in option.get_exclude() and 'etraining' in option.get_exclude():
+                    self._allowed_options.update({option.name: option})
+            else:
+                if not self._app in option.get_exclude():
+                    self._allowed_options.update({option.name: option})
