@@ -1,8 +1,9 @@
 import subprocess
 import os
+import json
 from shutil import which
 from pygustus.options.aug_options import *
-
+from pkg_resources import resource_filename
 
 def execute_bin(cmd, options):
     # execute given binary with given options
@@ -41,3 +42,21 @@ def get_path_to_binary(options, program):
         raise ValueError(
             f'{program} binaries cannot be found under specified path: {bin}.')
     return bin
+
+
+def get_config_item(name):
+    config_file = resource_filename('pygustus', 'config.json')
+    with open(config_file, 'r') as file:
+        config = json.load(file)
+
+    return config.get(name)
+
+
+def set_config_item(name, value):
+    config_file = resource_filename('pygustus', 'config.json')
+    with open(config_file, 'r+') as file:
+        config = json.load(file)
+        config.update({name: value})
+        file.seek(0)
+        file.truncate()
+        json.dump(config, file, indent=4, sort_keys=False)
