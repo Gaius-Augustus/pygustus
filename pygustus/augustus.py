@@ -11,9 +11,6 @@ __all__ = ['predict', 'config_get_bin',
            'config_set_bin', 'config_set_default_bin']
 
 
-# can be overriden by user to specify path to AUGUSTUS or path to parameter file
-# TODO: add config file to persist user specifications
-
 PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
 
 
@@ -33,7 +30,6 @@ def predict(*args, options=None, **kwargs):
         augustus_command = tmp_path_to_bin
 
     util.check_bin(augustus_command)
-    print(augustus_command)
 
     aug_options = util.get_options(
         *args, options=options, path_to_params=PARAMETER_FILE, program='augustus', **kwargs)
