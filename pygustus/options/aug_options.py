@@ -100,9 +100,15 @@ class AugustusOptions:
                 'Invalid Parameter for Augustus: %s' % option_name)
 
         option = self._allowed_options[option_name]
-        option.set_value(value)
 
-        self._options[option_name] = option.value
+        if self._app == 'pygustus':
+            if 'augustus' in option.get_exclude() and 'etraining' in option.get_exclude():
+                option.set_value(value)
+                self._options[option_name] = option.value
+        else:
+            if not self._app in option.get_exclude():
+                option.set_value(value)
+                self._options[option_name] = option.value
 
     def get_value(self, option):
         if option not in self._options:
@@ -138,9 +144,4 @@ class AugustusOptions:
             option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
                 'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
 
-            if self._app == 'pygustus':
-                if 'augustus' in option.get_exclude() and 'etraining' in option.get_exclude():
-                    self._allowed_options.update({option.name: option})
-            else:
-                if not self._app in option.get_exclude():
-                    self._allowed_options.update({option.name: option})
+            self._allowed_options.update({option.get_name(): option})
