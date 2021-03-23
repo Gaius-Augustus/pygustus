@@ -5,11 +5,13 @@ from shutil import which
 from pygustus.options.aug_options import *
 from pkg_resources import resource_filename
 
+
 def execute_bin(cmd, options):
     # execute given binary with given options
-    rc = process = subprocess.Popen(
+    process = subprocess.Popen(
         [cmd] + options, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
+    rc = process.wait()
     output = process.stdout.read()
     error = process.stderr.read()
     print(output)
