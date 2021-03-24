@@ -42,6 +42,7 @@ def config_get_bin():
 
 
 def config_set_bin(value):
+    util.check_bin(value)
     util.set_config_item('etraining_bin', value)
 
 
