@@ -1,7 +1,7 @@
 """
 A python wrapper for the gene prediction program AUGUSTUS.
 """
-import os
+
 from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
