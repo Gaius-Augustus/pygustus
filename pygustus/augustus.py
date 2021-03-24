@@ -38,13 +38,35 @@ def predict(*args, options=None, **kwargs):
 
 
 def config_get_bin():
+    """
+    Reads the currently configured path to the executable of AUGUSTUS
+    and returns it.
+
+    Returns:
+        The currently configured path to the executable of AUGUSTUS.
+    """
     return util.get_config_item('augustus_bin')
 
 
 def config_set_bin(value):
+    """
+    Updates the configured path to the executable of AUGUSTUS
+    with the given value.
+
+    Args:
+        value (string): The path to the execuatble of AUGUSTUS.
+    
+    Raises:
+        RuntimeError: If the given path does not exist or the file is
+        not executable.
+    """
     util.check_bin(value)
     util.set_config_item('augustus_bin', value)
 
 
 def config_set_default_bin():
+    """
+    Sets the configured path to the AUGUSTUS executable to 'augustus'.
+    This should exist if AUGUSTUS is properly installed on the system.
+    """
     util.set_config_item('augustus_bin', 'augustus')

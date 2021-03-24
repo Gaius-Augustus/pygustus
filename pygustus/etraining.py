@@ -38,13 +38,35 @@ def train(*args, options=None, **kwargs):
 
 
 def config_get_bin():
+    """
+    Reads the currently configured path to the executable of etraining
+    and returns it.
+
+    Returns:
+        The currently configured path to the executable of etraining.
+    """
     return util.get_config_item('etraining_bin')
 
 
 def config_set_bin(value):
+    """
+    Updates the configured path to the executable of etraining
+    with the given value.
+
+    Args:
+        value (string): The path to the execuatble of etraining.
+    
+    Raises:
+        RuntimeError: If the given path does not exist or the file is
+        not executable.
+    """
     util.check_bin(value)
     util.set_config_item('etraining_bin', value)
 
 
 def config_set_default_bin():
+    """
+    Sets the configured path to the etraining executable to 'etraining'.
+    This should exist if AUGUSTUS is properly installed on the system.
+    """
     util.set_config_item('etraining_bin', 'etraining')
