@@ -55,7 +55,7 @@ def config_set_bin(value):
 
     Args:
         value (string): The path to the execuatble of AUGUSTUS.
-    
+
     Raises:
         RuntimeError: If the given path does not exist or the file is
         not executable.

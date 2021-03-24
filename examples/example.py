@@ -25,4 +25,4 @@ if __name__ == '__main__':
     change_bin()
     run_augustus_simple()
     change_bin_to_default()
-    #run_augustus_simple()
+    # run_augustus_simple()
