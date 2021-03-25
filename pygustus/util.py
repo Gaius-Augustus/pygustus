@@ -6,16 +6,41 @@ from pygustus.options.aug_options import *
 from pkg_resources import resource_filename
 
 
-def execute_bin(cmd, options):
+def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
     # execute given binary with given options
-    process = subprocess.Popen(
-        [cmd] + options, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+
+    if std_out_file and error_out_file and mode:
+        with open(std_out_file, mode) as file:
+            with open(error_out_file, mode) as errfile:
+                process = subprocess.Popen(
+                    [cmd] + options,
+                    stdout=file,
+                    stderr=errfile,
+                    universal_newlines=True)
+    elif std_out_file and mode:
+        with open(std_out_file, mode) as file:
+            process = subprocess.Popen(
+                [cmd] + options,
+                stdout=file,
+                stderr=subprocess.PIPE,
+                universal_newlines=True)
+    else:
+        process = subprocess.Popen(
+            [cmd] + options,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            universal_newlines=True)
 
     rc = process.wait()
-    output = process.stdout.read()
-    error = process.stderr.read()
-    print(output)
-    print(error)
+
+    if not std_out_file:
+        output = process.stdout.read()
+        print(output)
+
+    if print_err and process.stderr:
+        error = process.stderr.read()
+        print(error)
+
     if rc != 0:
         print(f'Unexpected returncode {rc}!')
 
