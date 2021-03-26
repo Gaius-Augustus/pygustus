@@ -145,3 +145,9 @@ class AugustusOptions:
                 'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
 
             self._allowed_options.update({option.get_name(): option})
+
+    def get_input_filename(self):
+        if len(self._args) == 1:
+            return self._args[0]
+        else:
+            return None

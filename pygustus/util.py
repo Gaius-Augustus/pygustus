@@ -1,13 +1,23 @@
 import subprocess
 import os
 import json
+import sys
 from shutil import which
 from pygustus.options.aug_options import *
 from pkg_resources import resource_filename
 
 
 def execute_bin_parallel(cmd, aug_options, jobs):
-    print(f'execute {jobs} jobs')
+    print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
+
+    input_file = aug_options.get_input_filename()
+    if input_file:
+        size = os.path.getsize(input_file)
+    else:
+        print('Input file is not specified!')
+        sys.exit()
+
+    print(f'Size of input file: {size} bytes.')
 
 
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
