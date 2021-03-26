@@ -20,6 +20,15 @@ allowed_parameters = [
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
+        NAME: 'jobs',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'jobs=n',
+        DEFAULT: 1,
+        DESCRIPTION: 'If this option is set, the input file is split into n chunks and AUGUSTUS is executed on each chunk in parallel. After the execution of all n jobs, the output files are merged.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
         NAME: 'species',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,

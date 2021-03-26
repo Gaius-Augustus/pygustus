@@ -1140,6 +1140,18 @@
         "description": ""
     },
     {
+        "name": "jobs",
+        "development": false,
+        "type": "int",
+        "usage": "jobs=n",
+        "default_value": 1,
+        "description": "If this option is set, the input file is split into n chunks and AUGUSTUS is executed on each chunk in parallel. After the execution of all n jobs, the output files are merged.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
+    },
+    {
         "name": "keep_viterbi",
         "development": true,
         "description": ""
