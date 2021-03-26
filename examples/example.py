@@ -20,9 +20,15 @@ def run_augustus_simple():
                      UTR=True, softmasking=False)
 
 
+def run_augustus_parallel():
+    augustus.predict('../tests/data/example.fa', species='human',
+                     UTR=True, softmasking=False, jobs=4)
+
+
 if __name__ == '__main__':
     # run_augustus_help()
-    change_bin()
-    run_augustus_simple()
-    change_bin_to_default()
+    # change_bin()
     # run_augustus_simple()
+    # change_bin_to_default()
+    # run_augustus_simple()
+    run_augustus_parallel()

@@ -34,7 +34,11 @@ def predict(*args, options=None, **kwargs):
     aug_options = util.get_options(
         *args, options=options, path_to_params=PARAMETER_FILE, program='augustus', **kwargs)
 
-    util.execute_bin(augustus_command, aug_options.get_options())
+    jobs = pygustus_options.get_value_or_none('jobs')
+    if jobs:
+        util.execute_bin_parallel(augustus_command, aug_options, jobs)
+    else:
+        util.execute_bin(augustus_command, aug_options.get_options())
 
 
 def config_get_bin():

@@ -6,6 +6,10 @@ from pygustus.options.aug_options import *
 from pkg_resources import resource_filename
 
 
+def execute_bin_parallel(cmd, aug_options, jobs):
+    print(f'execute {jobs} jobs')
+
+
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
     # execute given binary with given options
 
