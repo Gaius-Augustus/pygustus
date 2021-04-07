@@ -6,9 +6,10 @@ from pkg_resources import resource_filename
 
 from pygustus.options.aug_options import *
 import pygustus.util as util
+import pygustus.fasta_methods as fm
 
 __all__ = ['predict', 'config_get_bin',
-           'config_set_bin', 'config_set_default_bin']
+           'config_set_bin', 'config_set_default_bin', 'show_fasta_info']
 
 
 PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
@@ -74,3 +75,14 @@ def config_set_default_bin():
     This should exist if AUGUSTUS is properly installed on the system.
     """
     util.set_config_item('augustus_bin', 'augustus')
+
+
+def show_fasta_info(inputfile):
+    """
+    This method outputs information about the contents of the passed file
+    in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.
+
+    Args:
+        inputfile (string): The file in fasta format.
+    """
+    fm.summarize_acgt_content(inputfile)

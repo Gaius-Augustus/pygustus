@@ -25,10 +25,15 @@ def run_augustus_parallel():
                      UTR=True, softmasking=False, jobs=2)
 
 
+def show_fileinfo():
+    augustus.show_fasta_info('../tests/data/example.fa')
+
+
 if __name__ == '__main__':
     # run_augustus_help()
     # change_bin()
     # run_augustus_simple()
     # change_bin_to_default()
     # run_augustus_simple()
+    show_fileinfo()
     run_augustus_parallel()
