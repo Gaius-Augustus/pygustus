@@ -32,6 +32,7 @@ jobs:
         python -m pip install 'pydoc-markdown>=3.0.0,<4.0.0'
         python -m pip install mkdocs
         python -m pip install flake8
+        python -m pip install biopython
         sudo apt install augustus
     - name: Lint with flake8
       if: ${{ github.event_name != 'release' }}
