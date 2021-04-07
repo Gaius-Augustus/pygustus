@@ -1,8 +1,11 @@
 import os
 from Bio import SeqIO
+import pygustus.util as util
 
 
 def summarize_acgt_content(inputfile):
+    util.check_file(inputfile)
+
     letters = ['a', 'c', 'g', 't', 'n']
     file_sum = dict.fromkeys(letters, 0)
     file_sum.update({'rest': 0})
@@ -59,7 +62,10 @@ def update_values(file_sum, key, value):
     file_sum.update({key: cur_value + value})
 
 
-def split(inputfile, outputpath, minsize=0):
+def split(inputfile, outputdir, minsize=0):
+    util.check_file(inputfile)
+    util.mkdir_if_not_exists(outputdir)
+
     fileidx = 0
     cursize = 0
     records_to_write = list()
@@ -73,7 +79,7 @@ def split(inputfile, outputpath, minsize=0):
             filename = os.path.basename(inputfile)
             f_name, f_ext = os.path.splitext(filename)
             s_filename = f'{f_name}.split.{fileidx:05d}{f_ext}'
-            splitpath = os.path.join(outputpath, s_filename)
+            splitpath = os.path.join(outputdir, s_filename)
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
             records_to_write.clear()

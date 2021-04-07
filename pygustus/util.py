@@ -65,6 +65,16 @@ def check_bin(bin):
             f'{bin} cannot be found or is not executable!')
 
 
+def check_file(inputfile):
+    if not os.path.exists(inputfile):
+        raise ValueError(f'Could not open {inputfile}')
+
+
+def mkdir_if_not_exists(dir):
+    if not os.path.exists(dir):
+        os.makedirs(dir, exist_ok=True)
+
+
 def get_options(*args, options, path_to_params, program, **kwargs):
     if options is None:
         options = AugustusOptions(
