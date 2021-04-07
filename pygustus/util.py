@@ -68,11 +68,13 @@ def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=
 
     if not std_out_file:
         output = process.stdout.read()
-        print(output)
+        if len(output.strip()):
+            print(output)
 
     if print_err and process.stderr:
         error = process.stderr.read()
-        print(error)
+        if len(error.strip()):
+            print(error)
 
     if rc != 0:
         print(f'Unexpected returncode {rc}!')
