@@ -62,6 +62,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_set_default_bin">config_set_default_bin</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#show_fasta_info">show_fasta_info</a>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -135,6 +137,16 @@ with the given value.</p>
 </code></pre>
 <p>Sets the configured path to the AUGUSTUS executable to 'augustus'.
 This should exist if AUGUSTUS is properly installed on the system.</p>
+<p><a name="pygustus.augustus.show_fasta_info"></a></p>
+<h4 id="show_fasta_info">show_fasta_info</h4>
+<pre><code class="language-python">show_fasta_info(inputfile)
+</code></pre>
+<p>This method outputs information about the contents of the passed file
+in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>inputfile</code> <em>string</em> - The file in fasta format.</li>
+</ul>
 <p><a name="pygustus.etraining"></a></p>
 <h1 id="pygustusetraining">pygustus.etraining</h1>
 <p>A python wrapper for the training of AUGUSTUS.</p>
