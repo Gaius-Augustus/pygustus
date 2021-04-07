@@ -64,6 +64,7 @@ def update_values(file_sum, key, value):
 
 def split(inputfile, outputdir, minsize=0):
     util.check_file(inputfile)
+    util.rmtree_if_exists(outputdir, even_none_empty=True)
     util.mkdir_if_not_exists(outputdir)
 
     fileidx = 0
@@ -76,10 +77,7 @@ def split(inputfile, outputdir, minsize=0):
         records_to_write.append(seq_record)
         if minsize == 0 or cursize >= minsize or seq_record.id == records[-1].id:
             fileidx += 1
-            filename = os.path.basename(inputfile)
-            f_name, f_ext = os.path.splitext(filename)
-            s_filename = f'{f_name}.split.{str(fileidx)}{f_ext}'
-            splitpath = os.path.join(outputdir, s_filename)
+            splitpath = util.create_split_filenanme(inputfile, outputdir, fileidx)
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
             records_to_write.clear()

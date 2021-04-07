@@ -151,3 +151,10 @@ class AugustusOptions:
             return self._args[0]
         else:
             return None
+
+    def set_input_filename(self, name):
+        if len(self._args) == 1:
+            self._args[0] = name
+        else:
+            #TODO: throw an error?
+            print('Could not set filename!')

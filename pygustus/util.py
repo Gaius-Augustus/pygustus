@@ -1,10 +1,12 @@
 import subprocess
 import os
 import json
-import sys
+import shutil
 from shutil import which
 from pygustus.options.aug_options import *
 from pkg_resources import resource_filename
+import pygustus.fasta_methods as fm
+from concurrent.futures import ThreadPoolExecutor
 
 
 def execute_bin_parallel(cmd, aug_options, jobs):
@@ -12,12 +14,29 @@ def execute_bin_parallel(cmd, aug_options, jobs):
 
     input_file = aug_options.get_input_filename()
     if input_file:
+        check_file(input_file)
         size = os.path.getsize(input_file)
     else:
-        print('Input file is not specified!')
-        sys.exit()
+        raise ValueError(f'Input file not specified.')
 
-    print(f'Size of input file: {size} bytes.')
+    # create a file per job
+    # TODO: add more use cases
+    # TODO: use tmp dirs
+    minsize = size / jobs
+    outdir = 'split'
+    fm.split(input_file, outdir, minsize)
+
+    options = list()
+    for run in range(1, jobs+1):
+        curfile = create_split_filenanme(input_file, outdir, run)
+        outfile = os.path.join(outdir, f'augustus_{str(run)}.gff')
+        aug_options.set_input_filename(curfile)
+        aug_options.set_value('outfile', outfile)
+        options.append(aug_options.get_options())
+
+    with ThreadPoolExecutor(max_workers=int(jobs)) as executor:
+        for opt in options:
+            executor.submit(execute_bin, cmd, opt)
 
 
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
@@ -75,6 +94,12 @@ def mkdir_if_not_exists(dir):
         os.makedirs(dir, exist_ok=True)
 
 
+def rmtree_if_exists(dir, even_none_empty=False):
+    if os.path.exists(dir):
+        if even_none_empty or len(os.listdir(dir)) == 0:
+            shutil.rmtree(dir)
+
+
 def get_options(*args, options, path_to_params, program, **kwargs):
     if options is None:
         options = AugustusOptions(
@@ -111,3 +136,10 @@ def set_config_item(name, value):
         file.seek(0)
         file.truncate()
         json.dump(config, file, indent=4, sort_keys=False)
+
+
+def create_split_filenanme(inputfile, outputdir, idx):
+    filename = os.path.basename(inputfile)
+    f_name, f_ext = os.path.splitext(filename)
+    s_filename = f'{f_name}.split.{str(idx)}{f_ext}'
+    return os.path.join(outputdir, s_filename)

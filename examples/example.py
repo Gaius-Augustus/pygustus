@@ -22,7 +22,7 @@ def run_augustus_simple():
 
 def run_augustus_parallel():
     augustus.predict('../tests/data/example.fa', species='human',
-                     UTR=True, softmasking=False, jobs=4)
+                     UTR=True, softmasking=False, jobs=2)
 
 
 if __name__ == '__main__':
