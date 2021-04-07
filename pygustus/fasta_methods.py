@@ -78,7 +78,7 @@ def split(inputfile, outputdir, minsize=0):
             fileidx += 1
             filename = os.path.basename(inputfile)
             f_name, f_ext = os.path.splitext(filename)
-            s_filename = f'{f_name}.split.{fileidx:05d}{f_ext}'
+            s_filename = f'{f_name}.split.{str(fileidx)}{f_ext}'
             splitpath = os.path.join(outputdir, s_filename)
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
