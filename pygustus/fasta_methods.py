@@ -52,7 +52,7 @@ def summarize_acgt_content(inputfile):
     gc = 100 * float(file_sum['g'] + file_sum['c']) / complete_bp
 
     print(f'summary: BASE COUNT  {summary_acgt}')
-    print(f'total {complete_bp}bp in {seq_count} sequences.')
+    print(f'total {complete_bp}bp in {seq_count} sequence(s).')
     print(f'gc: {gc}%')
 
 
