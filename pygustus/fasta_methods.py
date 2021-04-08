@@ -1,4 +1,3 @@
-import os
 from Bio import SeqIO
 import pygustus.util as util
 
@@ -77,7 +76,8 @@ def split(inputfile, outputdir, minsize=0):
         records_to_write.append(seq_record)
         if minsize == 0 or cursize >= minsize or seq_record.id == records[-1].id:
             fileidx += 1
-            splitpath = util.create_split_filenanme(inputfile, outputdir, fileidx)
+            splitpath = util.create_split_filenanme(
+                inputfile, outputdir, fileidx)
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
             records_to_write.clear()
