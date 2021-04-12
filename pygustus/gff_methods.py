@@ -3,10 +3,11 @@ import re
 
 
 """
-Support to join results from different AUGUSTUS runs. Based on
-the AUGUSTUS script join_aug_pred.pl
+Support to join results of several simultaneous runs of AUGUSTUS of
+different sequence segments. Based on the AUGUSTUS script join_aug_pred.pl
 """
 # TODO: gff3 support
+# TODO: add gene droplist?
 
 
 class Gene:
@@ -79,7 +80,7 @@ class GFFFile:
                 if re.search("^# end gene g", line.strip()):
                     gene = Gene(gname, gstart, gend, gene_txt)
 
-                    # use unique gene name (ids)
+                    # use unique gene name (id)
                     gid = int(gname.replace('g', ''))
                     if gid <= len(self.genes):
                         new_gid = len(self.genes) + 1
@@ -104,3 +105,19 @@ class GFFFile:
             file.write(self.header)
             for g in self.genes:
                 file.write(g.txt)
+
+
+def join_aug_pred(out_file, pred_files):
+    """
+    Joins the given AUGUSTUS results and writes all results to the given
+    out_file. The files should be passed in the order of the AUGUSTUS runs.
+
+    Args:
+        out_file (string): The path to the ouput file to write the joined results.
+        pred_files (list): A list of AUGUSTUS result file names ordered by runs.
+
+    """
+    gff = GFFFile()
+    for pred in pred_files:
+        gff.add_content(pred)
+    gff.write(out_file)
