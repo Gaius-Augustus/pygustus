@@ -3,17 +3,20 @@ from pygustus import *
 
 
 def test_etraining_simple():
-    etraining.train('tests/data/genes.gb.train', species='bug', softmasking=False)
+    etraining.train('tests/data/genes.gb.train',
+                    species='bug', softmasking=False)
 
 
 def test_etraining_wrong_parameter():
     with pytest.raises(ValueError):
-        etraining.train('tests/data/genes.gb.train', species='bug', smasking=False)
+        etraining.train('tests/data/genes.gb.train',
+                        species='bug', smasking=False)
 
 
 def test_etraining_wront_parameter_format():
     with pytest.raises(ValueError):
-        etraining.train('tests/data/genes.gb.train', species=True, softmasking=False)
+        etraining.train('tests/data/genes.gb.train',
+                        species=True, softmasking=False)
 
 
 def test_etraining_wrong_bin_path():
