@@ -1,0 +1,67 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+
+
+def pred(sourcepath, targetpath):
+    startwith = '# start gene g'
+    ignores = [
+        '# ----- prediction', '###',
+        '# command line', '# augustus',
+        '# Predicted genes for sequence']
+    ignoredlines = search_for_lines_to_ignore(sourcepath, startwith, ignores)
+    filter(sourcepath, targetpath, ignoredlines)
+
+
+def search_for_lines_to_ignore(sourcepath, startwith, ignores, startblock=True):
+    ignoredlines = []
+
+    # startblock
+    if startblock:
+        with open(sourcepath) as fp:
+            line = fp.readline()
+            lno = 1
+            while line:
+                if startwith in line.strip():
+                    break
+                line = fp.readline()
+                ignoredlines.append(lno)
+                lno += 1
+
+    # other lines to ignore
+    with open(sourcepath) as fp:
+        line = fp.readline()
+        lno = 1
+        while line:
+            if len(ignores) > 0 and any(s in line.strip() for s in ignores):
+                ignoredlines.append(lno)
+
+            if line.startswith('#\n'):
+                ignoredlines.append(lno)
+
+            line = fp.readline()
+            lno += 1
+
+    return ignoredlines
+
+
+def filter(sourcepath, targetpath, ignoredlines):
+    if os.path.exists(targetpath):
+        os.remove(targetpath)
+
+    with open(targetpath, "w") as file_out:
+        with open(sourcepath) as fp:
+            line = fp.readline()
+            lno = 1
+            while line:
+                if lno not in ignoredlines:
+                    file_out.write(line.strip() + '\n')
+                line = fp.readline()
+                lno += 1
+
+
+if __name__ == '__main__':
+    source = sys.argv[1]
+    target = sys.argv[2]
+    pred(source, target)
