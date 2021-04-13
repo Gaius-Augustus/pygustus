@@ -148,9 +148,12 @@ class AugustusOptions:
 
     def get_input_filename(self):
         if len(self._args) == 1:
-            return self._args[0]
+            if (self._args[0].startswith('--')):
+                return False, None
+            else:
+                return True, self._args[0]
         else:
-            return None
+            return False, None
 
     def set_input_filename(self, name):
         if len(self._args) == 1:

@@ -14,12 +14,8 @@ from concurrent.futures import ThreadPoolExecutor
 def execute_bin_parallel(cmd, aug_options, jobs):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
-    input_file = aug_options.get_input_filename()
-    if input_file:
-        check_file(input_file)
-        size = os.path.getsize(input_file)
-    else:
-        raise ValueError(f'Input file not specified.')
+    input_file = aug_options.get_input_filename()[1]
+    size = os.path.getsize(input_file)
 
     # create a file per job
     # TODO: add more use cases

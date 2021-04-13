@@ -34,6 +34,14 @@ def train(*args, options=None, **kwargs):
     aug_options = util.get_options(
         *args, options=options, path_to_params=PARAMETER_FILE, program='etraining', **kwargs)
 
+    # check input file
+    is_file, input_file = aug_options.get_input_filename()
+    if is_file:
+        if input_file:
+            util.check_file(input_file)
+        else:
+            raise ValueError(f'Input file not specified.')
+
     util.execute_bin(etraining_command, aug_options.get_options())
 
 
