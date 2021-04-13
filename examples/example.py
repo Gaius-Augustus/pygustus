@@ -32,8 +32,8 @@ def show_fileinfo():
 if __name__ == '__main__':
     # run_augustus_help()
     # change_bin()
-    # run_augustus_simple()
+    run_augustus_simple()
     # change_bin_to_default()
     # run_augustus_simple()
-    show_fileinfo()
+    # show_fileinfo()
     run_augustus_parallel()

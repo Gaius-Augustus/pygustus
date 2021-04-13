@@ -11,21 +11,21 @@ different sequence segments. Based on the AUGUSTUS script join_aug_pred.pl
 
 
 class Gene:
-    def __init__(self, name, start, end, txt):
+    def __init__(self, name, sequence, start, end, txt):
         self.name = name
+        self.sequence = sequence
         self.start = start
         self.end = end
         self.txt = txt
 
     def __eq__(self, o: object) -> bool:
-        # TODO: use sequence or end also for comparison?
-        return isinstance(o, Gene) and self.start == o.start
+        return isinstance(o, Gene) and self.sequence == o.sequence and self.start == o.start
 
     def __ne__(self, o: object) -> bool:
         return not self == o
 
     def __str__(self) -> str:
-        return f'Gene {self.name} starts at {self.start} and ends at {self.end}.'
+        return f'Gene {self.name} starts at {self.start} and ends at {self.end} in sequence {self.sequence}.'
 
     def rename(self, name):
         old_name = self.name
@@ -73,12 +73,13 @@ class GFFFile:
                 if len(l_split) > 5:
                     if l_split[2] == 'gene':
                         gname = l_split[-1]
+                        gseq = l_split[0]
                         gstart = l_split[3]
                         gend = l_split[4]
 
                 # if back compatibility is required add condition like re.search("^### end gene g", line.strip())
                 if re.search("^# end gene g", line.strip()):
-                    gene = Gene(gname, gstart, gend, gene_txt)
+                    gene = Gene(gname, gseq, gstart, gend, gene_txt)
 
                     # use unique gene name (id)
                     gid = int(gname.replace('g', ''))
@@ -89,9 +90,10 @@ class GFFFile:
                     # do not add redundant genes of two possibly overlapping neighboring runs
                     if len(self.genes) > 0:
                         if not gene in self.genes:
-                            last_gene = self.genes[-1]
-                            if gene.start > last_gene.end:
-                                self.genes.append(gene)
+                            # TODO: check if something like this is required
+                            # last_gene = self.genes[-1]
+                            # if not gene.sequence == last_gene.sequence and gene.start > last_gene.end:
+                            self.genes.append(gene)
                     else:
                         self.genes.append(gene)
 
