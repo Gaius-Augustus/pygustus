@@ -130,3 +130,6 @@ dmypy.json
 
 # ignore VS Code configuration files
 .vscode
+
+# test output
+tests/out/
