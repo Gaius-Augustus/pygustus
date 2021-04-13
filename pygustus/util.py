@@ -2,10 +2,12 @@ import subprocess
 import os
 import json
 import shutil
+import tempfile
 from shutil import which
 from pygustus.options.aug_options import *
 from pkg_resources import resource_filename
 import pygustus.fasta_methods as fm
+import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -22,21 +24,29 @@ def execute_bin_parallel(cmd, aug_options, jobs):
     # create a file per job
     # TODO: add more use cases
     # TODO: use tmp dirs
-    minsize = size / jobs
-    outdir = 'split'
-    fm.split(input_file, outdir, minsize)
+    joined_outfile = aug_options.get_value_or_none('outfile')
+    if not joined_outfile:
+        joined_outfile = 'augustus.gff'
 
-    options = list()
-    for run in range(1, jobs+1):
-        curfile = create_split_filenanme(input_file, outdir, run)
-        outfile = os.path.join(outdir, f'augustus_{str(run)}.gff')
-        aug_options.set_input_filename(curfile)
-        aug_options.set_value('outfile', outfile)
-        options.append(aug_options.get_options())
+    with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
+        minsize = size / jobs
+        fm.split(input_file, tmpdir, minsize)
 
-    with ThreadPoolExecutor(max_workers=int(jobs)) as executor:
-        for opt in options:
-            executor.submit(execute_bin, cmd, opt)
+        options = list()
+        outfiles = list()
+        for run in range(1, jobs+1):
+            curfile = create_split_filenanme(input_file, tmpdir, run)
+            outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
+            outfiles.append(outfile)
+            aug_options.set_input_filename(curfile)
+            aug_options.set_value('outfile', outfile)
+            options.append(aug_options.get_options())
+
+        with ThreadPoolExecutor(max_workers=int(jobs)) as executor:
+            for opt in options:
+                executor.submit(execute_bin, cmd, opt)
+
+        gff.join_aug_pred(joined_outfile, outfiles)
 
 
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
