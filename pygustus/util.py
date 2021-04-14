@@ -16,14 +16,12 @@ def execute_bin_parallel(cmd, aug_options, jobs):
 
     input_file = aug_options.get_input_filename()[1]
     size = os.path.getsize(input_file)
-
-    # create a file per job
-    # TODO: add more use cases
-    # TODO: use tmp dirs
     joined_outfile = aug_options.get_value_or_none('outfile')
     if not joined_outfile:
         joined_outfile = 'augustus.gff'
 
+    # create a file per job
+    # TODO: add more use cases
     with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
         minsize = size / jobs
         fm.split(input_file, tmpdir, minsize)
