@@ -20,21 +20,55 @@ def execute_bin_parallel(cmd, aug_options, jobs):
     if not joined_outfile:
         joined_outfile = 'augustus.gff'
 
-    # create a file per job
     # TODO: add more use cases
-    with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
-        minsize = size / jobs
-        fm.split(input_file, tmpdir, minsize)
+    # TODO: add chunksize and overlap as optional parameters
 
-        options = list()
-        outfiles = list()
-        for run in range(1, jobs+1):
-            curfile = create_split_filenanme(input_file, tmpdir, run)
-            outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
-            outfiles.append(outfile)
-            aug_options.set_input_filename(curfile)
-            aug_options.set_value('outfile', outfile)
-            options.append(aug_options.get_options())
+    options = list()
+    outfiles = list()
+    with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
+        if fm.get_sequence_count(input_file) == 1:
+            # file contains only one large sequence
+            seq_size = fm.get_sequence_size(input_file)
+            chunksize = int(seq_size / (jobs-1))
+            if chunksize > 3000000:
+                overlap = 500000
+            else:
+                overlap = int(chunksize / 6)
+
+            chunks = list()
+            go_on = True
+            while go_on:
+                if len(chunks) == 0:
+                    chunks.append([1, chunksize])
+                else:
+                    last_start, last_end = chunks[-1]
+                    start = last_end + 1 - overlap
+                    end = start + chunksize -1
+                    if end >= seq_size:
+                        end = seq_size
+                        go_on = False
+                    chunks.append([start, end])
+
+            run = 0
+            for pred_start, pred_end in chunks:
+                run += 1
+                outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
+                outfiles.append(outfile)
+                aug_options.set_value('outfile', outfile)
+                aug_options.set_value('predictionStart', pred_start)
+                aug_options.set_value('predictionEnd', pred_end)
+                options.append(aug_options.get_options())
+        else:
+            # create a file per job
+            minsize = size / jobs
+            fm.split(input_file, tmpdir, minsize)
+            for run in range(1, jobs+1):
+                curfile = create_split_filenanme(input_file, tmpdir, run)
+                outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
+                outfiles.append(outfile)
+                aug_options.set_input_filename(curfile)
+                aug_options.set_value('outfile', outfile)
+                options.append(aug_options.get_options())
 
         with ThreadPoolExecutor(max_workers=int(jobs)) as executor:
             for opt in options:

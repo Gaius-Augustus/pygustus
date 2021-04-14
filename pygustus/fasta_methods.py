@@ -87,3 +87,9 @@ def get_sequence_count(inputfile):
     util.check_file(inputfile)
     sequences = list(SeqIO.parse(inputfile, 'fasta'))
     return len(sequences)
+
+
+def get_sequence_size(inputfile, idx=0):
+    util.check_file(inputfile)
+    sequences = list(SeqIO.parse(inputfile, 'fasta'))
+    return len(sequences[idx])

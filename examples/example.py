@@ -25,6 +25,11 @@ def run_augustus_parallel():
                      UTR=True, softmasking=False, jobs=2)
 
 
+def run_augustus_parallel_one_sequence():
+    augustus.predict('../tests/data/genome.fa', species='human',
+                     UTR=True, softmasking=True, jobs=5)
+
+
 def show_fileinfo():
     augustus.show_fasta_info('../tests/data/example.fa')
 
@@ -32,8 +37,9 @@ def show_fileinfo():
 if __name__ == '__main__':
     # run_augustus_help()
     # change_bin()
-    run_augustus_simple()
+    # run_augustus_simple()
     # change_bin_to_default()
     # run_augustus_simple()
     # show_fileinfo()
-    run_augustus_parallel()
+    # run_augustus_parallel()
+    run_augustus_parallel_one_sequence()
