@@ -81,3 +81,9 @@ def split(inputfile, outputdir, minsize=0):
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
             records_to_write.clear()
+
+
+def get_sequence_count(inputfile):
+    util.check_file(inputfile)
+    sequences = list(SeqIO.parse(inputfile, 'fasta'))
+    return len(sequences)
