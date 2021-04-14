@@ -90,10 +90,11 @@ class GFFFile:
                     # do not add redundant genes of two possibly overlapping neighboring runs
                     if len(self.genes) > 0:
                         if not gene in self.genes:
-                            # TODO: check if something like this is required
-                            # last_gene = self.genes[-1]
-                            # if not gene.sequence == last_gene.sequence and gene.start > last_gene.end:
-                            self.genes.append(gene)
+                            last_gene = self.genes[-1]
+                            if gene.sequence == last_gene.sequence and gene.start < last_gene.end:
+                                pass
+                            else:
+                                self.genes.append(gene)
                     else:
                         self.genes.append(gene)
 
