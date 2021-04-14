@@ -33,8 +33,7 @@ def execute_bin_parallel(cmd, aug_options, jobs):
             if chunksize > 3000000:
                 overlap = 500000
             else:
-                overlap = int(chunksize / 6)
-
+                overlap = int(chunksize / 5) # chunksize / 6 semms not to work reliable
             chunks = list()
             go_on = True
             while go_on:
