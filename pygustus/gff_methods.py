@@ -50,8 +50,12 @@ class GFFFile:
         with open(filepath) as file:
             line = file.readline()
             file_header = ''
+            gff3 = False
             while line:
                 # read file header
+                if line.strip().startswith('##gff-version 3'):
+                    gff3 = True
+
                 if not self.header:
                     go_on1 = not 'prediction on sequence number' in line.strip()
                     go_on2 = not re.search(
@@ -72,7 +76,10 @@ class GFFFile:
                 l_split = line.strip().split('\t')
                 if len(l_split) > 5:
                     if l_split[2] == 'gene':
-                        gname = l_split[-1]
+                        if gff3:
+                            gname = l_split[-1].replace('ID=', '')
+                        else:
+                            gname = l_split[-1]
                         gseq = l_split[0]
                         gstart = l_split[3]
                         gend = l_split[4]
