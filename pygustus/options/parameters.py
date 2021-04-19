@@ -42,7 +42,8 @@ allowed_parameters = [
         USAGE: '--strand=both/forward/backward',
         VALUES: ['both', 'forward', 'backward'],
         DEFAULT: 'both',
-        DESCRIPTION: 'Report predicted genes on both strands, just the forward or just the backward strand.'
+        DESCRIPTION: 'Predict genes on both strands, just the forward or just the backward strand. This effects the algorithm and for most cases "both" is recommended, even if genes on the unwanted strand then need to be ignored after they are predicted.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'genemodel',
@@ -56,7 +57,8 @@ allowed_parameters = [
              'intronless': 'only predict single-exon genes like in prokaryotes and some eukaryotes',
              'complete': 'only predict complete genes',
              'atleastone': 'predict at least one complete gene',
-             'exactlyone': 'predict exactly one complete gene'}
+             'exactlyone': 'predict exactly one complete gene'},
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'UTR',
@@ -65,7 +67,7 @@ allowed_parameters = [
         USAGE: '--UTR=true/false',
         VALUES: [True, False],
         DEFAULT: False,
-        DESCRIPTION: 'Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species.'
+        DESCRIPTION: 'Predict the untranslated regions in addition to the coding sequence. This works only for a subset of species for which an UTR model was trained.'
     },
     {
         NAME: 'singlestrand',
@@ -74,21 +76,23 @@ allowed_parameters = [
         USAGE: '--singlestrand=true/false',
         VALUES:  [True, False],
         DEFAULT: False,
-        DESCRIPTION: 'Predict genes independently on each strand, allow overlapping genes on opposite strands.'
+        DESCRIPTION: 'Predict genes independently on each strand, allow overlapping genes on opposite strands. This is less accurate on average.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'hintsfile',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--hintsfile=hintsfilename',
-        DESCRIPTION: 'When this option is used the prediction considering hints (extrinsic information) is turned on. The hintsfile contains the hints in gff format.'
+        DESCRIPTION: 'When this option is used the prediction uses hints (= extrinsic information). The hintsfile contains the hints in GFF format.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'AUGUSTUS_CONFIG_PATH',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--AUGUSTUS_CONFIG_PATH=path',
-        DESCRIPTION: 'Path to config directory (if not specified as environment variable).'
+        DESCRIPTION: 'Path to config directory (overrides environment variable $AUGUSTUS_CONFIG_PATH).',
     },
     {
         NAME: 'alternatives-from-evidence',
@@ -96,7 +100,8 @@ allowed_parameters = [
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-evidence=true/false',
         VALUES: [True, False],
-        DESCRIPTION: 'Report alternative transcripts when they are suggested by hints.'
+        DESCRIPTION: 'Report alternative transcripts when they are suggested by hints. AUGUSTUS can then find alternative splice forms when the extrinsic evidence is not reconcilable with constitutive splicing only (1 tx per gene) and no overlaps.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'alternatives-from-sampling',
@@ -104,7 +109,8 @@ allowed_parameters = [
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-sampling=true/false',
         VALUES: [True, False],
-        DESCRIPTION: 'Report alternative transcripts generated through probabilistic sampling.'
+        DESCRIPTION: 'Report alternative transcripts generated through probabilistic sampling. This can be useful to produce suboptimal but still plausible alternative gene structures.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'sample',
@@ -112,38 +118,43 @@ allowed_parameters = [
         TYPE: TYPE_INT,
         USAGE: '--sample=n',
         DEFAULT: 100,
-        DESCRIPTION: 'The number of sampling iterations. The higher "n" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate.'
+        DESCRIPTION: 'The number of sampling iterations. The higher "n" is the more accurate is the estimation of probabilities (=scores output in 6th GFF column) but it usually is not important that the posterior probability is very accurate.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'minexonintronprob',
         DEVELOPMENT: False,
         TYPE: TYPE_FLOAT,
         USAGE: '--minexonintronprob=p',
-        # TODO: add some text and/or update reference? Dependencies?
-        DESCRIPTION: 'For a description see section 4 of README.TXT'
+        DEFAULT: 0.0,
+        DESCRIPTION: 'The posterior probability of every exon and every intron in a transcript must be at least "minexonintronprob", otherwise the transcript is not reported. Value between 0 and 1 (default 0.0).',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]        
     },
     {
         NAME: 'minmeanexonintronprob',
         DEVELOPMENT: False,
         TYPE: TYPE_FLOAT,
         USAGE: '--minmeanexonintronprob=p',
-        # TODO: add some text and/or update reference? Dependencies?
-        DESCRIPTION: 'For a description see section 4 of README.TXT'
+        DEFAULT: 0.0,
+        DESCRIPTION: 'The geometric mean of the probabilities of all exons and introns must be at least "minmeanexonintronprob". A value of 0.4 is reasonable if a restriction of results is desired at all. Value between 0 and 1 (default 0.0).',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'maxtracks',
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--maxtracks=n',
-        # TODO: add some text and/or update reference? Dependencies?
-        DESCRIPTION: 'For a description see section 4 of README.TXT'
+        DEFAULT: -1,
+        DESCRIPTION: 'The maximum number of tracks when displayed in a genome browser is "maxtracks" (unless maxtracks=-1, then it is unbounded). In cases where all transcripts of a gene overlap at some position this is also the maximal number of transcripts for that gene. We recommend increasing the parameter "maxtracks" for improving sensitivity and setting "maxtracks" to 1 and increasing  minmeanexonintronprob and/or minexonintronprob in order to improve specificity. (default -1)',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'proteinprofile',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,
         USAGE: '--proteinprofile=filename',
-        DESCRIPTION: 'When this option is used the prediction will consider the protein profile provided as parameter. The protein profile extension is described in section 7 of README.TXT.'  # TODO: update reference?
+        DESCRIPTION: 'Use the provided protein profile in the Protein-Profile-eXtension (PPX). See PPX section of RUNNING-AUGUSTUS.md.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'progress',
@@ -152,29 +163,34 @@ allowed_parameters = [
         USAGE: '--progress=true',
         VALUES: [True, False],
         DEFAULT: False,
-        DESCRIPTION: 'Show a progressmeter.'
+        DESCRIPTION: 'Show a progressmeter.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'gff3',
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--gff3=true/false',
+        DEFAULT: False,
         VALUES: [True, False],
-        DESCRIPTION: 'Output in gff3 format.'
+        DESCRIPTION: 'Output in gff3 format.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'predictionStart',
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
-        USAGE: '--predictionStart=A --predictionEnd=B', # TODO: update usage and description
-        DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
+        USAGE: '--predictionStart=A',
+        DESCRIPTION: 'Start prediction at sequence coordinate A. Default: 1. The output coordinates are nevertheless with respect to the sequence start. This is used, for example, to run augustus in parallel on overlappinging tiles of a large chromosome. ',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'predictionEnd',
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
-        USAGE: '--predictionStart=A --predictionEnd=B', # TODO: update usage and description
-        DESCRIPTION: 'A and B define the range of the sequence for which predictions should be found.',
+        USAGE: '--predictionEnd=B',
+        DESCRIPTION: 'End prediction at sequence coodinate B. Default: sequence length. Feature for pros: If predictionEnd = predictionStart < 0  augustus uses the whole input sequence and just left-shift hints coordinates by B. This is intended for applications in which a sequence fragment is cut out of a chromosome for input to augustus but the hints have still original coordinates.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'noInFrameStop',
@@ -183,7 +199,8 @@ allowed_parameters = [
         USAGE: '--noInFrameStop=true/false',
         VALUES: [True, False],
         DEFAULT: False,
-        DESCRIPTION: 'Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur.'
+        DESCRIPTION: 'Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur. Such transcripts are then removed from the output.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'noprediction',
@@ -191,7 +208,8 @@ allowed_parameters = [
         TYPE: TYPE_BOOL,
         USAGE: '--noprediction=true/false',
         VALUES: [True, False],
-        DESCRIPTION: 'If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences.'
+        DESCRIPTION: 'No gene predition is performed. Useful for getting the annotated protein sequences if the input is in Genbank format.',
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'uniqueGeneId',
@@ -199,7 +217,9 @@ allowed_parameters = [
         TYPE: TYPE_BOOL,
         USAGE: '--uniqueGeneId=true/false',
         VALUES: [True, False],
-        DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN.'
+        DEFAULT: False,
+        DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN. This can be useful to avoid gene name conflicts when parallelizing.'
+        EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
         NAME: 'softmasking',
@@ -208,14 +228,14 @@ allowed_parameters = [
         USAGE: '--softmasking=True/False',
         VALUES: [True, False],
         DEFAULT: True,
-        DESCRIPTION: 'If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on.'
+        DESCRIPTION: 'Softmasked regions are treated as nonexonpart hints. As a consequence, exon overlapping the masked regions are discouraged. If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on. Softmasking is on average more accurate then hard-masking with Ns.'
     },
     {
         NAME: 'allow_hinted_splicesites',
         DEVELOPMENT: False,
         TYPE: TYPE_LIST_STRING,
-        USAGE: '--allow_hinted_splicesites=gcag,atac',
-        DESCRIPTION: 'Allows other non-standard splice sites, such as ac-at.'
+        USAGE: '--allow_hinted_splicesites=atac,...',
+        DESCRIPTION: 'Allows other non-standard splice sites, such as at-ac. The given list is appended to the list of standard splice site dinucleotide consensus pairs: gtag,gcag'
     },
     {
         NAME: 'alnfile',
@@ -224,8 +244,11 @@ allowed_parameters = [
     },
     {
         NAME: '/augustus/verbosity',
-        DEVELOPMENT: True,
-        DESCRIPTION: ''
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: '--/augustus/verbosity=n',
+        DEFAULT: 1,
+        DESCRIPTION: 'Value of 0, 1, 2 or 3 produce increasingly verbose output.',
     },
     {
         NAME: '/BaseCount/weighingType',
