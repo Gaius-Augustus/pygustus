@@ -218,7 +218,7 @@ allowed_parameters = [
         USAGE: '--uniqueGeneId=true/false',
         VALUES: [True, False],
         DEFAULT: False,
-        DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN. This can be useful to avoid gene name conflicts when parallelizing.'
+        DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN. This can be useful to avoid gene name conflicts when parallelizing.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
     {
@@ -248,7 +248,7 @@ allowed_parameters = [
         TYPE: TYPE_INT,
         USAGE: '--/augustus/verbosity=n',
         DEFAULT: 1,
-        DESCRIPTION: 'Value of 0, 1, 2 or 3 produce increasingly verbose output.',
+        DESCRIPTION: 'Value of 0, 1, 2 or 3 produce increasingly verbose output.'
     },
     {
         NAME: '/BaseCount/weighingType',
