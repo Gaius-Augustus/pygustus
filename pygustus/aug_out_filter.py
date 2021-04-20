@@ -5,7 +5,7 @@ import sys
 
 
 def pred(sourcepath, targetpath):
-    startwith = '# start gene g'
+    startwith = '# start gene'
     ignores = [
         '# ----- prediction', '###',
         '# command line', '# augustus',
