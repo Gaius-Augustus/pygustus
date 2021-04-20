@@ -1,8 +1,11 @@
 [
     {
         "name": "/augustus/verbosity",
-        "development": true,
-        "description": ""
+        "development": false,
+        "type": "int",
+        "usage": "--/augustus/verbosity=n",
+        "default_value": 1,
+        "description": "Value of 0, 1, 2 or 3 produce increasingly verbose output."
     },
     {
         "name": "/BaseCount/weighingType",
@@ -918,8 +921,8 @@
         "name": "allow_hinted_splicesites",
         "development": false,
         "type": "list<string>",
-        "usage": "--allow_hinted_splicesites=gcag,atac",
-        "description": "Allows other non-standard splice sites, such as ac-at."
+        "usage": "--allow_hinted_splicesites=atac,...",
+        "description": "Allows other non-standard splice sites, such as at-ac. The given list is appended to the list of standard splice site dinucleotide consensus pairs: gtag,gcag"
     },
     {
         "name": "alnfile",
@@ -935,7 +938,10 @@
             true,
             false
         ],
-        "description": "Report alternative transcripts when they are suggested by hints."
+        "description": "Report alternative transcripts when they are suggested by hints. AUGUSTUS can then find alternative splice forms when the extrinsic evidence is not reconcilable with constitutive splicing only (1 tx per gene) and no overlaps.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "alternatives-from-sampling",
@@ -946,14 +952,17 @@
             true,
             false
         ],
-        "description": "Report alternative transcripts generated through probabilistic sampling."
+        "description": "Report alternative transcripts generated through probabilistic sampling. This can be useful to produce suboptimal but still plausible alternative gene structures.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "AUGUSTUS_CONFIG_PATH",
         "development": false,
         "type": "string",
         "usage": "--AUGUSTUS_CONFIG_PATH=path",
-        "description": "Path to config directory (if not specified as environment variable)."
+        "description": "Path to config directory (overrides environment variable $AUGUSTUS_CONFIG_PATH)."
     },
     {
         "name": "bridge_genicpart_bonus",
@@ -1114,25 +1123,35 @@
             "complete": "only predict complete genes",
             "atleastone": "predict at least one complete gene",
             "exactlyone": "predict exactly one complete gene"
-        }
+        },
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "gff3",
         "development": false,
         "type": "bool",
         "usage": "--gff3=true/false",
+        "default_value": false,
         "possible_values": [
             true,
             false
         ],
-        "description": "Output in gff3 format."
+        "description": "Output in gff3 format.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "hintsfile",
         "development": false,
         "type": "string",
         "usage": "--hintsfile=hintsfilename",
-        "description": "When this option is used the prediction considering hints (extrinsic information) is turned on. The hintsfile contains the hints in gff format."
+        "description": "When this option is used the prediction uses hints (= extrinsic information). The hintsfile contains the hints in GFF format.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "introns",
@@ -1196,7 +1215,11 @@
         "development": false,
         "type": "int",
         "usage": "--maxtracks=n",
-        "description": "For a description see section 4 of README.TXT"
+        "default_value": -1,
+        "description": "The maximum number of tracks when displayed in a genome browser is \"maxtracks\" (unless maxtracks=-1, then it is unbounded). In cases where all transcripts of a gene overlap at some position this is also the maximal number of transcripts for that gene. We recommend increasing the parameter \"maxtracks\" for improving sensitivity and setting \"maxtracks\" to 1 and increasing  minmeanexonintronprob and/or minexonintronprob in order to improve specificity. (default -1)",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "mea",
@@ -1218,14 +1241,22 @@
         "development": false,
         "type": "float",
         "usage": "--minexonintronprob=p",
-        "description": "For a description see section 4 of README.TXT"
+        "default_value": 0.0,
+        "description": "The posterior probability of every exon and every intron in a transcript must be at least \"minexonintronprob\", otherwise the transcript is not reported. Value between 0 and 1 (default 0.0).",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "minmeanexonintronprob",
         "development": false,
         "type": "float",
         "usage": "--minmeanexonintronprob=p",
-        "description": "For a description see section 4 of README.TXT"
+        "default_value": 0.0,
+        "description": "The geometric mean of the probabilities of all exons and introns must be at least \"minmeanexonintronprob\". A value of 0.4 is reasonable if a restriction of results is desired at all. Value between 0 and 1 (default 0.0).",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "noInFrameStop",
@@ -1237,7 +1268,10 @@
             false
         ],
         "default_value": false,
-        "description": "Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur."
+        "description": "Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur. Such transcripts are then removed from the output.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "noprediction",
@@ -1248,7 +1282,10 @@
             true,
             false
         ],
-        "description": "If true and input is in genbank format, no prediction is made. Useful for getting the annotated protein sequences."
+        "description": "No gene predition is performed. Useful for getting the annotated protein sequences if the input is in Genbank format.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "optCfgFile",
@@ -1280,15 +1317,21 @@
         "name": "predictionEnd",
         "development": false,
         "type": "int",
-        "usage": "--predictionStart=A --predictionEnd=B",
-        "description": "A and B define the range of the sequence for which predictions should be found."
+        "usage": "--predictionEnd=B",
+        "description": "End prediction at sequence coodinate B. Default: sequence length. Feature for pros: If predictionEnd = predictionStart < 0  augustus uses the whole input sequence and just left-shift hints coordinates by B. This is intended for applications in which a sequence fragment is cut out of a chromosome for input to augustus but the hints have still original coordinates.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "predictionStart",
         "development": false,
         "type": "int",
-        "usage": "--predictionStart=A --predictionEnd=B",
-        "description": "A and B define the range of the sequence for which predictions should be found."
+        "usage": "--predictionStart=A",
+        "description": "Start prediction at sequence coordinate A. Default: 1. The output coordinates are nevertheless with respect to the sequence start. This is used, for example, to run augustus in parallel on overlappinging tiles of a large chromosome. ",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "print_blocks",
@@ -1345,7 +1388,10 @@
             false
         ],
         "default_value": false,
-        "description": "Show a progressmeter."
+        "description": "Show a progressmeter.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "protein",
@@ -1357,7 +1403,10 @@
         "development": false,
         "type": "string",
         "usage": "--proteinprofile=filename",
-        "description": "When this option is used the prediction will consider the protein profile provided as parameter. The protein profile extension is described in section 7 of README.TXT."
+        "description": "Use the provided protein profile in the Protein-Profile-eXtension (PPX). See PPX section of RUNNING-AUGUSTUS.md.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "referenceFile",
@@ -1385,7 +1434,10 @@
         "type": "int",
         "usage": "--sample=n",
         "default_value": 100,
-        "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation but it usually is not important that the posterior probability is very accurate."
+        "description": "The number of sampling iterations. The higher \"n\" is the more accurate is the estimation of probabilities (=scores output in 6th GFF column) but it usually is not important that the posterior probability is very accurate.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "scorediffweight",
@@ -1402,7 +1454,10 @@
             false
         ],
         "default_value": false,
-        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands."
+        "description": "Predict genes independently on each strand, allow overlapping genes on opposite strands. This is less accurate on average.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "softmasking",
@@ -1414,7 +1469,7 @@
             false
         ],
         "default_value": true,
-        "description": "If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on."
+        "description": "Softmasked regions are treated as nonexonpart hints. As a consequence, exon overlapping the masked regions are discouraged. If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on. Softmasking is on average more accurate then hard-masking with Ns."
     },
     {
         "name": "species",
@@ -1454,7 +1509,10 @@
             "backward"
         ],
         "default_value": "both",
-        "description": "Report predicted genes on both strands, just the forward or just the backward strand."
+        "description": "Predict genes on both strands, just the forward or just the backward strand. This effects the algorithm and for most cases \"both\" is recommended, even if genes on the unwanted strand then need to be ignored after they are predicted.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "temperature",
@@ -1510,7 +1568,11 @@
             true,
             false
         ],
-        "description": "If true, output gene identifyers like this: seqname.gN."
+        "default_value": false,
+        "description": "If true, output gene identifyers like this: seqname.gN. This can be useful to avoid gene name conflicts when parallelizing.",
+        "exclude_apps": [
+            "etraining"
+        ]
     },
     {
         "name": "use_sgd",
@@ -1542,6 +1604,6 @@
             false
         ],
         "default_value": false,
-        "description": "Predict the untranslated regions in addition to the coding sequence. This currently works only for a subset of species."
+        "description": "Predict the untranslated regions in addition to the coding sequence. This works only for a subset of species for which an UTR model was trained."
     }
 ]
