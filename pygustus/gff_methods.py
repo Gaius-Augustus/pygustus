@@ -11,8 +11,8 @@ different sequence segments. Based on the AUGUSTUS script join_aug_pred.pl
 
 
 class Gene:
-    def __init__(self, name, sequence, start, end, txt):
-        self.name = name
+    def __init__(self, id, sequence, start, end, txt):
+        self.id = id
         self.sequence = sequence
         self.start = start
         self.end = end
@@ -27,10 +27,11 @@ class Gene:
     def __str__(self) -> str:
         return f'Gene {self.name} starts at {self.start} and ends at {self.end} in sequence {self.sequence}.'
 
-    def rename(self, name):
-        old_name = self.name
-        self.name = name
-        self.txt = self.txt.replace(old_name, name)
+    def rename(self, id):
+        old_id = self.id
+        self.id = id
+        self.txt = self.txt.replace(old_id, id)
+        print(f'replace {old_id} with {id}')
 
 
 class GFFFile:
@@ -66,8 +67,8 @@ class GFFFile:
                         self.header = file_header
 
                 # read genes
-                # if back compatibility is required add condition like re.search("^### gene g", line.strip())
-                if re.search("^# start gene g", line.strip()):
+                # if back compatibility is required add condition like re.search("^### gene", line.strip())
+                if re.search("^# start gene", line.strip()):
                     gene_collection = True
 
                 if gene_collection:
@@ -77,22 +78,22 @@ class GFFFile:
                 if len(l_split) > 5:
                     if l_split[2] == 'gene':
                         if gff3:
-                            gname = l_split[-1].replace('ID=', '')
+                            gid = l_split[-1].replace('ID=', '').split('.')[-1]
                         else:
-                            gname = l_split[-1]
+                            gid = l_split[-1].split('.')[-1]
                         gseq = l_split[0]
                         gstart = l_split[3]
                         gend = l_split[4]
 
-                # if back compatibility is required add condition like re.search("^### end gene g", line.strip())
-                if re.search("^# end gene g", line.strip()):
-                    gene = Gene(gname, gseq, gstart, gend, gene_txt)
+                # if back compatibility is required add condition like re.search("^### end gene", line.strip())
+                if re.search("^# end gene", line.strip()):
+                    gene = Gene(gid, gseq, gstart, gend, gene_txt)
 
                     # use unique gene name (id)
-                    gid = int(gname.replace('g', ''))
-                    if gid <= len(self.genes):
-                        new_gid = len(self.genes) + 1
-                        gene.rename(f'g{new_gid}')
+                    int_gid = int(gid.replace('g', ''))
+                    if int_gid <= len(self.genes):
+                        new_int_gid = len(self.genes) + 1
+                        gene.rename(f'g{new_int_gid}')
 
                     # do not add redundant genes of two possibly overlapping neighboring runs
                     if len(self.genes) > 0:
