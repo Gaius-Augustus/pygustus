@@ -132,3 +132,24 @@ def join_aug_pred(out_file, pred_files):
     for pred in pred_files:
         gff.add_content(pred)
     gff.write(out_file)
+
+
+# TODO: add start and end positions
+def create_hint_parts(inputfile, outfile, sequences, whitespaces=False):
+    output = list()
+    with open(inputfile) as file:
+        line = file.readline()
+        while line:
+            if whitespaces:
+                l_split = re.split(' +', line.strip())
+            else:
+                l_split = line.strip().split('\t')
+
+            if len(l_split) > 1 and l_split[0] in sequences:
+                output.append(line)
+
+            line = file.readline()
+
+    with open(outfile, "w") as file:
+        for line in output:
+            file.write(line)
