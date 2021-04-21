@@ -54,15 +54,13 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">API Documentation</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#predict">predict</a>
+    <li class="toctree-l2"><a class="reference internal" href="#train">train</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_get_bin">config_get_bin</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_set_bin">config_set_bin</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_set_default_bin">config_set_default_bin</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#show_fasta_info">show_fasta_info</a>
     </li>
     </ul>
                     </li>
@@ -99,55 +97,7 @@
           <div role="main">
             <div class="section">
               
-                <p><a name="pygustus.augustus"></a></p>
-<h1 id="pygustusaugustus">pygustus.augustus</h1>
-<p>A python wrapper for the gene prediction program AUGUSTUS.</p>
-<p><a name="pygustus.augustus.predict"></a></p>
-<h4 id="predict">predict</h4>
-<pre><code class="language-python">predict(*args, *, options=None, **kwargs)
-</code></pre>
-<p>Executes AUGUSTUS and passes the given parameters as command line arguments.</p>
-<p>TODO: parameter descritption</p>
-<p><a name="pygustus.augustus.config_get_bin"></a></p>
-<h4 id="config_get_bin">config_get_bin</h4>
-<pre><code class="language-python">config_get_bin()
-</code></pre>
-<p>Reads the currently configured path to the executable of AUGUSTUS
-and returns it.</p>
-<p><strong>Returns</strong>:</p>
-<p>The currently configured path to the executable of AUGUSTUS.</p>
-<p><a name="pygustus.augustus.config_set_bin"></a></p>
-<h4 id="config_set_bin">config_set_bin</h4>
-<pre><code class="language-python">config_set_bin(value)
-</code></pre>
-<p>Updates the configured path to the executable of AUGUSTUS
-with the given value.</p>
-<p><strong>Arguments</strong>:</p>
-<ul>
-<li><code>value</code> <em>string</em> - The path to the execuatble of AUGUSTUS.</li>
-</ul>
-<p><strong>Raises</strong>:</p>
-<ul>
-<li><code>RuntimeError</code> - If the given path does not exist or the file is
-  not executable.</li>
-</ul>
-<p><a name="pygustus.augustus.config_set_default_bin"></a></p>
-<h4 id="config_set_default_bin">config_set_default_bin</h4>
-<pre><code class="language-python">config_set_default_bin()
-</code></pre>
-<p>Sets the configured path to the AUGUSTUS executable to 'augustus'.
-This should exist if AUGUSTUS is properly installed on the system.</p>
-<p><a name="pygustus.augustus.show_fasta_info"></a></p>
-<h4 id="show_fasta_info">show_fasta_info</h4>
-<pre><code class="language-python">show_fasta_info(inputfile)
-</code></pre>
-<p>This method outputs information about the contents of the passed file
-in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
-<p><strong>Arguments</strong>:</p>
-<ul>
-<li><code>inputfile</code> <em>string</em> - The file in fasta format.</li>
-</ul>
-<p><a name="pygustus.etraining"></a></p>
+                <p><a name="pygustus.etraining"></a></p>
 <h1 id="pygustusetraining">pygustus.etraining</h1>
 <p>A python wrapper for the training of AUGUSTUS.</p>
 <p><a name="pygustus.etraining.train"></a></p>
@@ -157,7 +107,7 @@ in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
 <p>Executes etraining and passes the given parameters as command line arguments.</p>
 <p>TODO: parameter descritption</p>
 <p><a name="pygustus.etraining.config_get_bin"></a></p>
-<h4 id="config_get_bin_1">config_get_bin</h4>
+<h4 id="config_get_bin">config_get_bin</h4>
 <pre><code class="language-python">config_get_bin()
 </code></pre>
 <p>Reads the currently configured path to the executable of etraining
@@ -165,7 +115,7 @@ and returns it.</p>
 <p><strong>Returns</strong>:</p>
 <p>The currently configured path to the executable of etraining.</p>
 <p><a name="pygustus.etraining.config_set_bin"></a></p>
-<h4 id="config_set_bin_1">config_set_bin</h4>
+<h4 id="config_set_bin">config_set_bin</h4>
 <pre><code class="language-python">config_set_bin(value)
 </code></pre>
 <p>Updates the configured path to the executable of etraining
@@ -180,11 +130,59 @@ with the given value.</p>
   not executable.</li>
 </ul>
 <p><a name="pygustus.etraining.config_set_default_bin"></a></p>
-<h4 id="config_set_default_bin_1">config_set_default_bin</h4>
+<h4 id="config_set_default_bin">config_set_default_bin</h4>
 <pre><code class="language-python">config_set_default_bin()
 </code></pre>
 <p>Sets the configured path to the etraining executable to 'etraining'.
 This should exist if AUGUSTUS is properly installed on the system.</p>
+<p><a name="pygustus.augustus"></a></p>
+<h1 id="pygustusaugustus">pygustus.augustus</h1>
+<p>A python wrapper for the gene prediction program AUGUSTUS.</p>
+<p><a name="pygustus.augustus.predict"></a></p>
+<h4 id="predict">predict</h4>
+<pre><code class="language-python">predict(*args, *, options=None, **kwargs)
+</code></pre>
+<p>Executes AUGUSTUS and passes the given parameters as command line arguments.</p>
+<p>TODO: parameter descritption</p>
+<p><a name="pygustus.augustus.config_get_bin"></a></p>
+<h4 id="config_get_bin_1">config_get_bin</h4>
+<pre><code class="language-python">config_get_bin()
+</code></pre>
+<p>Reads the currently configured path to the executable of AUGUSTUS
+and returns it.</p>
+<p><strong>Returns</strong>:</p>
+<p>The currently configured path to the executable of AUGUSTUS.</p>
+<p><a name="pygustus.augustus.config_set_bin"></a></p>
+<h4 id="config_set_bin_1">config_set_bin</h4>
+<pre><code class="language-python">config_set_bin(value)
+</code></pre>
+<p>Updates the configured path to the executable of AUGUSTUS
+with the given value.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>value</code> <em>string</em> - The path to the execuatble of AUGUSTUS.</li>
+</ul>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>RuntimeError</code> - If the given path does not exist or the file is
+  not executable.</li>
+</ul>
+<p><a name="pygustus.augustus.config_set_default_bin"></a></p>
+<h4 id="config_set_default_bin_1">config_set_default_bin</h4>
+<pre><code class="language-python">config_set_default_bin()
+</code></pre>
+<p>Sets the configured path to the AUGUSTUS executable to 'augustus'.
+This should exist if AUGUSTUS is properly installed on the system.</p>
+<p><a name="pygustus.augustus.show_fasta_info"></a></p>
+<h4 id="show_fasta_info">show_fasta_info</h4>
+<pre><code class="language-python">show_fasta_info(inputfile)
+</code></pre>
+<p>This method outputs information about the contents of the passed file
+in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>inputfile</code> <em>string</em> - The file in fasta format.</li>
+</ul>
               
             </div>
           </div>
