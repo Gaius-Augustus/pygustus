@@ -33,7 +33,8 @@ def execute_bin_parallel(cmd, aug_options, jobs):
             if chunksize > 3000000:
                 overlap = 500000
             else:
-                overlap = int(chunksize / 5) # chunksize / 6 semms not to work reliable
+                # chunksize / 6 semms not to work reliable
+                overlap = int(chunksize / 5)
             chunks = list()
             go_on = True
             while go_on:
@@ -42,7 +43,7 @@ def execute_bin_parallel(cmd, aug_options, jobs):
                 else:
                     last_start, last_end = chunks[-1]
                     start = last_end + 1 - overlap
-                    end = start + chunksize -1
+                    end = start + chunksize - 1
                     if end >= seq_size:
                         end = seq_size
                         go_on = False
@@ -60,13 +61,20 @@ def execute_bin_parallel(cmd, aug_options, jobs):
         else:
             # create a file per job
             minsize = size / jobs
-            fm.split(input_file, tmpdir, minsize)
+            written_sequences = fm.split(input_file, tmpdir, minsize)
+            hintsfile = aug_options.get_value_or_none('hintsfile')
             for run in range(1, jobs+1):
                 curfile = create_split_filenanme(input_file, tmpdir, run)
                 outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
                 outfiles.append(outfile)
                 aug_options.set_input_filename(curfile)
                 aug_options.set_value('outfile', outfile)
+                if hintsfile:
+                    tmp_hintsfile = os.path.join(
+                        tmpdir, f'augustus_hints_{str(run)}.gff')
+                    gff.create_hint_parts(
+                        hintsfile, tmp_hintsfile, written_sequences[run])
+                    aug_options.set_value('hintsfile', tmp_hintsfile)
                 options.append(aug_options.get_options())
 
         with ThreadPoolExecutor(max_workers=int(jobs)) as executor:

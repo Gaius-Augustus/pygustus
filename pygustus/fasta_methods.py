@@ -70,6 +70,7 @@ def split(inputfile, outputdir, minsize=0):
     cursize = 0
     records_to_write = list()
     records = list(SeqIO.parse(inputfile, 'fasta'))
+    written_sequences = dict()
 
     for seq_record in records:
         cursize += len(seq_record)
@@ -80,8 +81,10 @@ def split(inputfile, outputdir, minsize=0):
                 inputfile, outputdir, fileidx)
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
+            written_sequences.update({fileidx: [x.id for x in records_to_write]})
             records_to_write.clear()
 
+    return written_sequences
 
 def get_sequence_count(inputfile):
     util.check_file(inputfile)
