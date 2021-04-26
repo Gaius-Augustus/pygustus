@@ -42,203 +42,60 @@ def test_augustus_wrong_bin_path_format():
 
 
 def test_augustus_parallel_two_jobs_and_sequences():
-    outdir = os.path.join(
-        'tests/out', test_augustus_parallel_two_jobs_and_sequences.__name__)
-    out_html = os.path.join(outdir, 'output_html')
-    out_augustus_tmp = os.path.join(outdir, 'augustus_tmp.gff')
-    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
-    out_augustus = os.path.join(outdir, 'augustus.gff')
-    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    name = test_augustus_parallel_two_jobs_and_sequences.__name__
+    options = {'species': 'human', 'UTR': True, 'softmasking': False}
 
-    if (os.path.exists(outdir)):
-        shutil.rmtree(outdir)
-    os.makedirs(outdir)
-
-    assert os.path.exists(outdir)
-
-    # run augustus
-    augustus.predict('tests/data/example.fa', species='human',
-                     UTR=True, softmasking=False, outfile=out_augustus_tmp)
-    assert os.path.exists(out_augustus_tmp)
-
-    # run augustus with two jobs on the same input file
-    augustus.predict('tests/data/example.fa', species='human', jobs=2,
-                     UTR=True, softmasking=False, outfile=out_augustus_joined_tmp)
-    assert os.path.exists(out_augustus_joined_tmp)
-
-    # filter both results
-    afilter.pred(out_augustus_tmp, out_augustus)
-    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
-    os.remove(out_augustus_tmp)
-    os.remove(out_augustus_joined_tmp)
-
-    # compare results
-    diff = comp.compare_files(
-        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
-    assert diff == ''
+    run_parallel_tests('tests/data/example.fa', jobs=2, testname=name,
+                       options=options)
 
 
 def test_augustus_parallel_with_hints():
-    outdir = os.path.join(
-        'tests/out', test_augustus_parallel_with_hints.__name__)
-    out_html = os.path.join(outdir, 'output_html')
-    out_augustus_tmp = os.path.join(outdir, 'augustus_tmp.gff')
-    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
-    out_augustus = os.path.join(outdir, 'augustus.gff')
-    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    name = test_augustus_parallel_with_hints.__name__
+    options = {'species': 'human', 'UTR': True, 'softmasking': False,
+               'hintsfile': 'tests/data/hints.gff',
+               'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.MPE.cfg'}
 
-    if (os.path.exists(outdir)):
-        shutil.rmtree(outdir)
-    os.makedirs(outdir)
-
-    assert os.path.exists(outdir)
-
-    # run augustus
-    augustus.predict('tests/data/example.fa', species='human',
-                     UTR=True, softmasking=False, outfile=out_augustus_tmp,
-                     hintsfile='tests/data/hints.gff',
-                     extrinsicCfgFile='tests/data/config/extrinsic/extrinsic.MPE.cfg')
-    assert os.path.exists(out_augustus_tmp)
-
-    # run augustus with two jobs on the same input file
-    augustus.predict('tests/data/example.fa', species='human', jobs=2,
-                     UTR=True, softmasking=False, outfile=out_augustus_joined_tmp,
-                     hintsfile='tests/data/hints.gff',
-                     extrinsicCfgFile='tests/data/config/extrinsic/extrinsic.MPE.cfg')
-    assert os.path.exists(out_augustus_joined_tmp)
-
-    # filter both results
-    afilter.pred(out_augustus_tmp, out_augustus)
-    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
-    os.remove(out_augustus_tmp)
-    os.remove(out_augustus_joined_tmp)
-
-    # compare results
-    diff = comp.compare_files(
-        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
-    assert diff == ''
+    run_parallel_tests('tests/data/example.fa', jobs=2, testname=name,
+                       options=options)
 
 
 def test_augustus_parallel_two_jobs_unique_geneid():
-    outdir = os.path.join(
-        'tests/out', test_augustus_parallel_two_jobs_unique_geneid.__name__)
-    out_html = os.path.join(outdir, 'output_html')
-    out_augustus_tmp = os.path.join(outdir, 'augustus_tmp.gff')
-    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
-    out_augustus = os.path.join(outdir, 'augustus.gff')
-    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    name = test_augustus_parallel_two_jobs_unique_geneid.__name__
+    options = {'species': 'human', 'UTR': True, 'softmasking': False,
+               'uniqueGeneId': True}
 
-    if (os.path.exists(outdir)):
-        shutil.rmtree(outdir)
-    os.makedirs(outdir)
-
-    assert os.path.exists(outdir)
-
-    # run augustus
-    augustus.predict('tests/data/example.fa', species='human',
-                     UTR=True, softmasking=False, outfile=out_augustus_tmp,
-                     uniqueGeneId=True)
-    assert os.path.exists(out_augustus_tmp)
-
-    # # run augustus with two jobs on the same input file
-    augustus.predict('tests/data/example.fa', species='human', jobs=2,
-                     UTR=True, softmasking=False, outfile=out_augustus_joined_tmp,
-                     uniqueGeneId=True)
-    assert os.path.exists(out_augustus_joined_tmp)
-
-    # # filter both results
-    afilter.pred(out_augustus_tmp, out_augustus)
-    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
-    os.remove(out_augustus_tmp)
-    os.remove(out_augustus_joined_tmp)
-
-    # # compare results
-    diff = comp.compare_files(
-        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
-    assert diff == ''
+    run_parallel_tests('tests/data/example.fa', jobs=2, testname=name,
+                       options=options)
 
 
 def test_augustus_parallel_two_jobs_and_sequences_gff3():
-    outdir = os.path.join(
-        'tests/out', test_augustus_parallel_two_jobs_and_sequences_gff3.__name__)
-    out_html = os.path.join(outdir, 'output_html')
-    out_augustus_tmp = os.path.join(outdir, 'augustus_tmp.gff')
-    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
-    out_augustus = os.path.join(outdir, 'augustus.gff')
-    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    name = test_augustus_parallel_two_jobs_and_sequences_gff3.__name__
+    options = {'species': 'human', 'UTR': True, 'softmasking': False,
+               'gff3': True}
 
-    if (os.path.exists(outdir)):
-        shutil.rmtree(outdir)
-    os.makedirs(outdir)
-
-    assert os.path.exists(outdir)
-
-    # run augustus
-    augustus.predict('tests/data/example.fa', species='human',
-                     UTR=True, softmasking=False, gff3=True,
-                     outfile=out_augustus_tmp)
-    assert os.path.exists(out_augustus_tmp)
-
-    # run augustus with two jobs on the same input file
-    augustus.predict('tests/data/example.fa', species='human', jobs=2,
-                     UTR=True, softmasking=False, gff3=True,
-                     outfile=out_augustus_joined_tmp)
-    assert os.path.exists(out_augustus_joined_tmp)
-
-    # filter both results
-    afilter.pred(out_augustus_tmp, out_augustus)
-    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
-    os.remove(out_augustus_tmp)
-    os.remove(out_augustus_joined_tmp)
-
-    # compare results
-    diff = comp.compare_files(
-        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
-    assert diff == ''
+    run_parallel_tests('tests/data/example.fa', jobs=2, testname=name,
+                       options=options)
 
 
 def test_augustus_parallel_two_jobs_gff3_and_geneid():
-    outdir = os.path.join(
-        'tests/out', test_augustus_parallel_two_jobs_gff3_and_geneid.__name__)
-    out_html = os.path.join(outdir, 'output_html')
-    out_augustus_tmp = os.path.join(outdir, 'augustus_tmp.gff')
-    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
-    out_augustus = os.path.join(outdir, 'augustus.gff')
-    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    name = test_augustus_parallel_two_jobs_gff3_and_geneid.__name__
+    options = {'species': 'human', 'UTR': True, 'softmasking': False,
+               'gff3': True, 'uniqueGeneId': True}
 
-    if (os.path.exists(outdir)):
-        shutil.rmtree(outdir)
-    os.makedirs(outdir)
-
-    assert os.path.exists(outdir)
-
-    # run augustus
-    augustus.predict('tests/data/example.fa', species='human',
-                     UTR=True, softmasking=False, gff3=True,
-                     outfile=out_augustus_tmp, uniqueGeneId=True)
-    assert os.path.exists(out_augustus_tmp)
-
-    # run augustus with two jobs on the same input file
-    augustus.predict('tests/data/example.fa', species='human', jobs=2,
-                     UTR=True, softmasking=False, gff3=True,
-                     outfile=out_augustus_joined_tmp, uniqueGeneId=True)
-    assert os.path.exists(out_augustus_joined_tmp)
-
-    # filter both results
-    afilter.pred(out_augustus_tmp, out_augustus)
-    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
-    os.remove(out_augustus_tmp)
-    os.remove(out_augustus_joined_tmp)
-
-    # compare results
-    diff = comp.compare_files(
-        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
-    assert diff == ''
+    run_parallel_tests('tests/data/example.fa', jobs=2, testname=name,
+                       options=options)
 
 
 def test_augustus_parallel_one_large_sequence():
-    outdir = os.path.join(
-        'tests/out', test_augustus_parallel_one_large_sequence.__name__)
+    name = test_augustus_parallel_one_large_sequence.__name__
+    options = {'species': 'human', 'UTR': True, 'softmasking': True}
+
+    run_parallel_tests('tests/data/genome.fa', jobs=5, testname=name,
+                       options=options)
+
+
+def run_parallel_tests(inputfile, jobs, testname, options):
+    outdir = os.path.join('tests/out', testname)
     out_html = os.path.join(outdir, 'output_html')
     out_augustus_tmp = os.path.join(outdir, 'augustus_tmp.gff')
     out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
@@ -252,13 +109,12 @@ def test_augustus_parallel_one_large_sequence():
     assert os.path.exists(outdir)
 
     # run augustus
-    augustus.predict('tests/data/genome.fa', species='human',
-                     UTR=True, softmasking=True, outfile=out_augustus_tmp)
+    augustus.predict(inputfile, **options, outfile=out_augustus_tmp)
     assert os.path.exists(out_augustus_tmp)
 
     # run augustus with two jobs on the same input file
-    augustus.predict('tests/data/genome.fa', species='human', jobs=5,
-                     UTR=True, softmasking=True, outfile=out_augustus_joined_tmp)
+    augustus.predict(inputfile, **options,
+                     outfile=out_augustus_joined_tmp, jobs=jobs)
     assert os.path.exists(out_augustus_joined_tmp)
 
     # filter both results
