@@ -25,13 +25,12 @@ class Gene:
         return not self == o
 
     def __str__(self) -> str:
-        return f'Gene {self.name} starts at {self.start} and ends at {self.end} in sequence {self.sequence}.'
+        return f'Gene {self.id} starts at {self.start} and ends at {self.end} in sequence {self.sequence}.'
 
     def rename(self, id):
         old_id = self.id
         self.id = id
         self.txt = self.txt.replace(old_id, id)
-        print(f'replace {old_id} with {id}')
 
 
 class GFFFile:
