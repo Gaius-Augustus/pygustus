@@ -112,7 +112,7 @@ def run_parallel_tests(inputfile, jobs, testname, options):
     augustus.predict(inputfile, **options, outfile=out_augustus_tmp)
     assert os.path.exists(out_augustus_tmp)
 
-    # run augustus with two jobs on the same input file
+    # run multiple augustus jobs on the same input file
     augustus.predict(inputfile, **options,
                      outfile=out_augustus_joined_tmp, jobs=jobs)
     assert os.path.exists(out_augustus_joined_tmp)

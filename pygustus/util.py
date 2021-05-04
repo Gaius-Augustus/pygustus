@@ -26,15 +26,15 @@ def execute_bin_parallel(cmd, aug_options, jobs):
     options = list()
     outfiles = list()
     with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
+        hintsfile = aug_options.get_value_or_none('hintsfile')
         if fm.get_sequence_count(input_file) == 1:
             # file contains only one large sequence
             seq_size = fm.get_sequence_size(input_file)
+            seq_id = fm.get_sequence_id(input_file)
             chunksize = int(seq_size / (jobs-1))
-            if chunksize > 3000000:
-                overlap = 500000
-            else:
-                # chunksize / 6 semms not to work reliable
-                overlap = int(chunksize / 5)
+            if chunksize > 3500000:
+                chunksize = 3500000
+            overlap = int(chunksize / 5)
             chunks = list()
             go_on = True
             while go_on:
@@ -57,12 +57,19 @@ def execute_bin_parallel(cmd, aug_options, jobs):
                 aug_options.set_value('outfile', outfile)
                 aug_options.set_value('predictionStart', pred_start)
                 aug_options.set_value('predictionEnd', pred_end)
+                if hintsfile:
+                    tmp_hintsfile = os.path.join(
+                        tmpdir, f'augustus_hints_{str(run)}.gff')
+                    hints_info = {seq_id: [pred_start, pred_end]}
+                    gff.create_hint_parts(
+                        hintsfile, tmp_hintsfile, hints_info)
+                    #aug_options.set_value('hintsfile', tmp_hintsfile)
                 options.append(aug_options.get_options())
+            print(f'Split file to {run} runs.')
         else:
             # create a file per job
             minsize = size / jobs
             written_sequences = fm.split(input_file, tmpdir, minsize)
-            hintsfile = aug_options.get_value_or_none('hintsfile')
             for run in range(1, jobs+1):
                 curfile = create_split_filenanme(input_file, tmpdir, run)
                 outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')

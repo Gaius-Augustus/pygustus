@@ -81,10 +81,12 @@ def split(inputfile, outputdir, minsize=0):
                 inputfile, outputdir, fileidx)
             SeqIO.write(records_to_write, splitpath, 'fasta')
             cursize = 0
-            written_sequences.update({fileidx: [x.id for x in records_to_write]})
+            written_sequences.update(
+                {fileidx: {x.id: [0, 0] for x in records_to_write}})
             records_to_write.clear()
 
     return written_sequences
+
 
 def get_sequence_count(inputfile):
     util.check_file(inputfile)
@@ -96,3 +98,9 @@ def get_sequence_size(inputfile, idx=0):
     util.check_file(inputfile)
     sequences = list(SeqIO.parse(inputfile, 'fasta'))
     return len(sequences[idx])
+
+
+def get_sequence_id(inputfile, idx=0):
+    util.check_file(inputfile)
+    sequences = list(SeqIO.parse(inputfile, 'fasta'))
+    return sequences[idx].id

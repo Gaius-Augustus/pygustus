@@ -98,10 +98,15 @@ class GFFFile:
                     if len(self.genes) > 0:
                         if not gene in self.genes:
                             last_gene = self.genes[-1]
-                            if gene.sequence == last_gene.sequence and gene.start < last_gene.end:
+                            if gene.sequence == last_gene.sequence and int(gene.start) < int(last_gene.end):
                                 pass
                             else:
                                 self.genes.append(gene)
+                        else:
+                            last_gene = self.genes[-1]
+                            if gene.sequence == last_gene.sequence and int(gene.start) == int(last_gene.start):
+                                gene.rename(last_gene.id)
+                                self.genes[-1] = gene
                     else:
                         self.genes.append(gene)
 
@@ -133,7 +138,6 @@ def join_aug_pred(out_file, pred_files):
     gff.write(out_file)
 
 
-# TODO: add start and end positions
 def create_hint_parts(inputfile, outfile, sequences, whitespaces=False):
     output = list()
     with open(inputfile) as file:
@@ -144,8 +148,13 @@ def create_hint_parts(inputfile, outfile, sequences, whitespaces=False):
             else:
                 l_split = line.strip().split('\t')
 
-            if len(l_split) > 1 and l_split[0] in sequences:
-                output.append(line)
+            if len(l_split) > 1 and l_split[0] in sequences.keys():
+                start, end = sequences[l_split[0]]
+                if start > 0 and end > 0:
+                    if int(l_split[3]) >= start and int(l_split[4]) <= end:
+                        output.append(line)
+                else:
+                    output.append(line)
 
             line = file.readline()
 
