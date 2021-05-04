@@ -38,6 +38,7 @@ def predict(*args, options=None, **kwargs):
     jobs = pygustus_options.get_value_or_none('jobs')
     chunksize = pygustus_options.get_value_or_none('chunksize')
     overlap = pygustus_options.get_value_or_none('overlap')
+    partition_hints = pygustus_options.get_value_or_none('partitionHints')
 
     # check input file
     is_file, input_file = aug_options.get_input_filename()
@@ -49,7 +50,7 @@ def predict(*args, options=None, **kwargs):
 
     if jobs:
         util.execute_bin_parallel(
-            augustus_command, aug_options, jobs, chunksize=chunksize, overlap=overlap)
+            augustus_command, aug_options, jobs, chunksize, overlap, partition_hints)
     else:
         util.execute_bin(augustus_command, aug_options.get_options())
 

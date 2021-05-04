@@ -11,7 +11,7 @@ import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
 
 
-def execute_bin_parallel(cmd, aug_options, jobs, chunksize=0, overlap=0):
+def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
     input_file = aug_options.get_input_filename()[1]
@@ -19,7 +19,13 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize=0, overlap=0):
     joined_outfile = aug_options.get_value_or_none('outfile')
     if not joined_outfile:
         joined_outfile = 'augustus.gff'
-
+    if not chunksize:
+        chunksize = 0
+    if not overlap:
+        overlap = 0
+    if not part_hints:
+        part_hints = False
+    
     # TODO: add more use cases
 
     options = list()
@@ -58,13 +64,13 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize=0, overlap=0):
                 aug_options.set_value('outfile', outfile)
                 aug_options.set_value('predictionStart', pred_start)
                 aug_options.set_value('predictionEnd', pred_end)
-                if hintsfile:
+                if hintsfile and part_hints:
                     tmp_hintsfile = os.path.join(
                         tmpdir, f'augustus_hints_{str(run)}.gff')
                     hints_info = {seq_id: [pred_start, pred_end]}
                     gff.create_hint_parts(
                         hintsfile, tmp_hintsfile, hints_info)
-                    #aug_options.set_value('hintsfile', tmp_hintsfile)
+                    aug_options.set_value('hintsfile', tmp_hintsfile)
                 options.append(aug_options.get_options())
             #print(f'Split file to {run} runs.')
         else:
