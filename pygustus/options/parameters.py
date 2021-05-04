@@ -47,6 +47,15 @@ allowed_parameters = [
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
+        NAME: 'partitionHints',
+        DEVELOPMENT: False,
+        TYPE: TYPE_BOOL,
+        USAGE: 'partitionHints=True/False',
+        DEFAULT: False,
+        DESCRIPTION: 'If this option is set to True, a hints file is given and jobs > 1, then the hints file is split into appropriate pieces for the respective AUGUSTUS jobs.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
         NAME: 'species',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,
