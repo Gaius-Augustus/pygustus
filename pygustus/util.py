@@ -11,7 +11,7 @@ import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
 
 
-def execute_bin_parallel(cmd, aug_options, jobs):
+def execute_bin_parallel(cmd, aug_options, jobs, chunksize=0, overlap=0):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
     input_file = aug_options.get_input_filename()[1]
@@ -21,7 +21,6 @@ def execute_bin_parallel(cmd, aug_options, jobs):
         joined_outfile = 'augustus.gff'
 
     # TODO: add more use cases
-    # TODO: add chunksize and overlap as optional parameters
 
     options = list()
     outfiles = list()
@@ -31,10 +30,12 @@ def execute_bin_parallel(cmd, aug_options, jobs):
             # file contains only one large sequence
             seq_size = fm.get_sequence_size(input_file)
             seq_id = fm.get_sequence_id(input_file)
-            chunksize = int(seq_size / (jobs-1))
+            if chunksize == 0:
+                chunksize = int(seq_size / (jobs-1))
             if chunksize > 3500000:
                 chunksize = 3500000
-            overlap = int(chunksize / 5)
+            if overlap == 0:
+                overlap = int(chunksize / 5)
             chunks = list()
             go_on = True
             while go_on:
@@ -65,7 +66,7 @@ def execute_bin_parallel(cmd, aug_options, jobs):
                         hintsfile, tmp_hintsfile, hints_info)
                     #aug_options.set_value('hintsfile', tmp_hintsfile)
                 options.append(aug_options.get_options())
-            print(f'Split file to {run} runs.')
+            #print(f'Split file to {run} runs.')
         else:
             # create a file per job
             minsize = size / jobs
