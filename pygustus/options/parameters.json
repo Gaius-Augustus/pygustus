@@ -990,6 +990,18 @@
         "description": ""
     },
     {
+        "name": "chunksize",
+        "development": false,
+        "type": "int",
+        "usage": "chunksize=n",
+        "default_value": 0,
+        "description": "If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of size n.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
+    },
+    {
         "name": "codingseq",
         "development": true,
         "description": ""
@@ -1164,7 +1176,7 @@
         "type": "int",
         "usage": "jobs=n",
         "default_value": 1,
-        "description": "If this option is set, the input file is split into n chunks and AUGUSTUS is executed on each chunk in parallel. After the execution of all n jobs, the output files are merged.",
+        "description": "If this option is set, AUGUSTUS is executed in parallel on sequence segments or split input files using n jobs. After the execution of all jobs, the output files are merged.",
         "exclude_apps": [
             "augustus",
             "etraining"
@@ -1296,6 +1308,18 @@
         "name": "outfile",
         "development": true,
         "description": ""
+    },
+    {
+        "name": "overlap",
+        "development": false,
+        "type": "int",
+        "usage": "overlap=n",
+        "default_value": 0,
+        "description": "If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments and the segments overlap by n.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
     },
     {
         "name": "param_outfile",

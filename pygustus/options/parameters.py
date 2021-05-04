@@ -25,7 +25,25 @@ allowed_parameters = [
         TYPE: TYPE_INT,
         USAGE: 'jobs=n',
         DEFAULT: 1,
-        DESCRIPTION: 'If this option is set, the input file is split into n chunks and AUGUSTUS is executed on each chunk in parallel. After the execution of all n jobs, the output files are merged.',
+        DESCRIPTION: 'If this option is set, AUGUSTUS is executed in parallel on sequence segments or split input files using n jobs. After the execution of all jobs, the output files are merged.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'chunksize',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'chunksize=n',
+        DEFAULT: 0,
+        DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of size n.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'overlap',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'overlap=n',
+        DEFAULT: 0,
+        DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments and the segments overlap by n.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
