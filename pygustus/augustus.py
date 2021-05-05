@@ -7,6 +7,8 @@ from pkg_resources import resource_filename
 from pygustus.options.aug_options import *
 import pygustus.util as util
 import pygustus.fasta_methods as fm
+import gzip
+import os
 
 __all__ = ['predict', 'config_get_bin',
            'config_set_bin', 'config_set_default_bin', 'show_fasta_info']
@@ -41,18 +43,33 @@ def predict(*args, options=None, **kwargs):
     partition_hints = pygustus_options.get_value_or_none('partitionHints')
 
     # check input file
-    is_file, input_file = aug_options.get_input_filename()
-    if is_file:
+    zip = False
+    is_set, input_file = aug_options.get_input_filename()
+    if is_set:
         if input_file:
             util.check_file(input_file)
         else:
             raise ValueError(f'Input file not specified.')
+
+        # unzip if gz file is given
+        f_name, f_ext = os.path.splitext(input_file)
+        if f_ext == '.gz':
+            nf = open(f_name, 'wb')
+            with gzip.open(input_file) as f:
+                bindata = f.read()
+                nf.write(bindata)
+            nf.close()
+            aug_options.set_input_filename(f_name)
+            zip = True
 
     if jobs:
         util.execute_bin_parallel(
             augustus_command, aug_options, jobs, chunksize, overlap, partition_hints)
     else:
         util.execute_bin(augustus_command, aug_options.get_options())
+
+    if zip:
+        os.remove(f_name)
 
 
 def config_get_bin():
