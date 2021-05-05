@@ -41,7 +41,7 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
     - name: Test with pytest
       if: ${{ github.event_name != 'release' }}
-      run: pytest --tb=no -v tests/
+      run: pytest --tb=no -m ghactions -v tests/
     - name: Build a binary wheel and a source tarball
       run: python setup.py sdist bdist_wheel
     - name: Build documentation
