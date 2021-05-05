@@ -8,39 +8,46 @@ import pygustus.aug_comparator as comp
 # TODO: [GH-Actions] upload generated html diff??
 
 
+@pytest.mark.ghactions
 def test_augustus_help():
     augustus.predict('--help')
 
 
+@pytest.mark.ghactions
 def test_augustus_simple():
     augustus.predict('tests/data/example.fa', species='human',
                      UTR=True, softmasking=False)
 
 
+@pytest.mark.ghactions
 def test_augustus_wrong_parameter():
     with pytest.raises(ValueError):
         augustus.predict('tests/data/example.fa', species='human',
                          UTR=True, smasking=False)
 
 
+@pytest.mark.ghactions
 def test_augustus_wrong_parameter():
     with pytest.raises(ValueError):
         augustus.predict('tests/data/example.fa', species='human',
                          UTR=True, softmasking=0.42)
 
 
+@pytest.mark.ghactions
 def test_augustus_wrong_bin_path():
     with pytest.raises(RuntimeError):
         augustus.predict('tests/data/example.fa', species='human',
                          UTR=True, softmasking=False, path_to_bin='/usr/local/bin')
 
 
+@pytest.mark.ghactions
 def test_augustus_wrong_bin_path_format():
     with pytest.raises(ValueError):
         augustus.predict('tests/data/example.fa', species='human',
                          UTR=True, softmasking=False, path_to_bin=False)
 
 
+@pytest.mark.ghactions
 def test_augustus_parallel_two_jobs_and_sequences():
     name = test_augustus_parallel_two_jobs_and_sequences.__name__
     options = {'species': 'human', 'UTR': True, 'softmasking': False}
@@ -49,6 +56,7 @@ def test_augustus_parallel_two_jobs_and_sequences():
                        options=options)
 
 
+@pytest.mark.ghactions
 def test_augustus_parallel_with_hints():
     name = test_augustus_parallel_with_hints.__name__
     options = {'species': 'human', 'UTR': True, 'softmasking': False,
@@ -59,6 +67,7 @@ def test_augustus_parallel_with_hints():
                        options=options)
 
 
+@pytest.mark.ghactions
 def test_augustus_parallel_two_jobs_unique_geneid():
     name = test_augustus_parallel_two_jobs_unique_geneid.__name__
     options = {'species': 'human', 'UTR': True, 'softmasking': False,
@@ -68,6 +77,7 @@ def test_augustus_parallel_two_jobs_unique_geneid():
                        options=options)
 
 
+@pytest.mark.ghactions
 def test_augustus_parallel_two_jobs_and_sequences_gff3():
     name = test_augustus_parallel_two_jobs_and_sequences_gff3.__name__
     options = {'species': 'human', 'UTR': True, 'softmasking': False,
@@ -77,6 +87,7 @@ def test_augustus_parallel_two_jobs_and_sequences_gff3():
                        options=options)
 
 
+@pytest.mark.ghactions
 def test_augustus_parallel_two_jobs_gff3_and_geneid():
     name = test_augustus_parallel_two_jobs_gff3_and_geneid.__name__
     options = {'species': 'human', 'UTR': True, 'softmasking': False,
@@ -86,6 +97,7 @@ def test_augustus_parallel_two_jobs_gff3_and_geneid():
                        options=options)
 
 
+@pytest.mark.ghactions
 def test_augustus_parallel_one_large_sequence():
     name = test_augustus_parallel_one_large_sequence.__name__
     options = {'species': 'human', 'UTR': True, 'softmasking': True}
@@ -121,6 +133,77 @@ def run_parallel_tests(inputfile, jobs, testname, options):
     afilter.pred(out_augustus_tmp, out_augustus)
     afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
     os.remove(out_augustus_tmp)
+    os.remove(out_augustus_joined_tmp)
+
+    # compare results
+    diff = comp.compare_files(
+        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
+    assert diff == ''
+
+
+@pytest.mark.expensive
+def test_augustus_parallel_large_sequence_hints():
+    outdir = os.path.join(
+        'tests/out', test_augustus_parallel_large_sequence_hints.__name__)
+    out_html = os.path.join(outdir, 'output_html')
+    out_augustus_tmp = os.path.join(
+        'tests/data/chr2L/reference', 'aug.nasonia.hints.joined_tmp.gff')
+    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
+    out_augustus = os.path.join(outdir, 'aug.nasonia.hints.joined.gff')
+    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    options = {'species': 'nasonia', 'softmasking': True, 'chunksize': 3500000, 'overlap': 700000,
+               'hintsfile': 'tests/data/chr2L/hints.gff',
+               'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
+    if (os.path.exists(outdir)):
+        shutil.rmtree(outdir)
+    os.makedirs(outdir)
+
+    assert os.path.exists(outdir)
+
+    # run multiple augustus jobs on the same input file
+    augustus.predict('tests/data/chr2L/chr2L.sm.fa.gz', **options,
+                     outfile=out_augustus_joined_tmp, jobs=9)
+    assert os.path.exists(out_augustus_joined_tmp)
+
+    # filter both results
+    afilter.pred(out_augustus_tmp, out_augustus)
+    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
+    os.remove(out_augustus_joined_tmp)
+
+    # compare results
+    diff = comp.compare_files(
+        out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
+    assert diff == ''
+
+
+# TODO: add new reference results
+@pytest.mark.expensive
+def test_augustus_parallel_large_sequence_partition_hints():
+    outdir = os.path.join(
+        'tests/out', test_augustus_parallel_large_sequence_partition_hints.__name__)
+    out_html = os.path.join(outdir, 'output_html')
+    out_augustus_tmp = os.path.join(
+        'tests/data/chr2L/reference', 'aug.nasonia.hints.joined_tmp.gff')
+    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
+    out_augustus = os.path.join(outdir, 'aug.nasonia.hints.joined.gff')
+    out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
+    options = {'species': 'nasonia', 'softmasking': True, 'chunksize': 3500000, 'overlap': 700000,
+               'hintsfile': 'tests/data/chr2L/hints.gff', 'partitionHints': True,
+               'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
+    if (os.path.exists(outdir)):
+        shutil.rmtree(outdir)
+    os.makedirs(outdir)
+
+    assert os.path.exists(outdir)
+
+    # run multiple augustus jobs on the same input file
+    augustus.predict('tests/data/chr2L/chr2L.sm.fa.gz', **options,
+                     outfile=out_augustus_joined_tmp, jobs=9)
+    assert os.path.exists(out_augustus_joined_tmp)
+
+    # filter both results
+    afilter.pred(out_augustus_tmp, out_augustus)
+    afilter.pred(out_augustus_joined_tmp, out_augustus_joined)
     os.remove(out_augustus_joined_tmp)
 
     # compare results
