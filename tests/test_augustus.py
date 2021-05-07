@@ -176,14 +176,13 @@ def test_augustus_parallel_large_sequence_hints():
     assert diff == ''
 
 
-# TODO: add new reference results
 @pytest.mark.expensive
 def test_augustus_parallel_large_sequence_partition_hints():
     outdir = os.path.join(
         'tests/out', test_augustus_parallel_large_sequence_partition_hints.__name__)
     out_html = os.path.join(outdir, 'output_html')
     out_augustus_tmp = os.path.join(
-        'tests/data/chr2L/reference', 'aug.nasonia.hints.joined_tmp.gff')
+        'tests/data/chr2L/reference', 'aug.nasonia.hints.part.joined_tmp.gff')
     out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
     out_augustus = os.path.join(outdir, 'aug.nasonia.hints.joined.gff')
     out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
