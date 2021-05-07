@@ -56,6 +56,15 @@ allowed_parameters = [
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
+        NAME: 'minSplitSize',
+        DEVELOPMENT: False,
+        TYPE: TYPE_BOOL,
+        USAGE: 'minSplitSize=n',
+        DEFAULT: 0,
+        DESCRIPTION: 'The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
         NAME: 'species',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,
