@@ -36,10 +36,14 @@ def summarize_acgt_content(inputfile):
 
     summary_acgt = ''
     complete_bp = 0
+    sum_acgt = 0
+
     for l in letters:
         if l != 'n':
             summary_acgt += f'   {file_sum[l]} {l}'
             complete_bp += file_sum[l]
+
+    sum_acgt += complete_bp
 
     if file_sum['n'] > 0:
         summary_acgt += f'   {file_sum[l]} {l}'
@@ -49,7 +53,7 @@ def summarize_acgt_content(inputfile):
         summary_acgt += f'   {file_sum[l]} {l}'
         complete_bp += file_sum['rest']
 
-    gc = 100 * float(file_sum['g'] + file_sum['c']) / complete_bp
+    gc = 100 * float(file_sum['g'] + file_sum['c']) / sum_acgt
 
     print(f'summary: BASE COUNT  {summary_acgt}')
     print(f'total {complete_bp}bp in {seq_count} sequence(s).')
