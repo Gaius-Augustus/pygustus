@@ -133,3 +133,7 @@ dmypy.json
 
 # test output
 tests/out/
+
+# big test data
+tests/data/chlamy/
+tests/data/chlamy.*
