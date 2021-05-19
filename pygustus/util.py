@@ -15,7 +15,6 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
     input_file = aug_options.get_input_filename()[1]
-    size = os.path.getsize(input_file)
     joined_outfile = aug_options.get_value_or_none('outfile')
     if not joined_outfile:
         joined_outfile = 'augustus.gff'
@@ -27,71 +26,35 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
         part_hints = False
     if not minsize:
         minsize = 0
-    
-    # TODO: add more use cases
 
     options = list()
     outfiles = list()
     with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
         hintsfile = aug_options.get_value_or_none('hintsfile')
-        if fm.get_sequence_count(input_file) == 1:
-            # file contains only one large sequence
-            seq_size = fm.get_sequence_size(input_file)
-            seq_id = fm.get_sequence_id(input_file)
-            if chunksize == 0:
-                chunksize = int(seq_size / (jobs-1))
-            if chunksize > 3500000:
-                chunksize = 3500000
-            if overlap == 0:
-                overlap = int(chunksize / 5)
-            chunks = list()
-            go_on = True
-            while go_on:
-                if len(chunks) == 0:
-                    chunks.append([1, chunksize])
-                else:
-                    last_start, last_end = chunks[-1]
-                    start = last_end + 1 - overlap
-                    end = start + chunksize - 1
-                    if end >= seq_size:
-                        end = seq_size
-                        go_on = False
-                    chunks.append([start, end])
 
-            run = 0
-            for pred_start, pred_end in chunks:
-                run += 1
-                outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
-                outfiles.append(outfile)
-                aug_options.set_value('outfile', outfile)
-                aug_options.set_value('predictionStart', pred_start)
-                aug_options.set_value('predictionEnd', pred_end)
-                if hintsfile and part_hints:
-                    tmp_hintsfile = os.path.join(
-                        tmpdir, f'augustus_hints_{str(run)}.gff')
-                    hints_info = {seq_id: [pred_start, pred_end]}
-                    gff.create_hint_parts(
-                        hintsfile, tmp_hintsfile, hints_info)
-                    aug_options.set_value('hintsfile', tmp_hintsfile)
-                options.append(aug_options.get_options())
-            #print(f'Split file to {run} runs.')
-        else:
-            # create a file per job
-            minsize = size / jobs
-            written_sequences = fm.split(input_file, tmpdir, minsize)
-            for run in range(1, jobs+1):
-                curfile = create_split_filenanme(input_file, tmpdir, run)
-                outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
-                outfiles.append(outfile)
-                aug_options.set_input_filename(curfile)
-                aug_options.set_value('outfile', outfile)
-                if hintsfile:
-                    tmp_hintsfile = os.path.join(
-                        tmpdir, f'augustus_hints_{str(run)}.gff')
-                    gff.create_hint_parts(
-                        hintsfile, tmp_hintsfile, written_sequences[run])
-                    aug_options.set_value('hintsfile', tmp_hintsfile)
-                options.append(aug_options.get_options())
+        run_information = fm.split(
+            input_file, tmpdir, chunksize, overlap, minsize)
+
+        for ri in run_information:
+            runno = str(ri['run'])
+            fileidx = str(ri['fileidx'])
+            seqinfo = ri['seqinfo']
+            outfile = os.path.join(tmpdir, f'augustus_{runno}.gff')
+            outfiles.append(outfile)
+            curfile = create_split_filenanme(input_file, tmpdir, fileidx)
+            aug_options.set_input_filename(curfile)
+            aug_options.set_value('outfile', outfile)
+            if len(seqinfo) == 1 and list(seqinfo.values())[0][0] > 0 and list(seqinfo.values())[0][1] > 0:
+                aug_options.set_value(
+                    'predictionStart', list(seqinfo.values())[0][0])
+                aug_options.set_value('predictionEnd', list(seqinfo.values())[0][1])
+            if hintsfile and part_hints:
+                tmp_hintsfile = os.path.join(
+                    tmpdir, f'augustus_hints_{str(runno)}.gff')
+                gff.create_hint_parts(
+                    hintsfile, tmp_hintsfile, seqinfo)
+                aug_options.set_value('hintsfile', tmp_hintsfile)
+            options.append(aug_options.get_options())
 
         with ThreadPoolExecutor(max_workers=int(jobs)) as executor:
             for opt in options:

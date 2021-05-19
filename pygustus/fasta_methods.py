@@ -65,31 +65,100 @@ def update_values(file_sum, key, value):
     file_sum.update({key: cur_value + value})
 
 
-def split(inputfile, outputdir, minsize=0):
+def split(inputfile, outputdir, chunksize, overlap, minsize=0, maxsize=3000000):
     util.check_file(inputfile)
     util.rmtree_if_exists(outputdir, even_none_empty=True)
     util.mkdir_if_not_exists(outputdir)
 
     fileidx = 0
-    cursize = 0
+    run = 0
+    filesize = 0
     records_to_write = list()
     records = list(SeqIO.parse(inputfile, 'fasta'))
-    written_sequences = dict()
+    run_information = list()
 
     for seq_record in records:
-        cursize += len(seq_record)
-        records_to_write.append(seq_record)
-        if minsize == 0 or cursize >= minsize or seq_record.id == records[-1].id:
-            fileidx += 1
-            splitpath = util.create_split_filenanme(
-                inputfile, outputdir, fileidx)
-            SeqIO.write(records_to_write, splitpath, 'fasta')
-            cursize = 0
-            written_sequences.update(
-                {fileidx: {x.id: [0, 0] for x in records_to_write}})
-            records_to_write.clear()
+        seqsize = len(seq_record)
 
-    return written_sequences
+        if seqsize > maxsize:
+            if len(records_to_write) > 0:
+                fileidx += 1
+                run += 1
+                run_information.append(
+                    {
+                        'run': run,
+                        'fileidx': fileidx,
+                        'seqinfo': {x.id: [0, 0] for x in records_to_write}
+                    })
+                write_file(records_to_write, inputfile, outputdir, fileidx)
+                filesize = 0
+
+            fileidx += 1
+            write_file([seq_record], inputfile, outputdir, fileidx)
+            seq_size = get_sequence_size(inputfile)
+            if chunksize == 0:
+                chunksize = 2500000
+            if chunksize > 3500000:
+                chunksize = 3500000
+            if overlap == 0:
+                overlap = int(chunksize / 6)
+            chunks = list()
+            go_on = True
+            while go_on:
+                if len(chunks) == 0:
+                    chunks.append([1, chunksize])
+                else:
+                    last_start, last_end = chunks[-1]
+                    start = last_end + 1 - overlap
+                    end = start + chunksize - 1
+                    if end >= seq_size:
+                        end = seq_size
+                        go_on = False
+                    chunks.append([start, end])
+            for c in chunks:
+                run += 1
+                run_information.append(
+                    {
+                        'run': run,
+                        'fileidx': fileidx,
+                        'seqinfo': {seq_record.id: [c[0], c[1]]}
+                    })
+
+        elif minsize == 0 or filesize + seqsize >= minsize or seq_record.id == records[-1].id:
+            records_to_write.append(seq_record)
+            fileidx += 1
+            run += 1
+            run_information.append(
+                {
+                    'run': run,
+                    'fileidx': fileidx,
+                    'seqinfo': {x.id: [0, 0] for x in records_to_write}
+                })
+            write_file(records_to_write, inputfile, outputdir, fileidx)
+            filesize = 0
+        else:
+            records_to_write.append(seq_record)
+            filesize += seqsize
+
+        # records_to_write.append(seq_record)
+        # if minsize == 0 or filesize >= minsize or seq_record.id == records[-1].id:
+        #     fileidx += 1
+        #     splitpath = util.create_split_filenanme(
+        #         inputfile, outputdir, fileidx)
+        #     SeqIO.write(records_to_write, splitpath, 'fasta')
+        #     filesize = 0
+        #     written_sequences.update(
+        #         {fileidx: {x.id: [0, 0] for x in records_to_write}})
+        #     records_to_write.clear()
+
+    return run_information
+
+
+def write_file(records_to_write, inputfile, outputdir, fileidx):
+    splitpath = util.create_split_filenanme(
+        inputfile, outputdir, fileidx)
+    SeqIO.write(records_to_write, splitpath, 'fasta')
+    records_to_write.clear()
 
 
 def get_sequence_count(inputfile):
