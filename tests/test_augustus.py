@@ -4,6 +4,8 @@ import shutil
 from pygustus import *
 import pygustus.aug_out_filter as afilter
 import pygustus.aug_comparator as comp
+import wget
+import tarfile
 
 # TODO: [GH-Actions] upload generated html diff??
 
@@ -209,3 +211,33 @@ def test_augustus_parallel_large_sequence_partition_hints():
     diff = comp.compare_files(
         out_augustus, out_augustus_joined, html=True, outputfolder=out_html)
     assert diff == ''
+
+
+@pytest.mark.expensive
+def test_chlamy_parallel():
+    datadir = 'tests/data'
+    testdir = os.path.join(datadir, 'chlamy')
+
+    if not os.path.exists(testdir):
+        data_url = 'http://augustus.uni-greifswald.de/bioinf/downloads/data/chlamy/chlamy.tgz'
+        data_file = os.path.join(datadir, 'chlamy.tgz')
+        wget.download(data_url, out=data_file)
+
+        data_tar = tarfile.open(data_file)
+        data_tar.extractall(datadir)
+        data_tar.close()
+        os.remove(data_file)
+
+    outdir = os.path.join(
+        'tests/out', test_chlamy_parallel.__name__)
+    out_augustus_joined_tmp = os.path.join(outdir, 'augustus_joined_tmp.gff')
+    if (os.path.exists(outdir)):
+        shutil.rmtree(outdir)
+    os.makedirs(outdir)
+
+    options = {'species': 'chlamy2011', 'softmasking': True, 'chunksize': 2000000, 'overlap': 350000,
+               'minSplitSize': 1000000, 'hintsfile': 'tests/data/chlamy/hints.gff',
+               'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
+
+    augustus.predict('tests/data/chlamy/genome.fa', **options,
+                     outfile=out_augustus_joined_tmp, jobs=8)
