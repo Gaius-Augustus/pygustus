@@ -44,10 +44,13 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
             curfile = create_split_filenanme(input_file, tmpdir, fileidx)
             aug_options.set_input_filename(curfile)
             aug_options.set_value('outfile', outfile)
+            aug_options.remove('predictionStart')
+            aug_options.remove('predictionEnd')
             if len(seqinfo) == 1 and list(seqinfo.values())[0][0] > 0 and list(seqinfo.values())[0][1] > 0:
                 aug_options.set_value(
                     'predictionStart', list(seqinfo.values())[0][0])
-                aug_options.set_value('predictionEnd', list(seqinfo.values())[0][1])
+                aug_options.set_value(
+                    'predictionEnd', list(seqinfo.values())[0][1])
             if hintsfile and part_hints:
                 tmp_hintsfile = os.path.join(
                     tmpdir, f'augustus_hints_{str(runno)}.gff')
@@ -60,7 +63,14 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
             for opt in options:
                 executor.submit(execute_bin, cmd, opt)
 
+        # TODO: create debug output
+        # for o in options:
+        #     print(o)
+
         gff.join_aug_pred(joined_outfile, outfiles)
+
+        # for testing purposes
+        shutil.copytree(src=tmpdir, dst='tests/tmp')
 
 
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):

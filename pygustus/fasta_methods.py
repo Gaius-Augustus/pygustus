@@ -95,7 +95,6 @@ def split(inputfile, outputdir, chunksize, overlap, minsize=0, maxsize=3000000):
 
             fileidx += 1
             write_file([seq_record], inputfile, outputdir, fileidx)
-            seq_size = get_sequence_size(inputfile)
             if chunksize == 0:
                 chunksize = 2500000
             if chunksize > 3500000:
@@ -111,8 +110,8 @@ def split(inputfile, outputdir, chunksize, overlap, minsize=0, maxsize=3000000):
                     last_start, last_end = chunks[-1]
                     start = last_end + 1 - overlap
                     end = start + chunksize - 1
-                    if end >= seq_size:
-                        end = seq_size
+                    if end >= seqsize:
+                        end = seqsize
                         go_on = False
                     chunks.append([start, end])
             for c in chunks:
