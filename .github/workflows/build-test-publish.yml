@@ -33,6 +33,7 @@ jobs:
         python -m pip install mkdocs
         python -m pip install flake8
         python -m pip install biopython
+        python -m pip install wget
         sudo apt install augustus
     - name: Lint with flake8
       if: ${{ github.event_name != 'release' }}
