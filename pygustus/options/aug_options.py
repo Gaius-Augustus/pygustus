@@ -118,6 +118,10 @@ class AugustusOptions:
     def get_value_or_none(self, name):
         return self._options.get(name)
 
+    def remove(self, name):
+        if name in self._options:
+            del self._options[name]
+
     def get_options(self):
         opts = []
         for option, value in self._options.items():
@@ -159,5 +163,5 @@ class AugustusOptions:
         if len(self._args) == 1:
             self._args[0] = name
         else:
-            #TODO: throw an error?
+            # TODO: throw an error?
             print('Could not set filename!')
