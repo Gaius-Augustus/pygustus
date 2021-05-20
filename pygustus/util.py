@@ -70,7 +70,7 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
         gff.join_aug_pred(joined_outfile, outfiles)
 
         # for testing purposes
-        shutil.copytree(src=tmpdir, dst='tests/tmp')
+        # shutil.copytree(src=tmpdir, dst='tests/tmp')
 
 
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
