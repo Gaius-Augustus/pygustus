@@ -58,7 +58,7 @@ allowed_parameters = [
     {
         NAME: 'minSplitSize',
         DEVELOPMENT: False,
-        TYPE: TYPE_BOOL,
+        TYPE: TYPE_INT,
         USAGE: 'minSplitSize=n',
         DEFAULT: 0,
         DESCRIPTION: 'The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files',

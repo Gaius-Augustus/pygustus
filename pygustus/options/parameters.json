@@ -1273,7 +1273,7 @@
     {
         "name": "minSplitSize",
         "development": false,
-        "type": "bool",
+        "type": "int",
         "usage": "minSplitSize=n",
         "default_value": 0,
         "description": "The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files",
