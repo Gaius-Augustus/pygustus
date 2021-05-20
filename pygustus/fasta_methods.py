@@ -140,17 +140,6 @@ def split(inputfile, outputdir, chunksize, overlap, minsize=0, maxsize=3000000):
             records_to_write.append(seq_record)
             filesize += seqsize
 
-        # records_to_write.append(seq_record)
-        # if minsize == 0 or filesize >= minsize or seq_record.id == records[-1].id:
-        #     fileidx += 1
-        #     splitpath = util.create_split_filenanme(
-        #         inputfile, outputdir, fileidx)
-        #     SeqIO.write(records_to_write, splitpath, 'fasta')
-        #     filesize = 0
-        #     written_sequences.update(
-        #         {fileidx: {x.id: [0, 0] for x in records_to_write}})
-        #     records_to_write.clear()
-
     return run_information
 
 
