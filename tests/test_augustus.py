@@ -235,8 +235,8 @@ def test_chlamy_parallel():
         shutil.rmtree(outdir)
     os.makedirs(outdir)
 
-    options = {'species': 'chlamy2011', 'softmasking': True, 'chunksize': 2000000, 'overlap': 350000,
-               'minSplitSize': 1000000, 'hintsfile': 'tests/data/chlamy/hints.gff',
+    options = {'species': 'chlamy2011', 'softmasking': True, 'chunksize': 250000, 'overlap': 50000,
+               'minSplitSize': 1000000, 'hintsfile': 'tests/data/chlamy/hints.gff', 'UTR': True,
                'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
 
     augustus.predict('tests/data/chlamy/genome.fa', **options,
