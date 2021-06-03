@@ -11,7 +11,7 @@ import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
 
 
-def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints, minsize):
+def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_sequences, part_hints, minsize):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
     input_file = aug_options.get_input_filename()[1]
@@ -22,6 +22,8 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
         chunksize = 0
     if not overlap:
         overlap = 0
+    if not partition_sequences:
+        partition_sequences = False
     if not part_hints:
         part_hints = False
     if not minsize:
@@ -33,7 +35,7 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, part_hints,
         hintsfile = aug_options.get_value_or_none('hintsfile')
 
         run_information = fm.split(
-            input_file, tmpdir, chunksize, overlap, minsize)
+            input_file, tmpdir, chunksize, overlap, partition_sequences, minsize)
 
         for ri in run_information:
             runno = str(ri['run'])

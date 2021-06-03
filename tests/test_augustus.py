@@ -154,7 +154,7 @@ def test_augustus_parallel_large_sequence_hints():
     out_augustus = os.path.join(outdir, 'aug.nasonia.hints.joined.gff')
     out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
     options = {'species': 'nasonia', 'softmasking': True, 'chunksize': 3500000, 'overlap': 700000,
-               'hintsfile': 'tests/data/chr2L/hints.gff',
+               'hintsfile': 'tests/data/chr2L/hints.gff', 'partitionLargeSeqeunces': True,
                'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
     if (os.path.exists(outdir)):
         shutil.rmtree(outdir)
@@ -190,6 +190,7 @@ def test_augustus_parallel_large_sequence_partition_hints():
     out_augustus_joined = os.path.join(outdir, 'augustus_joined.gff')
     options = {'species': 'nasonia', 'softmasking': True, 'chunksize': 3500000, 'overlap': 700000,
                'hintsfile': 'tests/data/chr2L/hints.gff', 'partitionHints': True,
+               'partitionLargeSeqeunces': True,
                'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
     if (os.path.exists(outdir)):
         shutil.rmtree(outdir)
@@ -235,7 +236,7 @@ def test_chlamy_parallel():
         shutil.rmtree(outdir)
     os.makedirs(outdir)
 
-    options = {'species': 'chlamy2011', 'softmasking': True, 'chunksize': 250000, 'overlap': 50000,
+    options = {'species': 'chlamy2011', 'softmasking': True, 'partitionLargeSeqeunces': False,
                'minSplitSize': 1000000, 'hintsfile': 'tests/data/chlamy/hints.gff', 'UTR': True,
                'extrinsicCfgFile': 'tests/data/config/extrinsic/extrinsic.M.RM.E.W.cfg'}
 

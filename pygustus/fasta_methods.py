@@ -65,7 +65,7 @@ def update_values(file_sum, key, value):
     file_sum.update({key: cur_value + value})
 
 
-def split(inputfile, outputdir, chunksize, overlap, minsize=0, maxsize=3000000):
+def split(inputfile, outputdir, chunksize, overlap, partition_sequences, minsize=0, maxsize=3000000):
     util.check_file(inputfile)
     util.rmtree_if_exists(outputdir, even_none_empty=True)
     util.mkdir_if_not_exists(outputdir)
@@ -95,34 +95,42 @@ def split(inputfile, outputdir, chunksize, overlap, minsize=0, maxsize=3000000):
 
             fileidx += 1
             write_file([seq_record], inputfile, outputdir, fileidx)
-            if chunksize == 0:
-                chunksize = 2500000
-            if chunksize > 3500000:
-                chunksize = 3500000
-            if overlap == 0:
-                overlap = int(chunksize / 6)
-            chunks = list()
-            go_on = True
-            while go_on:
-                if len(chunks) == 0:
-                    chunks.append([1, chunksize])
-                else:
-                    last_start, last_end = chunks[-1]
-                    start = last_end + 1 - overlap
-                    end = start + chunksize - 1
-                    if end >= seqsize:
-                        end = seqsize
-                        go_on = False
-                    chunks.append([start, end])
-            for c in chunks:
+            if partition_sequences:
+                if chunksize == 0:
+                    chunksize = 2500000
+                if chunksize > 3500000:
+                    chunksize = 3500000
+                if overlap == 0:
+                    overlap = int(chunksize / 6)
+                chunks = list()
+                go_on = True
+                while go_on:
+                    if len(chunks) == 0:
+                        chunks.append([1, chunksize])
+                    else:
+                        last_start, last_end = chunks[-1]
+                        start = last_end + 1 - overlap
+                        end = start + chunksize - 1
+                        if end >= seqsize:
+                            end = seqsize
+                            go_on = False
+                        chunks.append([start, end])
+                for c in chunks:
+                    run += 1
+                    run_information.append(
+                        {
+                            'run': run,
+                            'fileidx': fileidx,
+                            'seqinfo': {seq_record.id: [c[0], c[1]]}
+                        })
+            else:
                 run += 1
                 run_information.append(
                     {
                         'run': run,
                         'fileidx': fileidx,
-                        'seqinfo': {seq_record.id: [c[0], c[1]]}
+                        'seqinfo': {seq_record.id: [0, 0]}
                     })
-
         elif minsize == 0 or filesize + seqsize >= minsize or seq_record.id == records[-1].id:
             records_to_write.append(seq_record)
             fileidx += 1
