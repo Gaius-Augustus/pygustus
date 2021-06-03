@@ -74,6 +74,15 @@ allowed_parameters = [
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
+        NAME: 'debugOutputDir',
+        DEVELOPMENT: False,
+        TYPE: TYPE_STRING,
+        USAGE: 'debugOutputDir=path/to/dir',
+        DEFAULT: None,
+        DESCRIPTION: 'Parallelize large sequences by automatically setting the AUGUSTUS parameters predictionStart and predictionEnd based on the given values for chunksize and overlap.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
         NAME: 'species',
         DEVELOPMENT: False,
         TYPE: TYPE_STRING,

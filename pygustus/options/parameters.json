@@ -1077,6 +1077,18 @@
         "description": ""
     },
     {
+        "name": "debugOutputDir",
+        "development": false,
+        "type": "string",
+        "usage": "debugOutputDir=path/to/dir",
+        "default_value": null,
+        "description": "Parallelize large sequences by automatically setting the AUGUSTUS parameters predictionStart and predictionEnd based on the given values for chunksize and overlap.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
+    },
+    {
         "name": "emiprobs",
         "development": true,
         "description": ""
