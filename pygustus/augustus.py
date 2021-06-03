@@ -43,6 +43,7 @@ def predict(*args, options=None, **kwargs):
     partition_hints = pygustus_options.get_value_or_none('partitionHints')
     minsize = pygustus_options.get_value_or_none('minSplitSize')
     partition_sequences = pygustus_options.get_value_or_none('partitionLargeSeqeunces')
+    debug_dir = pygustus_options.get_value_or_none('debugOutputDir')
 
     # check input file
     zip = False
@@ -66,7 +67,7 @@ def predict(*args, options=None, **kwargs):
 
     if jobs:
         util.execute_bin_parallel(
-            augustus_command, aug_options, jobs, chunksize, overlap, partition_sequences, partition_hints, minsize)
+            augustus_command, aug_options, jobs, chunksize, overlap, partition_sequences, partition_hints, minsize, debug_dir)
     else:
         util.execute_bin(augustus_command, aug_options.get_options())
 

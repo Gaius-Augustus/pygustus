@@ -11,7 +11,7 @@ import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
 
 
-def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_sequences, part_hints, minsize):
+def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_sequences, part_hints, minsize, debug_dir):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
     input_file = aug_options.get_input_filename()[1]
@@ -28,6 +28,8 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
         part_hints = False
     if not minsize:
         minsize = 0
+    if not debug_dir:
+        debug_dir = None
 
     options = list()
     outfiles = list()
@@ -65,14 +67,15 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
             for opt in options:
                 executor.submit(execute_bin, cmd, opt)
 
-        # TODO: create debug output
-        # for o in options:
-        #     print(o)
-
         gff.join_aug_pred(joined_outfile, outfiles)
 
-        # for testing purposes
-        # shutil.copytree(src=tmpdir, dst='tests/tmp')
+        if debug_dir:
+            rmtree_if_exists(debug_dir, even_none_empty=True)
+            shutil.copytree(src=tmpdir, dst=debug_dir)
+            cmd_filename = os.path.join(debug_dir, 'aug_cmd_lines.txt')
+            with open(cmd_filename, "w") as file:
+                for o in options:
+                    file.write(str(o) + '\n' + '\n')
 
 
 def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
