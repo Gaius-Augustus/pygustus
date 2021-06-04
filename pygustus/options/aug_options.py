@@ -141,14 +141,7 @@ class AugustusOptions:
         return optstr
 
     def load_options(self):
-        with open(self._parameter_file, 'r') as file:
-            options = json.load(file)
-
-        for o in options:
-            option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
-                'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
-
-            self._allowed_options.update({option.get_name(): option})
+        self._allowed_options = load_allowed_options(self._parameter_file)
 
     def get_input_filename(self):
         if len(self._args) == 1:
@@ -165,3 +158,24 @@ class AugustusOptions:
         else:
             # TODO: throw an error?
             print('Could not set filename!')
+
+
+def load_allowed_options(parameter_file, program=None):
+    allowed_options = dict()
+    with open(parameter_file, 'r') as file:
+        options = json.load(file)
+
+    for o in options:
+        option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
+            'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
+
+        if program == 'pygustus':
+            if 'augustus' in option.get_exclude() and 'etraining' in option.get_exclude():
+                allowed_options.update({option.get_name(): option})
+        elif program:
+            if not program in option.get_exclude():
+                allowed_options.update({option.get_name(): option})
+        else:
+            allowed_options.update({option.get_name(): option})
+
+    return allowed_options
