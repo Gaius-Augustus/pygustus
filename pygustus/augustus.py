@@ -3,15 +3,16 @@ A python wrapper for the gene prediction program AUGUSTUS.
 """
 
 from pkg_resources import resource_filename
-
-from pygustus.options.aug_options import *
+from pygustus.options import aug_options
 import pygustus.util as util
 import pygustus.fasta_methods as fm
 import gzip
 import os
+import textwrap
 
 __all__ = ['predict', 'config_get_bin',
-           'config_set_bin', 'config_set_default_bin', 'show_fasta_info']
+           'config_set_bin', 'config_set_default_bin', 'show_fasta_info',
+           'show_aug_help', 'show_aug_paramlist', 'show_species_info', 'help']
 
 
 PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
@@ -42,7 +43,8 @@ def predict(*args, options=None, **kwargs):
     overlap = pygustus_options.get_value_or_none('overlap')
     partition_hints = pygustus_options.get_value_or_none('partitionHints')
     minsize = pygustus_options.get_value_or_none('minSplitSize')
-    partition_sequences = pygustus_options.get_value_or_none('partitionLargeSeqeunces')
+    partition_sequences = pygustus_options.get_value_or_none(
+        'partitionLargeSeqeunces')
     debug_dir = pygustus_options.get_value_or_none('debugOutputDir')
 
     # check input file
@@ -119,3 +121,63 @@ def show_fasta_info(inputfile):
         inputfile (string): The file in fasta format.
     """
     fm.summarize_acgt_content(inputfile)
+
+
+def show_aug_help():
+    """
+    Shows the help output of AUGUSTUS.
+    """
+    predict('--help')
+
+
+def show_aug_paramlist():
+    """
+    Shows possible parameter names of AUGUSTUS.
+    """
+    predict('--paramlist')
+
+
+def show_species_info():
+    """
+    Shows species information of AUGUSTUS.
+    """
+    predict('--species=help')
+
+
+def help():
+    """
+    Shows usage information.
+    """
+
+    help_msg = """usage:
+augustus.predict(queryfilename, species='SPECIES', [augustus_parameters], [pygustus_parameters])
+
+'queryfilename' is the filename (including relative path) to the file
+containing the query sequence(s) in fasta format.
+
+SPECIES is an identifier for the species.
+Use augustus.show_species_info() to see a list.
+
+augustus_parameters are all possible parameters for AUGUSTUS.
+Use augustus.show_aug_help() to find more information or
+augustus.show_aug_paramlist() to see a list.
+
+pygustus_parameters:
+
+"""
+    pygustus_options = aug_options.load_allowed_options(
+        PARAMETER_FILE, program='pygustus')
+    for opt in pygustus_options.values():
+        help_msg += f'{opt.name} ({opt.type})\n'
+        if opt.description:
+            lines = textwrap.wrap(opt.description)
+            help_msg += '  description:\n'
+            for l in lines:
+                help_msg += f'    {l} \n'
+        if opt.possible_values:
+            help_msg += f'  possible values: {opt.possible_values} \n'
+        if opt.default_value:
+            help_msg += f'  default value: {opt.default_value} \n'
+        help_msg += '\n'
+
+    print(help_msg.rstrip())
