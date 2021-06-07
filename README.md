@@ -24,4 +24,6 @@ Pygustuts supports the training and prediction of AUGUSTUS. The prediction can b
 
 #### Multithreaded
 
+### Configuration
+
 ### Help
