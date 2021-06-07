@@ -14,4 +14,14 @@ More information can be found on the [AUGUSTUS GitHub page](https://github.com/G
 TODO
 
 ## Usage
-TODO
+Pygustuts supports the training and prediction of AUGUSTUS. The prediction can be executed either in a single thread or in parallel. In multithreaded execution, the input file is split into smaller pieces and AUGUSTUS is executed in parallel on partial inputs. Finally, the partial results are joined together.
+
+### Training
+
+### Prediction
+
+#### Default (Single Thread)
+
+#### Multithreaded
+
+### Help
