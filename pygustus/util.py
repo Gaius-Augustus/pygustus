@@ -78,7 +78,7 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
                     file.write(str(o) + '\n' + '\n')
 
 
-def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
+def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=None, mode='w'):
     # execute given binary with given options
 
     if std_out_file and error_out_file and mode:
@@ -110,13 +110,14 @@ def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=
         if len(output.strip()):
             print(output)
 
-    if print_err and process.stderr:
+    if show_err and process.stderr:
         error = process.stderr.read()
         if len(error.strip()):
             print(error)
 
     if rc != 0:
-        print(f'Unexpected returncode {rc}!')
+        raise RuntimeError(
+         f'Unexpected returncode {rc}!\n{error}')
 
 
 def check_bin(bin):
