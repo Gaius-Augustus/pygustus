@@ -79,7 +79,7 @@ allowed_parameters = [
         TYPE: TYPE_STRING,
         USAGE: 'debugOutputDir=path/to/dir',
         DEFAULT: None,
-        DESCRIPTION: 'Parallelize large sequences by automatically setting the AUGUSTUS parameters predictionStart and predictionEnd based on the given values for chunksize and overlap.',
+        DESCRIPTION: 'If the directory is specified, all generated files, i.e. the split of the input file and intermediate results, as well as the generated AUGUSTUS command lines are stored there. This option works only for the parallelization, i. e. jobs > 1 is set.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
