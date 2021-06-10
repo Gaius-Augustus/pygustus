@@ -81,6 +81,9 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
 def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=None, mode='w'):
     # execute given binary with given options
 
+    print(cmd)
+    print(options)
+    print('Start execution')
     if std_out_file and error_out_file and mode:
         with open(std_out_file, mode) as file:
             with open(error_out_file, mode) as errfile:
@@ -94,21 +97,15 @@ def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=N
             process = subprocess.Popen(
                 [cmd] + options,
                 stdout=file,
-                stderr=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
                 universal_newlines=True)
     else:
         process = subprocess.Popen(
             [cmd] + options,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             universal_newlines=True)
 
     rc = process.wait()
-
-    if not std_out_file:
-        output = process.stdout.read()
-        if len(output.strip()):
-            print(output)
 
     if show_err and process.stderr:
         error = process.stderr.read()
