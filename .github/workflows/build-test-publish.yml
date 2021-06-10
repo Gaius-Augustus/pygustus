@@ -10,6 +10,9 @@ on:
   release:
     types: [released, prereleased]
 
+env:
+  AUGUSTUS_CONFIG_PATH: /usr/share/augustus/config
+
 jobs:
   build-n-test:
 
