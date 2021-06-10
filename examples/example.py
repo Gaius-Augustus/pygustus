@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 from pygustus import augustus
+from pygustus import etraining
+
+import subprocess
 
 
 def run_augustus_help():
@@ -39,12 +42,18 @@ def show_fileinfo():
     augustus.show_fasta_info('../tests/data/example.fa')
 
 
+def run_training():
+    etraining.train('../tests/data/genes.gb.train',
+                    species='pygustus_test', softmasking=False)
+
+
 if __name__ == '__main__':
     # run_augustus_help()
     # change_bin()
     # run_augustus_simple()
     # change_bin_to_default()
-    # run_augustus_simple()
+    run_augustus_simple()
     # show_fileinfo()
     # run_augustus_parallel()
-    run_augustus_unique_geneid()
+    # run_augustus_unique_geneid()
+    # run_training()
