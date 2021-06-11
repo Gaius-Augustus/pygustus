@@ -6,24 +6,23 @@ import shutil
 
 
 @pytest.mark.ghactions
-def test_etraining():
+def test_etraining_new_species():
     test_species_name = 'pygustus_test_spec'
-    # create new species
-    config_dir = os.environ['AUGUSTUS_CONFIG_PATH']
-    path_list = config_dir.split('/')
-    path_list = path_list[1: len(path_list) - 2]
-    path_list.append('scripts')
-    script_dir = os.path.join('/', *path_list)
-    cmd = f'{script_dir}/new_species.pl'
+    test_config_dir = 'tests/data/config'
+    os.environ['AUGUSTUS_CONFIG_PATH'] = test_config_dir
+
+    # remove test species
+    species_dir = os.path.join(test_config_dir, 'species', test_species_name)
+    shutil.rmtree(species_dir)
+
+    # create species
+    cmd = 'tests/data/scripts/new_species.pl'
     options = [f'--species={test_species_name}']
     util.execute_bin(cmd, options)
 
+    # execute training for new species
     etraining.train('tests/data/genes.gb.train',
                     species=test_species_name, softmasking=False)
-
-    # remove test species
-    species_dir = os.path.join(config_dir, 'species', test_species_name)
-    shutil.rmtree(species_dir)
 
 
 @pytest.mark.ghactions
