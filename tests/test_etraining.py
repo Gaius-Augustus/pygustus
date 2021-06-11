@@ -11,9 +11,10 @@ def test_etraining_new_species():
     test_config_dir = 'tests/data/config'
     os.environ['AUGUSTUS_CONFIG_PATH'] = test_config_dir
 
-    # remove test species
+    # remove test species if exists
     species_dir = os.path.join(test_config_dir, 'species', test_species_name)
-    shutil.rmtree(species_dir)
+    if os.path.exists(species_dir):
+        shutil.rmtree(species_dir)
 
     # create species
     cmd = 'tests/data/scripts/new_species.pl'
