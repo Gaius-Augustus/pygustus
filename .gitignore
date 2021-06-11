@@ -137,3 +137,6 @@ tests/out/
 # big test data
 tests/data/chlamy/
 tests/data/chlamy.*
+
+# generated training data
+tests/data/config/species/pygustus_test_spec/
