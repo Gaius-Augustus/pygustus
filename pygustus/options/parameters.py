@@ -34,7 +34,7 @@ allowed_parameters = [
         TYPE: TYPE_INT,
         USAGE: 'chunksize=n',
         DEFAULT: 0,
-        DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of size n.',
+        DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of the maximum size n.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {

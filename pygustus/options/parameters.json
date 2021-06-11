@@ -995,7 +995,7 @@
         "type": "int",
         "usage": "chunksize=n",
         "default_value": 0,
-        "description": "If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of size n.",
+        "description": "If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of the maximum size n.",
         "exclude_apps": [
             "augustus",
             "etraining"
