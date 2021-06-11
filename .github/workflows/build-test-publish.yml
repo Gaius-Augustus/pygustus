@@ -30,7 +30,7 @@ jobs:
         python -m pip install setuptools wheel
         python -m pip install -U pytest
         python -m pip install 'pydoc-markdown>=3.0.0,<4.0.0'
-        python -m pip install mkdocs
+        python -m pip install 'mkdocs==1.1.2'
         python -m pip install flake8
         python -m pip install biopython
         python -m pip install wget
