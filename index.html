@@ -55,6 +55,22 @@
     <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#training">Training</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#prediction">Prediction</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#default-single-thread">Default (Single Thread)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#multithreaded">Multithreaded</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#help">Help</a>
+    </li>
+        </ul>
     </li>
     </ul>
                     </li>
@@ -106,7 +122,93 @@
 <h2 id="installation">Installation</h2>
 <p>TODO</p>
 <h2 id="usage">Usage</h2>
-<p>TODO</p>
+<p>Pygustuts supports the training and prediction of AUGUSTUS. The prediction can be executed either in a single thread or in parallel. In multithreaded execution, the input file is split into smaller pieces and AUGUSTUS is executed in parallel on partial inputs. Finally, the partial results are joined together.</p>
+<p>As values of the parameters for all Pygustus programs only the Python types are permissible.</p>
+<h3 id="training">Training</h3>
+<p>To train AUGUSTUS, the etraining program was adopted in Pygustus. More information about the program can be found <a href="https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#retraining-augustus">here</a>. The usage in Pygustus is as follows.</p>
+<pre><code>from pygustus import etraining
+
+etraining.train('path/to/trainfilename',  species='SPECIES')
+</code></pre>
+<p>The species to be trained must be present in the config folder of AUGUSTUS (see also AUGUSTUS_CONFIG_PATH). To create a new species, the Pearl script <code>new_species.pl</code> from the script folder of AUGUSTUS can be used.</p>
+<p>If the path to the etraining executable is to be specified temporarily, the Pygustus parameter <code>path_to_binary=path/to/etraining</code> can be used.</p>
+<h3 id="prediction">Prediction</h3>
+<p>To run a prediction AUGUSTUS can be executed on the input file as usual or the input file can be split and AUGUSTUS is run on input parts in parallel. For the second variant the Pygustus parameter <code>jobs=n</code> must be set with <code>n &gt; 1</code>.</p>
+<h4 id="default-single-thread">Default (Single Thread)</h4>
+<p>If the prediction is started without the Pygustus parameter <code>jobs=n</code> or with <code>n == 1</code>, AUGUSTUS is executed on the input file exactly as if one would start AUGUSTUS from the console. Usage example:</p>
+<pre><code>from pygustus import augustus
+
+augustus.predict('path/to/input/file', species='human',
+                    UTR=True, softmasking=False)
+</code></pre>
+<p>To redirect the output to a file the AUGUSTUS parameters <code>outfile</code> and <code>errfile</code> can be used. Application example for the output of the prediction and the possible errors that occurred </p>
+<pre><code>augustus.predict('path/to/input/file', species='human',
+                UTR=True, softmasking=False
+                outfile='out.gff', errfile='out.err')
+</code></pre>
+<p>If the path to the AUGUSTUS executable is to be specified temporarily, the Pygustus parameter <code>path_to_binary=path/to/augustus</code> can be used.</p>
+<h4 id="multithreaded">Multithreaded</h4>
+<p>If the Pygustus parameter <code>jobs=n</code> is set with <code>n &gt; 1</code>, then the input file is split into several small files and Augustus is run in parallel for each file with the given parameters. After AUGUSTUS has been executed on all parts, the partial results are combined to the final result. A usage example is shown below.</p>
+<pre><code>from pygustus import augustus
+
+augustus.predict('path/to/input/file', [augustus_parameters],
+                    [pygustus_parameters], jobs=n)
+</code></pre>
+<p>All parameters permitted for AUGUSTUS can be used as augustus_parameters. The following parameters for Pygustus are available.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>jobs (int)</td>
+<td>1</td>
+<td>If this option is set, AUGUSTUS is executed in parallel on sequence segments or split input files using n jobs. After the execution of all jobs, the output files are merged.</td>
+</tr>
+<tr>
+<td>chunksize (int)</td>
+<td>0</td>
+<td>If this option is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of the maximum size <code>n</code>.</td>
+</tr>
+<tr>
+<td>overlap (int)</td>
+<td>0</td>
+<td>If this option is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of size <code>chunksize</code> and the segments overlap by <code>n</code>.</td>
+</tr>
+<tr>
+<td>partitionHints (bool)</td>
+<td>False</td>
+<td>If this option is set to True, a hints file is given and <code>jobs &gt; 1</code>, then the hints file is split into appropriate pieces for the respective AUGUSTUS jobs.</td>
+</tr>
+<tr>
+<td>minSplitSize (int)</td>
+<td>0</td>
+<td>The input fasta file is spilt to at least <code>minSplitSize=n</code> base pairs. Set this to 0 to split the input in single sequence files.</td>
+</tr>
+<tr>
+<td>partitionLargeSeqeunces (bool)</td>
+<td>False</td>
+<td>Parallelize large sequences by automatically setting the AUGUSTUS parameters <code>predictionStart</code> and <code>predictionEnd</code> based on the given values for <code>chunksize</code> and <code>overlap</code>.</td>
+</tr>
+<tr>
+<td>debugOutputDir (string)</td>
+<td>None</td>
+<td>If the directory is specified, all generated files, i.e. the split of the input file and intermediate results, as well as the generated AUGUSTUS command lines are stored there. This option works only for the parallelization, i. e. <code>jobs &gt; 1</code> is set.</td>
+</tr>
+<tr>
+<td>path_to_bin (string)</td>
+<td>None</td>
+<td>Sets the path to the desired executable version of AUGUSTUS when <code>augustus.predict()</code> is called or etraining when <code>etraining.train()</code> is called. The path is not saved for further executions.</td>
+</tr>
+</tbody>
+</table>
+<p>To redirect the output to a file the AUGUSTUS parameters <code>outfile</code> and <code>errfile</code> can be used as for the default case.</p>
+<h3 id="configuration">Configuration</h3>
+<h3 id="help">Help</h3>
               
             </div>
           </div>
@@ -160,5 +262,5 @@
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-06-04 09:58:11.232845+00:00
+Build Date UTC : 2021-06-11 14:27:20.586698+00:00
 -->
