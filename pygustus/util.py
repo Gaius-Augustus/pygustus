@@ -114,7 +114,7 @@ def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=N
 
     if rc != 0:
         raise RuntimeError(
-         f'Unexpected returncode {rc}!\n{error}')
+         f'Unexpected returncode {rc}!')
 
 
 def check_bin(bin):
