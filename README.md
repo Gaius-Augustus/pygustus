@@ -27,6 +27,8 @@ To train AUGUSTUS, the etraining program was adopted in Pygustus. More informati
 
 The species to be trained must be present in the config folder of AUGUSTUS (see also AUGUSTUS_CONFIG_PATH). To create a new species, the Pearl script `new_species.pl` from the script folder of AUGUSTUS can be used.
 
+If the path to the etraining executable is to be specified temporarily, the Pygustus parameter `path_to_binary=path/to/etraining` can be used.
+
 ### Prediction
 To run a prediction AUGUSTUS can be executed on the input file as usual or the input file can be split and AUGUSTUS is run on input parts in parallel. For the second variant the Pygustus parameter `jobs=n` must be set with `n > 1`.
 
@@ -43,6 +45,8 @@ To redirect the output to a file the AUGUSTUS parameters `outfile` and `errfile`
     augustus.predict('path/to/input/file', species='human',
                      UTR=True, softmasking=False
                      outfile='out.gff', errfile='out.err')
+
+If the path to the AUGUSTUS executable is to be specified temporarily, the Pygustus parameter `path_to_binary=path/to/augustus` can be used.
 
 #### Multithreaded
 
