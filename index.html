@@ -67,6 +67,14 @@
         </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#configuration">Configuration</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#read-the-configured-path">Read the configured path</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#update-the-path-to-the-binary">Update the path to the binary</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#set-the-default-binary">Set the default binary</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#help">Help</a>
     </li>
@@ -208,7 +216,56 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 </table>
 <p>To redirect the output to a file the AUGUSTUS parameters <code>outfile</code> and <code>errfile</code> can be used as for the default case.</p>
 <h3 id="configuration">Configuration</h3>
+<p>The paths to the <code>augustus</code> and <code>etraining</code> binaries be configured. This path is only used if the Pygustus parameter <code>path_to_bin</code> is not specified. This configuration is saved until the next change. The configuration is identical for <code>pygustus.etraining</code> and <code>pygustus.augustus</code>, so that the following example is restricted to <code>pygustus.augustus</code>.</p>
+<h4 id="read-the-configured-path">Read the configured path</h4>
+<p>To get the the currently configured path to the executable of AUGUSTUS you can proceed as follows.</p>
+<pre><code>from pygustus import augustus
+
+augustus.config_get_bin()
+</code></pre>
+<h4 id="update-the-path-to-the-binary">Update the path to the binary</h4>
+<p>To update the currently configured path to the executable of AUGUSTUS you can proceed as follows.</p>
+<pre><code>augustus.config_set_bin(path/to/augustus)
+</code></pre>
+<h4 id="set-the-default-binary">Set the default binary</h4>
+<p>To set the default binary you can proceed as follows.</p>
+<pre><code>augustus.config_set_default_bin()
+</code></pre>
+<p>This method sets the configured path to the AUGUSTUS executable to <code>augustus</code>. This should exist if AUGUSTUS is properly installed on the system.</p>
+<p>As mentioned earlier, the configured path can be overridden by specifying the Pygustus parameter <code>path_to_bin</code> for the current prediction with augustus or the current training with etraining.</p>
 <h3 id="help">Help</h3>
+<p>To have easy access to the AUGUSTUS and Pygustus help system, the following methods are available.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>help()</td>
+<td>Shows usage information about the Pygustus wrapper and its parameters.</td>
+</tr>
+<tr>
+<td>show_aug_help()</td>
+<td>Shows the help output of AUGUSTUS, equivalent to the AUGUSTUS call with the parameter <code>--help</code>.</td>
+</tr>
+<tr>
+<td>show_aug_paramlist()</td>
+<td>Shows all possible parameter names of AUGUSTUS, equivalent to the AUGUSTUS call with the parameter <code>--paramlist</code>.</td>
+</tr>
+<tr>
+<td>show_species_info()</td>
+<td>Shows species information of AUGUSTUS, equivalent to the AUGUSTUS call with the parameter <code>--species=help</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Usage example</p>
+<pre><code>from pygustus import augustus
+
+augustus.help()
+</code></pre>
               
             </div>
           </div>
@@ -262,5 +319,5 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-06-11 14:27:20.586698+00:00
+Build Date UTC : 2021-06-14 14:03:59.012750+00:00
 -->
