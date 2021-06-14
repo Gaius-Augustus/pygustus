@@ -72,5 +72,27 @@ path_to_bin (string) | None | Sets the path to the desired executable version of
 To redirect the output to a file the AUGUSTUS parameters `outfile` and `errfile` can be used as for the default case.
 
 ### Configuration
+The paths to the `augustus` and `etraining` binaries be configured. This path is only used if the Pygustus parameter `path_to_bin` is not specified. This configuration is saved until the next change. The configuration is identical for `pygustus.etraining` and `pygustus.augustus`, so that the following example is restricted to `pygustus.augustus`.
+
+#### Read the configured path
+To get the the currently configured path to the executable of AUGUSTUS you can proceed as follows.
+~~~
+from pygustus import augustus
+
+augustus.config_get_bin()
+~~~
+
+#### Update the path to the binary
+To update the currently configured path to the executable of AUGUSTUS you can proceed as follows.
+~~~
+augustus.config_set_bin(path/to/augustus)
+~~~
+
+#### Set the default binary
+To set the default binary you can proceed as follows.
+~~~
+augustus.config_set_default_bin()
+~~~
+This method sets the configured path to the AUGUSTUS executable to `augustus`. This should exist if AUGUSTUS is properly installed on the system.
 
 ### Help
