@@ -95,4 +95,21 @@ augustus.config_set_default_bin()
 ~~~
 This method sets the configured path to the AUGUSTUS executable to `augustus`. This should exist if AUGUSTUS is properly installed on the system.
 
+As mentioned earlier, the configured path can be overridden by specifying the Pygustus parameter `path_to_bin` for the current prediction with augustus or the current training with etraining.
+
 ### Help
+To have easy access to the AUGUSTUS and Pygustus help system, the following methods are available.
+
+| Method | Description |
+| ------ | ----------- |
+| help() | Shows usage information about the Pygustus wrapper and its parameters. |
+| show_aug_help() | Shows the help output of AUGUSTUS, equivalent to the AUGUSTUS call with the parameter `--help`.|
+| show_aug_paramlist() | Shows all possible parameter names of AUGUSTUS, equivalent to the AUGUSTUS call with the parameter `--paramlist`.|
+| show_species_info() | Shows species information of AUGUSTUS, equivalent to the AUGUSTUS call with the parameter `--species=help`.|
+
+Usage example
+~~~
+from pygustus import augustus
+
+augustus.help()
+~~~
