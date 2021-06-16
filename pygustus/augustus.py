@@ -22,7 +22,18 @@ def predict(*args, options=None, **kwargs):
     """
     Executes AUGUSTUS and passes the given parameters as command line arguments.
 
-    TODO: parameter descritption
+    Parameters
+    ----------
+    *args: tuple
+        Exactly one argument should be passed here. Either the queryfilename
+        or one of the help calls of AUGUSTUS (--help, --pramlist).
+    options: AugustusOptions, optional
+        If an instance of AugustusOptions is passed, it will be used for the
+        call. Otherwise, a new instance is created based on the passed arguments.
+        (the default is None)
+    **kwargs: dict
+        Arguments for AUGUSTUS or Pygustus: refer the documentation for a list
+        of all possible arguments.
     """
 
     pygustus_options = util.get_options(
@@ -82,7 +93,9 @@ def config_get_bin():
     Reads the currently configured path to the executable of AUGUSTUS
     and returns it.
 
-    Returns:
+    Returns
+    -------
+    string
         The currently configured path to the executable of AUGUSTUS.
     """
     return util.get_config_item('augustus_bin')
@@ -93,12 +106,15 @@ def config_set_bin(value):
     Updates the configured path to the executable of AUGUSTUS
     with the given value.
 
-    Args:
-        value (string): The path to the execuatble of AUGUSTUS.
+    Parameters
+    ----------
+    value: string
+        The path to the execuatble of AUGUSTUS.
 
-    Raises:
-        RuntimeError: If the given path does not exist or the file is
-        not executable.
+    Raises
+    ------
+    RuntimeError
+        If the given path does not exist or the file is not executable.
     """
     util.check_bin(value)
     util.set_config_item('augustus_bin', value)
@@ -117,8 +133,10 @@ def show_fasta_info(inputfile):
     This method outputs information about the contents of the passed file
     in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.
 
-    Args:
-        inputfile (string): The file in fasta format.
+    Parameters
+    ----------
+    inputfile: string
+        The file in fasta format.
     """
     fm.summarize_acgt_content(inputfile)
 
