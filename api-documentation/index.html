@@ -114,46 +114,59 @@
 <h4 id="predict">predict</h4>
 <pre><code class="language-python">predict(*args, *, options=None, **kwargs)
 </code></pre>
-<p>Executes AUGUSTUS and passes the given parameters as command line arguments.</p>
-<p>TODO: parameter descritption</p>
+<p>Executes the binary of AUGUSTUS.</p>
+<p>For the execution the given parameters are passed as
+command line arguments.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>*args</code> <em>tuple</em> - Exactly one argument should be passed here.
+  Either the queryfilename or one of the help calls of
+  AUGUSTUS (--help, --pramlist).</li>
+<li><code>options</code> <em>AugustusOptions</em> - Optional; If an instance of AugustusOptions
+  is passed, it will be used for the call. Otherwise, a new instance
+  is created based on the passed arguments (the default is None).</li>
+<li><code>**kwargs</code> <em>dict</em> - Arguments for AUGUSTUS or Pygustus as dict: refer the
+  documentation for a list of all possible arguments.</li>
+</ul>
 <p><a name="pygustus.augustus.config_get_bin"></a></p>
 <h4 id="config_get_bin">config_get_bin</h4>
 <pre><code class="language-python">config_get_bin()
 </code></pre>
-<p>Reads the currently configured path to the executable of AUGUSTUS
-and returns it.</p>
+<p>Returns currently configured path to the executable of AUGUSTUS.</p>
 <p><strong>Returns</strong>:</p>
-<p>The currently configured path to the executable of AUGUSTUS.</p>
+<ul>
+<li><code>string</code> - The currently configured path to the executable of AUGUSTUS.</li>
+</ul>
 <p><a name="pygustus.augustus.config_set_bin"></a></p>
 <h4 id="config_set_bin">config_set_bin</h4>
 <pre><code class="language-python">config_set_bin(value)
 </code></pre>
-<p>Updates the configured path to the executable of AUGUSTUS
-with the given value.</p>
+<p>Updates the configured path to the executable of AUGUSTUS.</p>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>value</code> <em>string</em> - The path to the execuatble of AUGUSTUS.</li>
+<li><code>value</code> <em>string</em> - The path to the execuatble of AUGUSTUS as string.</li>
 </ul>
 <p><strong>Raises</strong>:</p>
 <ul>
-<li><code>RuntimeError</code> - If the given path does not exist or the file is
-  not executable.</li>
+<li><code>RuntimeError</code> - If the given path does not exist or the file
+  is not executable.</li>
 </ul>
 <p><a name="pygustus.augustus.config_set_default_bin"></a></p>
 <h4 id="config_set_default_bin">config_set_default_bin</h4>
 <pre><code class="language-python">config_set_default_bin()
 </code></pre>
-<p>Sets the configured path to the AUGUSTUS executable to 'augustus'.
-This should exist if AUGUSTUS is properly installed on the system.</p>
+<p>Sets the configured path to the AUGUSTUS executable to 'augustus'.</p>
+<p>This should exist if AUGUSTUS is properly installed on the system.</p>
 <p><a name="pygustus.augustus.show_fasta_info"></a></p>
 <h4 id="show_fasta_info">show_fasta_info</h4>
 <pre><code class="language-python">show_fasta_info(inputfile)
 </code></pre>
+<p>Outputs information about a fasta file.</p>
 <p>This method outputs information about the contents of the passed file
 in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
 <p><strong>Arguments</strong>:</p>
 <ul>
-<li><code>inputfile</code> <em>string</em> - The file in fasta format.</li>
+<li><code>inputfile</code> <em>string</em> - Path to the file in fasta format as string.</li>
 </ul>
 <p><a name="pygustus.augustus.show_aug_help"></a></p>
 <h4 id="show_aug_help">show_aug_help</h4>
@@ -183,36 +196,46 @@ in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
 <pre><code class="language-python">train(*args, *, options=None, **kwargs)
 </code></pre>
 <p>Executes etraining and passes the given parameters as command line arguments.</p>
-<p>TODO: parameter descritption</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>*args</code> <em>tuple</em> - Only the the queryfilename should be passed here.</li>
+<li><code>options</code> <em>AugustusOptions</em> - Optional; If an instance of
+  AugustusOptions is passed, it will be used for the call.
+  Otherwise, a new instance is created based on the passed arguments
+  (the default is None).</li>
+<li><code>**kwargs</code> <em>dict</em> - Arguments for Etraining or Pygustus: refer the
+  documentation for a list of all possible arguments.</li>
+</ul>
 <p><a name="pygustus.etraining.config_get_bin"></a></p>
 <h4 id="config_get_bin_1">config_get_bin</h4>
 <pre><code class="language-python">config_get_bin()
 </code></pre>
-<p>Reads the currently configured path to the executable of etraining
-and returns it.</p>
+<p>Outputs currently configured path to the executable of etraining.</p>
 <p><strong>Returns</strong>:</p>
-<p>The currently configured path to the executable of etraining.</p>
+<ul>
+<li><code>string</code> - The currently configured path to the executable of etraining.</li>
+</ul>
 <p><a name="pygustus.etraining.config_set_bin"></a></p>
 <h4 id="config_set_bin_1">config_set_bin</h4>
 <pre><code class="language-python">config_set_bin(value)
 </code></pre>
-<p>Updates the configured path to the executable of etraining
-with the given value.</p>
+<p>Updates the configured path to the executable of etraining.</p>
 <p><strong>Arguments</strong>:</p>
 <ul>
 <li><code>value</code> <em>string</em> - The path to the execuatble of etraining.</li>
 </ul>
 <p><strong>Raises</strong>:</p>
 <ul>
-<li><code>RuntimeError</code> - If the given path does not exist or the file is
-  not executable.</li>
+<li><code>RuntimeError</code> - If the given path does not exist or the file
+  is not executable.</li>
 </ul>
 <p><a name="pygustus.etraining.config_set_default_bin"></a></p>
 <h4 id="config_set_default_bin_1">config_set_default_bin</h4>
 <pre><code class="language-python">config_set_default_bin()
 </code></pre>
-<p>Sets the configured path to the etraining executable to 'etraining'.
-This should exist if AUGUSTUS is properly installed on the system.</p>
+<p>Sets the configured path to the etraining executable to 'etraining'.</p>
+<p>This executable should exist if AUGUSTUS is properly installed
+on the system.</p>
               
             </div>
           </div>
