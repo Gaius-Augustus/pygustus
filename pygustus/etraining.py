@@ -18,7 +18,17 @@ def train(*args, options=None, **kwargs):
     """
     Executes etraining and passes the given parameters as command line arguments.
 
-    TODO: parameter descritption
+    Parameters
+    ----------
+    *args: tuple
+        Only the the queryfilename should be passed here.
+    options: AugustusOptions, optional
+        If an instance of AugustusOptions is passed, it will be used for the
+        call. Otherwise, a new instance is created based on the passed arguments.
+        (the default is None)
+    **kwargs: dict
+        Arguments for Etraining or Pygustus: refer the documentation for a list
+        of all possible arguments.
     """
 
     pygustus_options = util.get_options(
@@ -50,7 +60,9 @@ def config_get_bin():
     Reads the currently configured path to the executable of etraining
     and returns it.
 
-    Returns:
+    Returns
+    -------
+    string
         The currently configured path to the executable of etraining.
     """
     return util.get_config_item('etraining_bin')
@@ -61,12 +73,15 @@ def config_set_bin(value):
     Updates the configured path to the executable of etraining
     with the given value.
 
-    Args:
-        value (string): The path to the execuatble of etraining.
+    Parameters
+    ----------
+    value: string
+        The path to the execuatble of etraining.
 
-    Raises:
-        RuntimeError: If the given path does not exist or the file is
-        not executable.
+    Raises
+    ------
+    RuntimeError
+        If the given path does not exist or the file is not executable.
     """
     util.check_bin(value)
     util.set_config_item('etraining_bin', value)
