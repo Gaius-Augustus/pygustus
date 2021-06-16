@@ -10,6 +10,8 @@ To use Pygustus, an installed or built version of AUGUSTUS is required. Using Ub
 
 More information can be found on the [AUGUSTUS GitHub page](https://github.com/Gaius-Augustus/Augustus).
 
+If AUGUSTUS was built from source and no installation was done (so the command `augustus` is not executable), then the path to the executable can be set as described in the [configuration](#configuration) section.
+
 ## Installation
 TODO
 
