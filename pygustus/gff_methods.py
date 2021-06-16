@@ -127,10 +127,12 @@ def join_aug_pred(out_file, pred_files):
     Joins the given AUGUSTUS results and writes all results to the given
     out_file. The files should be passed in the order of the AUGUSTUS runs.
 
-    Args:
-        out_file (string): The path to the ouput file to write the joined results.
-        pred_files (list): A list of AUGUSTUS result file names ordered by runs.
-
+   Parameters
+    ----------
+    out_file: string
+        The path to the ouput file to write the joined results.
+    pred_files: list
+        A list of AUGUSTUS result file names ordered by runs.
     """
     gff = GFFFile()
     for pred in pred_files:
