@@ -19,21 +19,20 @@ PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
 
 
 def predict(*args, options=None, **kwargs):
-    """
-    Executes AUGUSTUS and passes the given parameters as command line arguments.
+    """Executes the binary of AUGUSTUS.
+    
+    For the execution the given parameters are passed as
+    command line arguments.
 
-    Parameters
-    ----------
-    *args: tuple
-        Exactly one argument should be passed here. Either the queryfilename
-        or one of the help calls of AUGUSTUS (--help, --pramlist).
-    options: AugustusOptions, optional
-        If an instance of AugustusOptions is passed, it will be used for the
-        call. Otherwise, a new instance is created based on the passed arguments.
-        (the default is None)
-    **kwargs: dict
-        Arguments for AUGUSTUS or Pygustus: refer the documentation for a list
-        of all possible arguments.
+    Args:
+        *args (tuple): Exactly one argument should be passed here.
+            Either the queryfilename or one of the help calls of
+            AUGUSTUS (--help, --pramlist).
+        options (AugustusOptions): Optional; If an instance of AugustusOptions
+            is passed, it will be used for the call. Otherwise, a new instance
+            is created based on the passed arguments (the default is None).
+        **kwargs (dict): Arguments for AUGUSTUS or Pygustus as dict: refer the
+            documentation for a list of all possible arguments.
     """
 
     pygustus_options = util.get_options(
@@ -89,82 +88,68 @@ def predict(*args, options=None, **kwargs):
 
 
 def config_get_bin():
-    """
-    Reads the currently configured path to the executable of AUGUSTUS
-    and returns it.
+    """Returns currently configured path to the executable of AUGUSTUS.
 
-    Returns
-    -------
-    string
-        The currently configured path to the executable of AUGUSTUS.
+    Returns:
+        string: The currently configured path to the executable of AUGUSTUS.
     """
     return util.get_config_item('augustus_bin')
 
 
 def config_set_bin(value):
-    """
-    Updates the configured path to the executable of AUGUSTUS
-    with the given value.
+    """Updates the configured path to the executable of AUGUSTUS.
 
-    Parameters
-    ----------
-    value: string
-        The path to the execuatble of AUGUSTUS.
+    Args:
+        value (string): The path to the execuatble of AUGUSTUS as string.
 
-    Raises
-    ------
-    RuntimeError
-        If the given path does not exist or the file is not executable.
+    Raises:
+        RuntimeError: If the given path does not exist or the file
+        is not executable.
     """
     util.check_bin(value)
     util.set_config_item('augustus_bin', value)
 
 
 def config_set_default_bin():
-    """
-    Sets the configured path to the AUGUSTUS executable to 'augustus'.
+    """Sets the configured path to the AUGUSTUS executable to 'augustus'.
+
     This should exist if AUGUSTUS is properly installed on the system.
     """
     util.set_config_item('augustus_bin', 'augustus')
 
 
 def show_fasta_info(inputfile):
-    """
+    """Outputs information about a fasta file.
+    
     This method outputs information about the contents of the passed file
     in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.
 
-    Parameters
-    ----------
-    inputfile: string
-        The file in fasta format.
+    Args:
+        inputfile (string): Path to the file in fasta format as string.
     """
     fm.summarize_acgt_content(inputfile)
 
 
 def show_aug_help():
-    """
-    Shows the help output of AUGUSTUS.
+    """Shows the help output of AUGUSTUS.
     """
     predict('--help')
 
 
 def show_aug_paramlist():
-    """
-    Shows possible parameter names of AUGUSTUS.
+    """Shows possible parameter names of AUGUSTUS.
     """
     predict('--paramlist')
 
 
 def show_species_info():
-    """
-    Shows species information of AUGUSTUS.
+    """Shows species information of AUGUSTUS.
     """
     predict('--species=help')
 
 
 def help():
-    """
-    Shows usage information.
+    """Shows usage information.
     """
 
     help_msg = """usage:

@@ -39,8 +39,9 @@ class GFFFile:
         self.genes = list()
 
     def add_content(self, filepath):
-        """
-        Joins the given AUGUSTUS results. The files should be passed in the order of the AUGUSTUS runs.
+        """Joins the given AUGUSTUS results.
+        
+        The files should be passed in the order of the AUGUSTUS runs.
         """
         if not os.path.isfile(filepath):
             raise ValueError(f'Could not open {filepath}')
@@ -123,16 +124,16 @@ class GFFFile:
 
 
 def join_aug_pred(out_file, pred_files):
-    """
-    Joins the given AUGUSTUS results and writes all results to the given
+    """Joins the given AUGUSTUS results.
+    
+    After all result parts are joinedand it writes the result to the given
     out_file. The files should be passed in the order of the AUGUSTUS runs.
 
-   Parameters
-    ----------
-    out_file: string
-        The path to the ouput file to write the joined results.
-    pred_files: list
-        A list of AUGUSTUS result file names ordered by runs.
+    Args:
+        out_file (string): The path to the ouput file to write the
+            joined results.
+        pred_files (list): A list of AUGUSTUS result file names
+            ordered by runs.
     """
     gff = GFFFile()
     for pred in pred_files:
