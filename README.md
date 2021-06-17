@@ -12,13 +12,15 @@ More information can be found on the [AUGUSTUS GitHub page](https://github.com/G
 
 If AUGUSTUS was built from source and no installation was done (so the command `augustus` is not executable), then the path to the executable can be set as described in the [configuration](#configuration) section.
 
+For Pygustus Python version 3.6 or higher is required.
+
 ## Installation
 Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. This can be installed as follows. At the moment Pygustus is not recommended for productive use. A release on PyPi will follow soon.
 ~~~
 pip install -i https://test.pypi.org/simple/ pygustus
 ~~~
 ### Building Pygustus from source
-After cloning the repository from GitHub,
+As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,
 ~~~
 git clone git@github.com:Gaius-Augustus/pygustus.git
 ~~~
@@ -27,7 +29,16 @@ required dependencies need to be installed.
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 ~~~
-
+After that Pygustus can be built and installed as follows.
+~~~
+python setup.py sdist bdist_wheel
+pip install dist/pygustus-<VERSION>.tar.gz
+~~~
+For the execution of the tests pytest is used.
+~~~
+pytest -m ghactions tests/
+~~~
+The test cases marked with `ghactions` are those that are not too expensive in terms of runtime.
 ## Usage
 Pygustuts supports the training and prediction of AUGUSTUS. The prediction can be executed either in a single thread or in parallel. In multithreaded execution, the input file is split into smaller pieces and AUGUSTUS is executed in parallel on partial inputs. Finally, the partial results are joined together.
 
