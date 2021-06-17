@@ -29,4 +29,7 @@ setup(
         "Operating System :: POSIX :: Linux",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
     ],
+    install_requires=[
+        "biopython",
+    ],
 )
