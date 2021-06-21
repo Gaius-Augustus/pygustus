@@ -3,8 +3,6 @@
 from pygustus import augustus
 from pygustus import etraining
 
-import subprocess
-
 
 def run_augustus_help():
     augustus.predict('--help')
