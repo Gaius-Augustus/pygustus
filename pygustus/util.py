@@ -80,10 +80,6 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
 
 def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=None, mode='w'):
     # execute given binary with given options
-
-    print(cmd)
-    print(options)
-    print('Start execution')
     if std_out_file and error_out_file and mode:
         with open(std_out_file, mode) as file:
             with open(error_out_file, mode) as errfile:
@@ -114,7 +110,7 @@ def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=N
 
     if rc != 0:
         raise RuntimeError(
-         f'Unexpected returncode {rc}!')
+            f'Unexpected returncode {rc}!')
 
 
 def check_bin(bin):
