@@ -77,7 +77,7 @@ augustus.predict('path/to/input/file', species='human',
 If the path to the AUGUSTUS executable is to be specified temporarily, the Pygustus parameter `path_to_binary=path/to/augustus` can be used.
 
 #### Multithreaded
-If the Pygustus parameter `jobs=n` is set with `n > 1`, then the input file is split into several small files and Augustus is run in parallel for each file with the given parameters. After AUGUSTUS has been executed on all parts, the partial results are combined to the final result. A usage example is shown below.
+If the Pygustus parameter `jobs=n` is set with `n > 1`, then the input file is split into several small files and Augustus is run in parallel for each file with the given parameters. After AUGUSTUS has been executed on all parts, the partial results are combined to the final result. If the parameter `outfile` is set, the result will be saved in the file given there. Otherwise, the result will be saved in the file `augustus.gff` (default). A usage example is shown below.
 ~~~
 from pygustus import augustus
 
