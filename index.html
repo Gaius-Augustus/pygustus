@@ -134,9 +134,11 @@
 <p>If AUGUSTUS was built from source and no installation was done (so the command <code>augustus</code> is not executable), then the path to the executable can be set as described in the <a href="#configuration">configuration</a> section.</p>
 <p>For Pygustus Python version 3.6 or higher is required.</p>
 <h2 id="installation">Installation</h2>
-<p>Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. This can be installed as follows. At the moment Pygustus is not recommended for productive use. A release on PyPi will follow soon.</p>
-<pre><code>pip install -i https://test.pypi.org/simple/ pygustus
+<p>Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. Since the required biopython library is not available on TestPyPi, it must be installed before the Pygustus installation. This can be installed as follows.</p>
+<pre><code>pip install biopython
+pip install -i https://test.pypi.org/simple/ pygustus
 </code></pre>
+<p><strong>Pygustus is currently not recommended for productive use</strong>. A release on PyPi will follow soon.</p>
 <h3 id="building-pygustus-from-source">Building Pygustus from source</h3>
 <p>As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,</p>
 <pre><code>git clone git@github.com:Gaius-Augustus/pygustus.git
@@ -180,7 +182,7 @@ augustus.predict('path/to/input/file', species='human',
 </code></pre>
 <p>If the path to the AUGUSTUS executable is to be specified temporarily, the Pygustus parameter <code>path_to_binary=path/to/augustus</code> can be used.</p>
 <h4 id="multithreaded">Multithreaded</h4>
-<p>If the Pygustus parameter <code>jobs=n</code> is set with <code>n &gt; 1</code>, then the input file is split into several small files and Augustus is run in parallel for each file with the given parameters. After AUGUSTUS has been executed on all parts, the partial results are combined to the final result. A usage example is shown below.</p>
+<p>If the Pygustus parameter <code>jobs=n</code> is set with <code>n &gt; 1</code>, then the input file is split into several small files and Augustus is run in parallel for each file with the given parameters. After AUGUSTUS has been executed on all parts, the partial results are combined to the final result. If the parameter <code>outfile</code> is set, the result will be saved in the file given there. Otherwise, the result will be saved in the file <code>augustus.gff</code> (default). A usage example is shown below.</p>
 <pre><code>from pygustus import augustus
 
 augustus.predict('path/to/input/file', [augustus_parameters],
@@ -343,5 +345,5 @@ augustus.help()
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-06-21 11:35:08.073655+00:00
+Build Date UTC : 2021-06-21 13:14:37.727668+00:00
 -->
