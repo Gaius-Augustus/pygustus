@@ -68,6 +68,7 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
                 executor.submit(execute_bin, cmd, opt)
 
         gff.join_aug_pred(joined_outfile, outfiles)
+        print(f'Joined output written to: {joined_outfile}')
 
         if debug_dir:
             rmtree_if_exists(debug_dir, even_none_empty=True)
