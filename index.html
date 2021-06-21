@@ -53,6 +53,10 @@
     <li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#building-pygustus-from-source">Building Pygustus from source</a>
+    </li>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
         <ul>
@@ -128,8 +132,27 @@
 </code></pre>
 <p>More information can be found on the <a href="https://github.com/Gaius-Augustus/Augustus">AUGUSTUS GitHub page</a>.</p>
 <p>If AUGUSTUS was built from source and no installation was done (so the command <code>augustus</code> is not executable), then the path to the executable can be set as described in the <a href="#configuration">configuration</a> section.</p>
+<p>For Pygustus Python version 3.6 or higher is required.</p>
 <h2 id="installation">Installation</h2>
-<p>TODO</p>
+<p>Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. This can be installed as follows. At the moment Pygustus is not recommended for productive use. A release on PyPi will follow soon.</p>
+<pre><code>pip install -i https://test.pypi.org/simple/ pygustus
+</code></pre>
+<h3 id="building-pygustus-from-source">Building Pygustus from source</h3>
+<p>As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,</p>
+<pre><code>git clone git@github.com:Gaius-Augustus/pygustus.git
+</code></pre>
+<p>required dependencies need to be installed.</p>
+<pre><code>pip install -r requirements.txt
+pip install -r requirements-dev.txt
+</code></pre>
+<p>After that Pygustus can be built and installed as follows.</p>
+<pre><code>python setup.py sdist bdist_wheel
+pip install dist/pygustus-&lt;VERSION&gt;.tar.gz
+</code></pre>
+<p>For the execution of the tests pytest is used.</p>
+<pre><code>pytest -m ghactions tests/
+</code></pre>
+<p>The test cases marked with <code>ghactions</code> are those that are not too expensive in terms of runtime.</p>
 <h2 id="usage">Usage</h2>
 <p>Pygustuts supports the training and prediction of AUGUSTUS. The prediction can be executed either in a single thread or in parallel. In multithreaded execution, the input file is split into smaller pieces and AUGUSTUS is executed in parallel on partial inputs. Finally, the partial results are joined together.</p>
 <p>As values of the parameters for all Pygustus programs only the Python types are permissible.</p>
@@ -320,5 +343,5 @@ augustus.help()
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-06-17 11:55:43.508478+00:00
+Build Date UTC : 2021-06-21 11:35:08.073655+00:00
 -->
