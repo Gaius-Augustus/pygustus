@@ -1,5 +1,6 @@
 import subprocess
 import os
+import re
 import json
 import shutil
 import tempfile
@@ -179,3 +180,24 @@ def create_split_filenanme(inputfile, outputdir, idx):
     f_name, f_ext = os.path.splitext(filename)
     s_filename = f'{f_name}.split.{str(idx)}{f_ext}'
     return os.path.join(outputdir, s_filename)
+
+
+def check_aug_version(aug_bin, min_aug_version):
+    result = subprocess.run(
+        [aug_bin, '--version'],
+        capture_output=True, encoding='UTF-8')
+
+    version_str = re.findall(r'\d+.\d+.\d+', result.stderr)[0]
+    min_version_no = version_str_to_int(min_aug_version)
+    version_no = version_str_to_int(version_str)
+
+    if version_no < min_version_no:
+        raise RuntimeError(
+            f'AUGUSTUS version {min_aug_version} or higher is required!')
+
+
+def version_str_to_int(version_str):
+    vnumbers = [int(x) for x in version_str.split('.')]
+    vnumbers.reverse()
+    version_no = sum(x * (100 ** i) for i, x in enumerate(vnumbers))
+    return version_no

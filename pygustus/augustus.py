@@ -16,6 +16,7 @@ __all__ = ['predict', 'config_get_bin',
 
 
 PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
+MIN_AUG_VERSION = '3.4.0'
 
 
 def predict(*args, options=None, **kwargs):
@@ -44,6 +45,7 @@ def predict(*args, options=None, **kwargs):
         augustus_command = tmp_path_to_bin
 
     util.check_bin(augustus_command)
+    util.check_aug_version(augustus_command, MIN_AUG_VERSION)
 
     aug_options = util.get_options(
         *args, options=options, path_to_params=PARAMETER_FILE, program='augustus', **kwargs)
