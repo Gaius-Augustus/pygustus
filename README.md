@@ -18,7 +18,7 @@ For Pygustus Python version 3.6 or higher is required.
 Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. Since the required biopython library is not available on TestPyPi, it must be installed before the Pygustus installation. This can be installed as follows.
 ~~~
 pip install biopython
-pip install -i https://test.pypi.org/simple/ pygustus
+pip install -U -i https://test.pypi.org/simple/ pygustus
 ~~~
 **Pygustus is currently not recommended for productive use**. A release on PyPi will follow soon.
 ### Building Pygustus from source
