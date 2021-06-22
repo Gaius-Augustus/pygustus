@@ -4,7 +4,7 @@
 A python wrapper for the gene prediction program AUGUSTUS.
 
 ## Requirements
-To use Pygustus, an installed or built version of AUGUSTUS is required. Using Ubuntu, AUGUSTUS can be installed as follows.
+To use Pygustus, an installed or built AUGUSTUS with minimum program version 3.4.0 is required. Using Ubuntu, AUGUSTUS can be installed as follows.
 
     sudo apt install augustus augustus-data augustus-doc
 
