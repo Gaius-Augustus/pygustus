@@ -16,7 +16,7 @@ __all__ = ['predict', 'config_get_bin',
 
 
 PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
-MIN_AUG_VERSION = '3.4.0'
+MIN_AUG_VERSION = '3.3.2'
 
 
 def predict(*args, options=None, **kwargs):
