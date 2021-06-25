@@ -151,7 +151,7 @@ pip install -r requirements-dev.txt
 <pre><code>python setup.py sdist bdist_wheel
 pip install dist/pygustus-&lt;VERSION&gt;.tar.gz
 </code></pre>
-<p>For the execution of the tests pytest is used.</p>
+<p>For the execution of the tests <code>pytest</code> is used. Example usage:</p>
 <pre><code>pytest -m ghactions tests/
 </code></pre>
 <p>The test cases marked with <code>ghactions</code> are those that are not too expensive in terms of runtime.</p>
@@ -188,7 +188,7 @@ augustus.predict('path/to/input/file', species='human',
 augustus.predict('path/to/input/file', [augustus_parameters],
                     [pygustus_parameters], jobs=n)
 </code></pre>
-<p>All parameters permitted for AUGUSTUS can be used as augustus_parameters. The following parameters for Pygustus are available.</p>
+<p>All parameters permitted for AUGUSTUS can be used as augustus_parameters. The following pygustus_parameters are additionally available.</p>
 <table>
 <thead>
 <tr>
@@ -201,17 +201,17 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 <tr>
 <td>jobs (int)</td>
 <td>1</td>
-<td>If this option is set, AUGUSTUS is executed in parallel on sequence segments or split input files using n jobs. After the execution of all jobs, the output files are merged.</td>
+<td>If <code>jobs=n</code> with <code>n &gt; 1</code> is set, AUGUSTUS is executed in parallel on sequence segments or split input files using <code>n</code> jobs. After the execution of all jobs, the output files are merged.</td>
 </tr>
 <tr>
 <td>chunksize (int)</td>
 <td>0</td>
-<td>If this option is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of the maximum size <code>n</code>.</td>
+<td>If <code>chunksize=n</code> with <code>n &gt; 0</code> is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of the maximum size <code>n</code>.</td>
 </tr>
 <tr>
 <td>overlap (int)</td>
 <td>0</td>
-<td>If this option is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of size <code>chunksize</code> and the segments overlap by <code>n</code>.</td>
+<td>If <code>overlap=n</code> with <code>n &gt; 1</code> is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of size <code>chunksize</code> and the segments overlap by <code>n</code>.</td>
 </tr>
 <tr>
 <td>partitionHints (bool)</td>
@@ -221,7 +221,7 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 <tr>
 <td>minSplitSize (int)</td>
 <td>0</td>
-<td>The input fasta file is spilt to at least <code>minSplitSize=n</code> base pairs. Set this to 0 to split the input in single sequence files.</td>
+<td>The input fasta file is spilt to at least <code>minSplitSize=n</code> base pairs. Set <code>n=0</code> to split the input in single sequence files.</td>
 </tr>
 <tr>
 <td>partitionLargeSeqeunces (bool)</td>
@@ -345,5 +345,5 @@ augustus.help()
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-06-22 13:14:03.133108+00:00
+Build Date UTC : 2021-06-25 11:50:57.014438+00:00
 -->

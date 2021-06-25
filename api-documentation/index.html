@@ -54,23 +54,13 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">API Documentation</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#predict">predict</a>
+    <li class="toctree-l2"><a class="reference internal" href="#train">train</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_get_bin">config_get_bin</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_set_bin">config_set_bin</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#config_set_default_bin">config_set_default_bin</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#show_fasta_info">show_fasta_info</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#show_aug_help">show_aug_help</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#show_aug_paramlist">show_aug_paramlist</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#show_species_info">show_species_info</a>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#help">help</a>
     </li>
     </ul>
                     </li>
@@ -107,7 +97,55 @@
           <div role="main">
             <div class="section">
               
-                <p><a name="pygustus.augustus"></a></p>
+                <p><a name="pygustus.etraining"></a></p>
+<h1 id="pygustusetraining">pygustus.etraining</h1>
+<p>A python wrapper for the training of AUGUSTUS.</p>
+<p><a name="pygustus.etraining.train"></a></p>
+<h4 id="train">train</h4>
+<pre><code class="language-python">train(*args, *, options=None, **kwargs)
+</code></pre>
+<p>Executes etraining and passes the given parameters as command line arguments.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>*args</code> <em>tuple</em> - Only the the queryfilename should be passed here.</li>
+<li><code>options</code> <em>AugustusOptions</em> - Optional; If an instance of
+  AugustusOptions is passed, it will be used for the call.
+  Otherwise, a new instance is created based on the passed arguments
+  (the default is None).</li>
+<li><code>**kwargs</code> <em>dict</em> - Arguments for Etraining or Pygustus: refer the
+  documentation for a list of all possible arguments.</li>
+</ul>
+<p><a name="pygustus.etraining.config_get_bin"></a></p>
+<h4 id="config_get_bin">config_get_bin</h4>
+<pre><code class="language-python">config_get_bin()
+</code></pre>
+<p>Outputs currently configured path to the executable of etraining.</p>
+<p><strong>Returns</strong>:</p>
+<ul>
+<li><code>string</code> - The currently configured path to the executable of etraining.</li>
+</ul>
+<p><a name="pygustus.etraining.config_set_bin"></a></p>
+<h4 id="config_set_bin">config_set_bin</h4>
+<pre><code class="language-python">config_set_bin(value)
+</code></pre>
+<p>Updates the configured path to the executable of etraining.</p>
+<p><strong>Arguments</strong>:</p>
+<ul>
+<li><code>value</code> <em>string</em> - The path to the execuatble of etraining.</li>
+</ul>
+<p><strong>Raises</strong>:</p>
+<ul>
+<li><code>RuntimeError</code> - If the given path does not exist or the file
+  is not executable.</li>
+</ul>
+<p><a name="pygustus.etraining.config_set_default_bin"></a></p>
+<h4 id="config_set_default_bin">config_set_default_bin</h4>
+<pre><code class="language-python">config_set_default_bin()
+</code></pre>
+<p>Sets the configured path to the etraining executable to 'etraining'.</p>
+<p>This executable should exist if AUGUSTUS is properly installed
+on the system.</p>
+<p><a name="pygustus.augustus"></a></p>
 <h1 id="pygustusaugustus">pygustus.augustus</h1>
 <p>A python wrapper for the gene prediction program AUGUSTUS.</p>
 <p><a name="pygustus.augustus.predict"></a></p>
@@ -129,7 +167,7 @@ command line arguments.</p>
   documentation for a list of all possible arguments.</li>
 </ul>
 <p><a name="pygustus.augustus.config_get_bin"></a></p>
-<h4 id="config_get_bin">config_get_bin</h4>
+<h4 id="config_get_bin_1">config_get_bin</h4>
 <pre><code class="language-python">config_get_bin()
 </code></pre>
 <p>Returns currently configured path to the executable of AUGUSTUS.</p>
@@ -138,7 +176,7 @@ command line arguments.</p>
 <li><code>string</code> - The currently configured path to the executable of AUGUSTUS.</li>
 </ul>
 <p><a name="pygustus.augustus.config_set_bin"></a></p>
-<h4 id="config_set_bin">config_set_bin</h4>
+<h4 id="config_set_bin_1">config_set_bin</h4>
 <pre><code class="language-python">config_set_bin(value)
 </code></pre>
 <p>Updates the configured path to the executable of AUGUSTUS.</p>
@@ -152,7 +190,7 @@ command line arguments.</p>
   is not executable.</li>
 </ul>
 <p><a name="pygustus.augustus.config_set_default_bin"></a></p>
-<h4 id="config_set_default_bin">config_set_default_bin</h4>
+<h4 id="config_set_default_bin_1">config_set_default_bin</h4>
 <pre><code class="language-python">config_set_default_bin()
 </code></pre>
 <p>Sets the configured path to the AUGUSTUS executable to 'augustus'.</p>
@@ -188,54 +226,6 @@ in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
 <pre><code class="language-python">help()
 </code></pre>
 <p>Shows usage information.</p>
-<p><a name="pygustus.etraining"></a></p>
-<h1 id="pygustusetraining">pygustus.etraining</h1>
-<p>A python wrapper for the training of AUGUSTUS.</p>
-<p><a name="pygustus.etraining.train"></a></p>
-<h4 id="train">train</h4>
-<pre><code class="language-python">train(*args, *, options=None, **kwargs)
-</code></pre>
-<p>Executes etraining and passes the given parameters as command line arguments.</p>
-<p><strong>Arguments</strong>:</p>
-<ul>
-<li><code>*args</code> <em>tuple</em> - Only the the queryfilename should be passed here.</li>
-<li><code>options</code> <em>AugustusOptions</em> - Optional; If an instance of
-  AugustusOptions is passed, it will be used for the call.
-  Otherwise, a new instance is created based on the passed arguments
-  (the default is None).</li>
-<li><code>**kwargs</code> <em>dict</em> - Arguments for Etraining or Pygustus: refer the
-  documentation for a list of all possible arguments.</li>
-</ul>
-<p><a name="pygustus.etraining.config_get_bin"></a></p>
-<h4 id="config_get_bin_1">config_get_bin</h4>
-<pre><code class="language-python">config_get_bin()
-</code></pre>
-<p>Outputs currently configured path to the executable of etraining.</p>
-<p><strong>Returns</strong>:</p>
-<ul>
-<li><code>string</code> - The currently configured path to the executable of etraining.</li>
-</ul>
-<p><a name="pygustus.etraining.config_set_bin"></a></p>
-<h4 id="config_set_bin_1">config_set_bin</h4>
-<pre><code class="language-python">config_set_bin(value)
-</code></pre>
-<p>Updates the configured path to the executable of etraining.</p>
-<p><strong>Arguments</strong>:</p>
-<ul>
-<li><code>value</code> <em>string</em> - The path to the execuatble of etraining.</li>
-</ul>
-<p><strong>Raises</strong>:</p>
-<ul>
-<li><code>RuntimeError</code> - If the given path does not exist or the file
-  is not executable.</li>
-</ul>
-<p><a name="pygustus.etraining.config_set_default_bin"></a></p>
-<h4 id="config_set_default_bin_1">config_set_default_bin</h4>
-<pre><code class="language-python">config_set_default_bin()
-</code></pre>
-<p>Sets the configured path to the etraining executable to 'etraining'.</p>
-<p>This executable should exist if AUGUSTUS is properly installed
-on the system.</p>
               
             </div>
           </div>
