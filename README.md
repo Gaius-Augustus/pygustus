@@ -36,7 +36,7 @@ After that Pygustus can be built and installed as follows.
 python setup.py sdist bdist_wheel
 pip install dist/pygustus-<VERSION>.tar.gz
 ~~~
-For the execution of the tests pytest is used.
+For the execution of the tests `pytest` is used. Example usage:
 ~~~
 pytest -m ghactions tests/
 ~~~
@@ -84,15 +84,15 @@ from pygustus import augustus
 augustus.predict('path/to/input/file', [augustus_parameters],
                     [pygustus_parameters], jobs=n)
 ~~~
-All parameters permitted for AUGUSTUS can be used as augustus_parameters. The following parameters for Pygustus are available.
+All parameters permitted for AUGUSTUS can be used as augustus_parameters. The following pygustus_parameters are additionally available.
 
 | Parameter | Default Value | Description |
 | ----------| --------------| ------------|
-| jobs (int) | 1 | If this option is set, AUGUSTUS is executed in parallel on sequence segments or split input files using n jobs. After the execution of all jobs, the output files are merged. |
-| chunksize (int) | 0 | If this option is set and `jobs > 1`, each AUGUSTUS instance is executed on sequence segments of the maximum size `n`. |
-| overlap (int) | 0 | If this option is set and `jobs > 1`, each AUGUSTUS instance is executed on sequence segments of size `chunksize` and the segments overlap by `n`. |
+| jobs (int) | 1 | If `jobs=n` with `n > 1` is set, AUGUSTUS is executed in parallel on sequence segments or split input files using `n` jobs. After the execution of all jobs, the output files are merged. |
+| chunksize (int) | 0 | If `chunksize=n` with `n > 0` is set and `jobs > 1`, each AUGUSTUS instance is executed on sequence segments of the maximum size `n`. |
+| overlap (int) | 0 | If `overlap=n` with `n > 1` is set and `jobs > 1`, each AUGUSTUS instance is executed on sequence segments of size `chunksize` and the segments overlap by `n`. |
 | partitionHints (bool) | False | If this option is set to True, a hints file is given and `jobs > 1`, then the hints file is split into appropriate pieces for the respective AUGUSTUS jobs. |
-| minSplitSize (int) | 0 | The input fasta file is spilt to at least `minSplitSize=n` base pairs. Set this to 0 to split the input in single sequence files. |
+| minSplitSize (int) | 0 | The input fasta file is spilt to at least `minSplitSize=n` base pairs. Set `n=0` to split the input in single sequence files. |
 | partitionLargeSeqeunces (bool) | False | Parallelize large sequences by automatically setting the AUGUSTUS parameters `predictionStart` and `predictionEnd` based on the given values for `chunksize` and `overlap`. |
 debugOutputDir (string) | None | If the directory is specified, all generated files, i.e. the split of the input file and intermediate results, as well as the generated AUGUSTUS command lines are stored there. This option works only for the parallelization, i. e. `jobs > 1` is set. |
 path_to_bin (string) | None | Sets the path to the desired executable version of AUGUSTUS when `augustus.predict()` is called or etraining when `etraining.train()` is called. The path is not saved for further executions.|
