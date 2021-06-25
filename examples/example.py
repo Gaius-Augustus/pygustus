@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 from pygustus import augustus
-from pygustus import etraining
 
 
 def run_augustus_help():
@@ -38,11 +37,6 @@ def run_augustus_unique_geneid():
 
 def show_fileinfo():
     augustus.show_fasta_info('../tests/data/example.fa')
-
-
-def run_training():
-    etraining.train('../tests/data/genes.gb.train',
-                    species='pygustus_test', softmasking=False)
 
 
 if __name__ == '__main__':
