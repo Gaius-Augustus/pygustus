@@ -229,6 +229,11 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 <td>Parallelize large sequences by automatically setting the AUGUSTUS parameters <code>predictionStart</code> and <code>predictionEnd</code> based on the given values for <code>chunksize</code> and <code>overlap</code>.</td>
 </tr>
 <tr>
+<td>maxSeqSize (int)</td>
+<td>3000000</td>
+<td>The maximum length of a sequence from which the sequence is started to be partitioned. To turn on the paritioning <code>partitionLargeSeqeunces=True</code> must be set</td>
+</tr>
+<tr>
 <td>debugOutputDir (string)</td>
 <td>None</td>
 <td>If the directory is specified, all generated files, i.e. the split of the input file and intermediate results, as well as the generated AUGUSTUS command lines are stored there. This option works only for the parallelization, i. e. <code>jobs &gt; 1</code> is set.</td>
@@ -345,5 +350,5 @@ augustus.help()
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-06-25 11:50:57.014438+00:00
+Build Date UTC : 2021-07-01 13:35:02.387818+00:00
 -->
