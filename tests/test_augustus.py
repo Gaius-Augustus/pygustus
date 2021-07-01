@@ -102,7 +102,15 @@ def test_augustus_parallel_two_jobs_gff3_and_geneid():
 @pytest.mark.ghactions
 def test_augustus_parallel_one_large_sequence():
     name = test_augustus_parallel_one_large_sequence.__name__
-    options = {'species': 'human', 'UTR': True, 'softmasking': True}
+    options = {
+        'species': 'human',
+        'UTR': True,
+        'softmasking': True,
+        'partitionLargeSeqeunces': True,
+        'chunksize': 250000,
+        'overlap': 50000,
+        'maxSeqSize': 750000
+        }
 
     run_parallel_tests('tests/data/genome.fa', jobs=5, testname=name,
                        options=options)
