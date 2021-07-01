@@ -1235,6 +1235,18 @@
         "description": ""
     },
     {
+        "name": "maxSeqSize",
+        "development": false,
+        "type": "int",
+        "usage": "maxSeqSize=n",
+        "default_value": 3000000,
+        "description": "The maximum length of a sequence from which the sequence is started to be partitioned.",
+        "exclude_apps": [
+            "augustus",
+            "etraining"
+        ]
+    },
+    {
         "name": "maxtracks",
         "development": false,
         "type": "int",
@@ -1288,7 +1300,7 @@
         "type": "int",
         "usage": "minSplitSize=n",
         "default_value": 0,
-        "description": "The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files",
+        "description": "The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files.",
         "exclude_apps": [
             "augustus",
             "etraining"

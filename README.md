@@ -94,6 +94,7 @@ All parameters permitted for AUGUSTUS can be used as augustus_parameters. The fo
 | partitionHints (bool) | False | If this option is set to True, a hints file is given and `jobs > 1`, then the hints file is split into appropriate pieces for the respective AUGUSTUS jobs. |
 | minSplitSize (int) | 0 | The input fasta file is spilt to at least `minSplitSize=n` base pairs. Set `n=0` to split the input in single sequence files. |
 | partitionLargeSeqeunces (bool) | False | Parallelize large sequences by automatically setting the AUGUSTUS parameters `predictionStart` and `predictionEnd` based on the given values for `chunksize` and `overlap`. |
+| maxSeqSize (int) | 3000000 | The maximum length of a sequence from which the sequence is started to be partitioned. To turn on the paritioning `partitionLargeSeqeunces=True` must be set|
 debugOutputDir (string) | None | If the directory is specified, all generated files, i.e. the split of the input file and intermediate results, as well as the generated AUGUSTUS command lines are stored there. This option works only for the parallelization, i. e. `jobs > 1` is set. |
 path_to_bin (string) | None | Sets the path to the desired executable version of AUGUSTUS when `augustus.predict()` is called or etraining when `etraining.train()` is called. The path is not saved for further executions.|
 

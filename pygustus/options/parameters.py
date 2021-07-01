@@ -61,7 +61,16 @@ allowed_parameters = [
         TYPE: TYPE_INT,
         USAGE: 'minSplitSize=n',
         DEFAULT: 0,
-        DESCRIPTION: 'The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files',
+        DESCRIPTION: 'The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'maxSeqSize',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'maxSeqSize=n',
+        DEFAULT: 3000000,
+        DESCRIPTION: 'The maximum length of a sequence from which the sequence is started to be partitioned.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
