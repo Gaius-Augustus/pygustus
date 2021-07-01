@@ -74,7 +74,7 @@ def run_augustus_parallel():
     augustus.predict(
         os.path.join(data_dir, 'example.fa'),
         species='human',
-        UTR=True, softmasking=True, jobs=4,
+        UTR=True, softmasking=True, jobs=2,
         outfile=out_file,
         debugOutputDir=cur_debug_dir)
 
