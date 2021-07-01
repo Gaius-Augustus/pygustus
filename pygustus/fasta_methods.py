@@ -65,7 +65,7 @@ def update_values(file_sum, key, value):
     file_sum.update({key: cur_value + value})
 
 
-def split(inputfile, outputdir, chunksize, overlap, partition_sequences, minsize=0, maxsize=3000000):
+def split(inputfile, outputdir, chunksize, overlap, partition_sequences, minsize, max_seq_size):
     util.check_file(inputfile)
     util.rmtree_if_exists(outputdir, even_none_empty=True)
     util.mkdir_if_not_exists(outputdir)
@@ -80,7 +80,7 @@ def split(inputfile, outputdir, chunksize, overlap, partition_sequences, minsize
     for seq_record in records:
         seqsize = len(seq_record)
 
-        if seqsize > maxsize:
+        if seqsize > max_seq_size:
             if len(records_to_write) > 0:
                 fileidx += 1
                 run += 1
