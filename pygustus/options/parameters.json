@@ -994,7 +994,7 @@
         "development": false,
         "type": "int",
         "usage": "chunksize=n",
-        "default_value": 0,
+        "default_value": 2500000,
         "description": "If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of the maximum size n.",
         "exclude_apps": [
             "augustus",
@@ -1239,7 +1239,7 @@
         "development": false,
         "type": "int",
         "usage": "maxSeqSize=n",
-        "default_value": 3000000,
+        "default_value": 3500000,
         "description": "The maximum length of a sequence from which the sequence is started to be partitioned.",
         "exclude_apps": [
             "augustus",
@@ -1350,7 +1350,7 @@
         "development": false,
         "type": "int",
         "usage": "overlap=n",
-        "default_value": 0,
+        "default_value": 500000,
         "description": "If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments and the segments overlap by n.",
         "exclude_apps": [
             "augustus",

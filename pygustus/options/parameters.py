@@ -33,7 +33,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: 'chunksize=n',
-        DEFAULT: 0,
+        DEFAULT: 2500000,
         DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of the maximum size n.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
@@ -42,7 +42,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: 'overlap=n',
-        DEFAULT: 0,
+        DEFAULT: 500000,
         DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments and the segments overlap by n.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
@@ -69,7 +69,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: 'maxSeqSize=n',
-        DEFAULT: 3000000,
+        DEFAULT: 3500000,
         DESCRIPTION: 'The maximum length of a sequence from which the sequence is started to be partitioned.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
