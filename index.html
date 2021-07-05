@@ -205,12 +205,12 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 </tr>
 <tr>
 <td>chunksize (int)</td>
-<td>0</td>
+<td>2500000</td>
 <td>If <code>chunksize=n</code> with <code>n &gt; 0</code> is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of the maximum size <code>n</code>.</td>
 </tr>
 <tr>
 <td>overlap (int)</td>
-<td>0</td>
+<td>500000</td>
 <td>If <code>overlap=n</code> with <code>n &gt; 1</code> is set and <code>jobs &gt; 1</code>, each AUGUSTUS instance is executed on sequence segments of size <code>chunksize</code> and the segments overlap by <code>n</code>.</td>
 </tr>
 <tr>
@@ -230,7 +230,7 @@ augustus.predict('path/to/input/file', [augustus_parameters],
 </tr>
 <tr>
 <td>maxSeqSize (int)</td>
-<td>3000000</td>
+<td>3500000</td>
 <td>The maximum length of a sequence from which the sequence is started to be partitioned. To turn on the paritioning <code>partitionLargeSeqeunces=True</code> must be set</td>
 </tr>
 <tr>
@@ -350,5 +350,5 @@ augustus.help()
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-07-01 13:35:02.387818+00:00
+Build Date UTC : 2021-07-05 12:26:50.903662+00:00
 -->
