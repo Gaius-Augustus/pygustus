@@ -82,39 +82,20 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
                     file.write(str(o) + '\n' + '\n')
 
 
-def execute_bin(cmd, options, show_err=True, std_out_file=None, error_out_file=None, mode='w'):
+def execute_bin(cmd, options):
     # execute given binary with given options
-    if std_out_file and error_out_file and mode:
-        with open(std_out_file, mode) as file:
-            with open(error_out_file, mode) as errfile:
-                process = subprocess.Popen(
-                    [cmd] + options,
-                    stdout=file,
-                    stderr=errfile,
-                    universal_newlines=True)
-    elif std_out_file and mode:
-        with open(std_out_file, mode) as file:
-            process = subprocess.Popen(
-                [cmd] + options,
-                stdout=file,
-                stderr=subprocess.STDOUT,
-                universal_newlines=True)
-    else:
-        process = subprocess.Popen(
+    result = ''
+
+    try:
+        result = subprocess.check_output(
             [cmd] + options,
             stderr=subprocess.STDOUT,
             universal_newlines=True)
+    except subprocess.CalledProcessError as cpe:
+        print("Returncode", cpe.returncode, cpe.output)
 
-    rc = process.wait()
-
-    if show_err and process.stderr:
-        error = process.stderr.read()
-        if len(error.strip()):
-            print(error)
-
-    if rc != 0:
-        raise RuntimeError(
-            f'Unexpected returncode {rc}!')
+    if len(result.strip()):
+        print(result.strip())
 
 
 def check_bin(bin):
