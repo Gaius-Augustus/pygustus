@@ -84,7 +84,13 @@ def predict(*args, options=None, **kwargs):
         util.execute_bin_parallel(
             augustus_command, aug_options, jobs, chunksize, overlap, partition_sequences, partition_hints, minsize, max_seq_size, debug_dir)
     else:
+        print(f'Execute AUGUSTUS with given options.')
+
         util.execute_bin(augustus_command, aug_options.get_options())
+        
+        outfile = aug_options.get_value_or_none('outfile')
+        if outfile:
+            print(f'Output written to: {outfile}')
 
     if zip:
         os.remove(f_name)
