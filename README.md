@@ -63,7 +63,7 @@ If the path to the etraining executable is to be specified temporarily, the Pygu
 To run a prediction AUGUSTUS can be executed on the input file as usual or the input file can be split and AUGUSTUS is run on input parts in parallel. For the second variant the Pygustus parameter `jobs=n` must be set with `n > 1`.
 
 #### Default (Single Thread)
-If the prediction is started without the Pygustus parameter `jobs=n` or with `n == 1`, AUGUSTUS is executed on the input file exactly as if one would start AUGUSTUS from the console. Usage example:
+If the prediction is executed with `jobs=1` (default, may be ommitted), AUGUSTUS is executed on the input file exactly as if one would start AUGUSTUS from the console. Usage example:
 ~~~
 from pygustus import augustus
 

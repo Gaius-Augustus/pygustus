@@ -32,8 +32,9 @@ def predict(*args, options=None, **kwargs):
         options (AugustusOptions): Optional; If an instance of AugustusOptions
             is passed, it will be used for the call. Otherwise, a new instance
             is created based on the passed arguments (the default is None).
-        **kwargs (dict): Arguments for AUGUSTUS or Pygustus as dict: refer the
-            documentation for a list of all possible arguments.
+        **kwargs (dict): Arguments for AUGUSTUS or Pygustus as dict: lists with
+            possible parameters can be obtained from the help methods or 
+            the Pygustus README (only Pygustus parameters).
     """
 
     pygustus_options = util.get_options(

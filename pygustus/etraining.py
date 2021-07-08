@@ -24,8 +24,9 @@ def train(*args, options=None, **kwargs):
             AugustusOptions is passed, it will be used for the call.
             Otherwise, a new instance is created based on the passed arguments
             (the default is None).
-        **kwargs (dict): Arguments for Etraining or Pygustus: refer the
-            documentation for a list of all possible arguments.
+        **kwargs (dict): Arguments for Etraining or Pygustus: lists with
+            possible parameters can be obtained from the help methods or 
+            the Pygustus README (only Pygustus parameters).
     """
 
     pygustus_options = util.get_options(
