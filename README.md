@@ -14,6 +14,8 @@ If AUGUSTUS was built from source and no installation was done (so the command `
 
 For Pygustus Python version 3.6 or higher is required.
 
+The following examples assume that Python 3 is the default on the executing system. To ensure the usage of Python 3, the use of a virtual environment is recommended. A virtual environment can be created with [venv](https://docs.python.org/3/glossary.html#term-virtual-environment).
+
 ## Installation
 Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. Since the required biopython library is not available on TestPyPi, it must be installed before the Pygustus installation. This can be installed as follows.
 ~~~
@@ -51,9 +53,9 @@ To train AUGUSTUS, the etraining program was adopted in Pygustus. More informati
 ~~~
 from pygustus import etraining
 
-etraining.train('path/to/trainfilename',  species='SPECIES')
+etraining.train('path/to/trainfilename.gb',  species='SPECIES')
 ~~~
-The species to be trained must be present in the config folder of AUGUSTUS (see also AUGUSTUS_CONFIG_PATH). To create a new species, the Pearl script `new_species.pl` from the script folder of AUGUSTUS can be used.
+The species to be trained must be present in the config folder of AUGUSTUS (see also AUGUSTUS_CONFIG_PATH). To create a new species, the Perl script `new_species.pl` from the script folder of AUGUSTUS can be used.
 
 If the path to the etraining executable is to be specified temporarily, the Pygustus parameter `path_to_binary=path/to/etraining` can be used.
 
