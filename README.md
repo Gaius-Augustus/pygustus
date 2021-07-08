@@ -3,7 +3,12 @@
 # Pygustus
 A python wrapper for the gene prediction program AUGUSTUS.
 
-## Requirements
+Requirements
+Installation
+Usage
+Examples
+
+# Requirements
 To use Pygustus, an installed or built AUGUSTUS with minimum program version 3.3.2 is required. Using Ubuntu, AUGUSTUS can be installed as follows.
 
     sudo apt install augustus augustus-data augustus-doc
@@ -16,14 +21,14 @@ For Pygustus Python version 3.6 or higher is required.
 
 The following examples assume that Python 3 is the default on the executing system. To ensure the usage of Python 3, the use of a virtual environment is recommended. A virtual environment can be created with [venv](https://docs.python.org/3/glossary.html#term-virtual-environment).
 
-## Installation
+# Installation
 Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. Since the required biopython library is not available on TestPyPi, it must be installed before the Pygustus installation. This can be installed as follows.
 ~~~
 pip install biopython
 pip install -U -i https://test.pypi.org/simple/ pygustus
 ~~~
 **Pygustus is currently not recommended for productive use**. A release on PyPi will follow soon.
-### Building Pygustus from source
+## Building Pygustus from source
 As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,
 ~~~
 git clone git@github.com:Gaius-Augustus/pygustus.git
@@ -43,12 +48,12 @@ For the execution of the tests `pytest` is used. Example usage:
 pytest -m ghactions tests/
 ~~~
 The test cases marked with `ghactions` are those that are not too expensive in terms of runtime.
-## Usage
+# Usage
 Pygustuts supports the training and prediction of AUGUSTUS. The prediction can be executed either in a single thread or in parallel. In multithreaded execution, the input file is split into smaller pieces and AUGUSTUS is executed in parallel on partial inputs. Finally, the partial results are joined together.
 
 As values of the parameters for all Pygustus programs only the Python types are permissible.
 
-### Training
+## Training
 To train AUGUSTUS, the etraining program was adopted in Pygustus. More information about the program can be found [here](https://github.com/Gaius-Augustus/Augustus/blob/master/docs/RUNNING-AUGUSTUS.md#retraining-augustus). The usage in Pygustus is as follows.
 ~~~
 from pygustus import etraining
@@ -59,10 +64,10 @@ The species to be trained must be present in the config folder of AUGUSTUS (see 
 
 If the path to the etraining executable is to be specified temporarily, the Pygustus parameter `path_to_binary=path/to/etraining` can be used.
 
-### Prediction
+## Prediction
 To run a prediction AUGUSTUS can be executed on the input file as usual or the input file can be split and AUGUSTUS is run on input parts in parallel. For the second variant the Pygustus parameter `jobs=n` must be set with `n > 1`.
 
-#### Default (Single Thread)
+### Default (Single Thread)
 If the prediction is executed with `jobs=1` (default, may be ommitted), AUGUSTUS is executed on the input file exactly as if one would start AUGUSTUS from the console. Usage example:
 ~~~
 from pygustus import augustus
@@ -78,7 +83,7 @@ augustus.predict('path/to/input/file', species='human',
 ~~~
 If the path to the AUGUSTUS executable is to be specified temporarily, the Pygustus parameter `path_to_binary=path/to/augustus` can be used.
 
-#### Multithreaded
+### Multithreaded
 If the Pygustus parameter `jobs=n` is set with `n > 1`, then the input file is split into several small files and Augustus is run in parallel for each file with the given parameters. After AUGUSTUS has been executed on all parts, the partial results are combined to the final result. If the parameter `outfile` is set, the result will be saved in the file given there. Otherwise, the result will be saved in the file `augustus.gff` (default). A usage example is shown below.
 ~~~
 from pygustus import augustus
@@ -102,10 +107,10 @@ path_to_bin (string) | None | Sets the path to the desired executable version of
 
 To redirect the output to a file the AUGUSTUS parameters `outfile` and `errfile` can be used as for the default case.
 
-### Configuration
+## Configuration
 The paths to the `augustus` and `etraining` binaries be configured. This path is only used if the Pygustus parameter `path_to_bin` is not specified. This configuration is saved until the next change. The configuration is identical for `pygustus.etraining` and `pygustus.augustus`, so that the following example is restricted to `pygustus.augustus`.
 
-#### Read the configured path
+### Read the configured path
 To get the the currently configured path to the executable of AUGUSTUS you can proceed as follows.
 ~~~
 from pygustus import augustus
@@ -113,13 +118,13 @@ from pygustus import augustus
 augustus.config_get_bin()
 ~~~
 
-#### Update the path to the binary
+### Update the path to the binary
 To update the currently configured path to the executable of AUGUSTUS you can proceed as follows.
 ~~~
 augustus.config_set_bin(path/to/augustus)
 ~~~
 
-#### Set the default binary
+### Set the default binary
 To set the default binary you can proceed as follows.
 ~~~
 augustus.config_set_default_bin()
@@ -128,7 +133,7 @@ This method sets the configured path to the AUGUSTUS executable to `augustus`. T
 
 As mentioned earlier, the configured path can be overridden by specifying the Pygustus parameter `path_to_bin` for the current prediction with augustus or the current training with etraining.
 
-### Help
+## Help
 To have easy access to the AUGUSTUS and Pygustus help system, the following methods are available.
 
 | Method | Description |
@@ -144,3 +149,9 @@ from pygustus import augustus
 
 augustus.help()
 ~~~
+
+# Examples
+
+## Executable example
+
+## Jupyter notebook
