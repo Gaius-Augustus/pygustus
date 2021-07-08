@@ -19,7 +19,7 @@ If AUGUSTUS was built from source and no installation was done (so the command `
 
 For Pygustus Python version 3.6 or higher is required.
 
-The following examples assume that Python 3 is the default on the executing system. To ensure the usage of Python 3, the use of a virtual environment is recommended. A virtual environment can be created with [venv](https://docs.python.org/3/glossary.html#term-virtual-environment).
+The following examples assume that Python 3 is the default on the executing system. To ensure the usage of Python 3, the use of a virtual environment is recommended. A virtual environment can be created with [venv](https://docs.python.org/3/library/venv.html).
 
 # Installation
 Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. Since the required biopython library is not available on TestPyPi, it must be installed before the Pygustus installation. This can be installed as follows.
