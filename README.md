@@ -3,10 +3,10 @@
 # Pygustus
 A python wrapper for the gene prediction program AUGUSTUS.
 
-Requirements
-Installation
-Usage
-Examples
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Examples](#examples)
 
 # Requirements
 To use Pygustus, an installed or built AUGUSTUS with minimum program version 3.3.2 is required. Using Ubuntu, AUGUSTUS can be installed as follows.
@@ -151,7 +151,17 @@ augustus.help()
 ~~~
 
 # Examples
+The use of Pygustus is also demonstrated with an executable Python script and a Jupyter notebook. The script assumes that Pygustus and AUGUSTUS are installed as described above.
 
 ## Executable example
+The following command lines install required dependencies, download the script and execute it. The script creates a folder structure in the working directory and downloads required data. After that different AUGUSTUS prediction examples are executed with Pygtustus.
+~~~
+pip install wget
+wget https://raw.githubusercontent.com/Gaius-Augustus/pygustus/main/examples/aug_run_examples.py
+chmod +x aug_run_examples.py
+./aug_run_examples.py
+~~~
+After execution, the debug folder contains the generated AUGUSTUS command lines as well as the split input files for parallel execution.
 
 ## Jupyter notebook
+How the output of the examples should look like can also be taken from a Jupyter [notebook](https://github.com/Gaius-Augustus/pygustus/blob/main/examples/run_examples.ipynb).
