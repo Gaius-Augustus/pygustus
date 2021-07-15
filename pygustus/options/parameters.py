@@ -128,7 +128,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--UTR=true/false',
-        VALUES: [True, False],
         DEFAULT: False,
         DESCRIPTION: 'Predict the untranslated regions in addition to the coding sequence. This works only for a subset of species for which an UTR model was trained.'
     },
@@ -137,7 +136,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--singlestrand=true/false',
-        VALUES:  [True, False],
         DEFAULT: False,
         DESCRIPTION: 'Predict genes independently on each strand, allow overlapping genes on opposite strands. This is less accurate on average.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
@@ -162,7 +160,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-evidence=true/false',
-        VALUES: [True, False],
         DESCRIPTION: 'Report alternative transcripts when they are suggested by hints. AUGUSTUS can then find alternative splice forms when the extrinsic evidence is not reconcilable with constitutive splicing only (1 tx per gene) and no overlaps.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -171,7 +168,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-sampling=true/false',
-        VALUES: [True, False],
         DESCRIPTION: 'Report alternative transcripts generated through probabilistic sampling. This can be useful to produce suboptimal but still plausible alternative gene structures.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -224,7 +220,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--progress=true',
-        VALUES: [True, False],
         DEFAULT: False,
         DESCRIPTION: 'Show a progressmeter.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
@@ -235,7 +230,6 @@ allowed_parameters = [
         TYPE: TYPE_BOOL,
         USAGE: '--gff3=true/false',
         DEFAULT: False,
-        VALUES: [True, False],
         DESCRIPTION: 'Output in gff3 format.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -260,7 +254,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--noInFrameStop=true/false',
-        VALUES: [True, False],
         DEFAULT: False,
         DESCRIPTION: 'Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur. Such transcripts are then removed from the output.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
@@ -270,7 +263,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--noprediction=true/false',
-        VALUES: [True, False],
         DESCRIPTION: 'No gene predition is performed. Useful for getting the annotated protein sequences if the input is in Genbank format.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -279,7 +271,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--uniqueGeneId=true/false',
-        VALUES: [True, False],
         DEFAULT: False,
         DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN. This can be useful to avoid gene name conflicts when parallelizing.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
@@ -289,7 +280,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--softmasking=True/False',
-        VALUES: [True, False],
         DEFAULT: True,
         DESCRIPTION: 'Softmasked regions are treated as nonexonpart hints. As a consequence, exon overlapping the masked regions are discouraged. If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on. Softmasking is on average more accurate then hard-masking with Ns.'
     },
