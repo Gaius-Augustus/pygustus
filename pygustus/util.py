@@ -19,20 +19,6 @@ def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_s
     joined_outfile = aug_options.get_value_or_none('outfile')
     if not joined_outfile:
         joined_outfile = 'augustus.gff'
-    if not chunksize:
-        chunksize = 2500000
-    if not overlap:
-        overlap = 500000
-    if not partition_sequences:
-        partition_sequences = False
-    if not part_hints:
-        part_hints = False
-    if not minsize:
-        minsize = 0
-    if not max_seq_size:
-        max_seq_size = 3500000
-    if not debug_dir:
-        debug_dir = None
 
     options = list()
     outfiles = list()

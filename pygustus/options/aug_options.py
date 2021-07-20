@@ -1,4 +1,5 @@
 import json
+from distutils.util import strtobool
 
 
 class AugustusOption:
@@ -84,6 +85,7 @@ class AugustusOptions:
             self._args += args
         for option, value in kwargs.items():
             self.set_value(option, value)
+        self.setPygustusDefaultValues()
 
     def add_arguments(self, *args):
         self._args += args
@@ -158,6 +160,20 @@ class AugustusOptions:
         else:
             # TODO: throw an error?
             print('Could not set filename!')
+
+    def setPygustusDefaultValues(self):
+        for key, item in self._allowed_options.items():
+            if not self.get_value_or_none(key) and item.default_value and \
+                    'augustus' in item.get_exclude() and \
+                    'etraining' in item.get_exclude():
+                if item.type == 'int':
+                    self.set_value(key, int(item.default_value))
+                elif item.type == 'bool':
+                    self.set_value(key, bool(strtobool(item.default_value)))
+                elif item.type == 'float':
+                    self.set_value(key, float(item.default_value))
+                else:
+                    self.set_value(key, item.default_value)
 
 
 def load_allowed_options(parameter_file, program=None):

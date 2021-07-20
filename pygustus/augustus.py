@@ -81,7 +81,7 @@ def predict(*args, options=None, **kwargs):
             aug_options.set_input_filename(f_name)
             zip = True
 
-    if jobs:
+    if jobs and jobs > 1:
         util.execute_bin_parallel(
             augustus_command, aug_options, jobs, chunksize, overlap, partition_sequences, partition_hints, minsize, max_seq_size, debug_dir)
     else:
