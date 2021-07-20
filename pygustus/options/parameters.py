@@ -1587,6 +1587,241 @@ allowed_parameters = [
         NAME: '/Testing/workingDir',
         DEVELOPMENT: True,
         DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score0',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score1',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score2',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score3',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score4',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score5',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score6',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score7',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score8',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score9',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score10',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score11',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score12',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score13',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score14',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score15',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score16',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score17',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score18',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score19',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score20',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score21',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score22',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score23',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score24',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score25',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score26',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score27',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score28',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score29',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score30',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score31',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score32',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score33',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score34',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score35',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score36',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score0',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score1',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score2',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score3',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score0',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score1',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score2',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score3',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/NAMGene/statecount',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/NAMGene/SynchState',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
     }
 ]
 
