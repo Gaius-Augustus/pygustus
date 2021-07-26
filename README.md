@@ -22,12 +22,10 @@ For Pygustus Python version 3.6 or higher is required.
 The following examples assume that Python 3 is the default on the executing system. To ensure the usage of Python 3, the use of a virtual environment is recommended. A virtual environment can be created with [venv](https://docs.python.org/3/library/venv.html).
 
 # Installation
-Currently Pygustus is in alpha development status. For testing purposes an early version is published on TestPyPI. Since the required biopython library is not available on TestPyPi, it must be installed before the Pygustus installation. This can be installed as follows.
+Pygustus is in alpha development status. **Currently it is not recommended for productive use.** Pygustus can be installed from PyPi as follows.
 ~~~
-pip install biopython
-pip install -U -i https://test.pypi.org/simple/ pygustus
+pip install pygustus
 ~~~
-**Pygustus is currently not recommended for productive use**. A release on PyPi will follow soon.
 ## Building Pygustus from source
 As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,
 ~~~
