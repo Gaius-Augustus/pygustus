@@ -15,7 +15,7 @@ __all__ = ['predict', 'config_get_bin',
            'show_aug_help', 'show_aug_paramlist', 'show_species_info', 'help']
 
 
-PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
+PARAMETER_FILE = util.get_path_to_parameters_file()
 MIN_AUG_VERSION = '3.3.2'
 
 

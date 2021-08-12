@@ -11,7 +11,7 @@ __all__ = ['train', 'config_get_bin',
            'config_set_bin', 'config_set_default_bin']
 
 
-PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
+PARAMETER_FILE = util.get_path_to_parameters_file()
 
 
 def train(*args, options=None, **kwargs):

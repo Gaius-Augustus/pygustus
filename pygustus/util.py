@@ -170,3 +170,24 @@ def version_str_to_int(version_str):
     vnumbers.reverse()
     version_no = sum(x * (100 ** i) for i, x in enumerate(vnumbers))
     return version_no
+
+
+def get_path_to_parameters_file():
+    param_path = os.environ.get('AUGUSTUS_CONFIG_PATH')
+
+    if not param_path:
+        raise RuntimeError(
+            f'Environment varibale "AUGUSTUS_CONFIG_PATH" is required but not set!')
+
+    param_path = os.path.join(param_path, 'parameters',
+                              'aug_cmdln_parameters.json')
+
+    if not os.path.exists(param_path):
+        # raise RuntimeError(
+        #     f'Parameters file {param_path} cannot be found. Pelase check AUGUSTUS_CONFIG_PATH!')
+
+        # TODO: throw error above and delete the following line when
+        # Debian package contains the parameter configutration file
+        param_path = resource_filename('pygustus.options', 'parameters.json')
+
+    return param_path
