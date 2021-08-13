@@ -191,3 +191,12 @@ def get_path_to_parameters_file():
         param_path = resource_filename('pygustus.options', 'parameters.json')
 
     return param_path
+
+
+def set_tmp_config_path(options=None, **kwargs):
+    '''Set a temporary AUGUSTUS_CONFIG_PATH if it has been passed to the current AUGUSTUS call.'''
+    tmp_config_path = kwargs.get('AUGUSTUS_CONFIG_PATH')
+    if not tmp_config_path and options:
+        tmp_config_path = options.get_value_or_none('AUGUSTUS_CONFIG_PATH')
+    if tmp_config_path:
+        os.environ['AUGUSTUS_CONFIG_PATH'] = tmp_config_path

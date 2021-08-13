@@ -29,6 +29,8 @@ def train(*args, options=None, **kwargs):
             the Pygustus README (only Pygustus parameters).
     """
 
+    util.set_tmp_config_path(options, **kwargs)
+
     pygustus_options = util.get_options(
         *args, options=options, path_to_params=PARAMETER_FILE, program='pygustus', **kwargs)
 
