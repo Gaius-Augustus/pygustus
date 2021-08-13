@@ -15,6 +15,8 @@ To use Pygustus, an installed or built AUGUSTUS with minimum program version 3.3
 
 More information can be found on the [AUGUSTUS GitHub page](https://github.com/Gaius-Augustus/Augustus).
 
+To run Pygustus properly it is necessary that the AUGUSTUS environment variable `AUGUSTUS_CONFIG_PATH` is set correctly and points to the configuration directory.
+
 If AUGUSTUS was built from source and no installation was done (so the command `augustus` is not executable), then the path to the executable can be set as described in the [configuration](#configuration) section.
 
 For Pygustus Python version 3.6 or higher is required.
