@@ -9,7 +9,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='pygustus',
-    version='0.6.0',
+    version='0.7.0',
     description='Python wrapper for AUGUSTUS.',
     long_description=long_description,
     long_description_content_type='text/markdown',
