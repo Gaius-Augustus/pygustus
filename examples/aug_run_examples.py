@@ -94,7 +94,7 @@ def run_augustus_parallel_on_seq():
         species='human',
         UTR=True, softmasking=True, jobs=5,
         outfile=out_file,
-        partitionLargeSeqeunces=True,
+        partitionLargeSequences=True,
         chunksize=250000,
         overlap=50000,
         maxSeqSize=750000,
