@@ -1522,7 +1522,7 @@
         "development": false,
         "type": "int",
         "usage": "minSplitSize=n",
-        "default_value": "0",
+        "default_value": "1000000",
         "description": "The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files.",
         "exclude_apps": [
             "augustus",
