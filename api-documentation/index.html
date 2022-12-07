@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Pygustus</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -104,15 +103,16 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
-                <p><a name="pygustus.augustus"></a></p>
+                <p><a id="pygustus.augustus"></a></p>
 <h1 id="pygustusaugustus">pygustus.augustus</h1>
 <p>A python wrapper for the gene prediction program AUGUSTUS.</p>
-<p><a name="pygustus.augustus.predict"></a></p>
+<p><a id="pygustus.augustus.predict"></a></p>
 <h4 id="predict">predict</h4>
-<pre><code class="language-python">predict(*args, *, options=None, **kwargs)
+<pre><code class="language-python">def predict(*args, options=None, **kwargs)
 </code></pre>
 <p>Executes the binary of AUGUSTUS.</p>
 <p>For the execution the given parameters are passed as
@@ -129,18 +129,18 @@ command line arguments.</p>
   possible parameters can be obtained from the help methods or
   the Pygustus README (only Pygustus parameters).</li>
 </ul>
-<p><a name="pygustus.augustus.config_get_bin"></a></p>
+<p><a id="pygustus.augustus.config_get_bin"></a></p>
 <h4 id="config_get_bin">config_get_bin</h4>
-<pre><code class="language-python">config_get_bin()
+<pre><code class="language-python">def config_get_bin()
 </code></pre>
 <p>Returns currently configured path to the executable of AUGUSTUS.</p>
 <p><strong>Returns</strong>:</p>
 <ul>
 <li><code>string</code> - The currently configured path to the executable of AUGUSTUS.</li>
 </ul>
-<p><a name="pygustus.augustus.config_set_bin"></a></p>
+<p><a id="pygustus.augustus.config_set_bin"></a></p>
 <h4 id="config_set_bin">config_set_bin</h4>
-<pre><code class="language-python">config_set_bin(value)
+<pre><code class="language-python">def config_set_bin(value)
 </code></pre>
 <p>Updates the configured path to the executable of AUGUSTUS.</p>
 <p><strong>Arguments</strong>:</p>
@@ -152,15 +152,15 @@ command line arguments.</p>
 <li><code>RuntimeError</code> - If the given path does not exist or the file
   is not executable.</li>
 </ul>
-<p><a name="pygustus.augustus.config_set_default_bin"></a></p>
+<p><a id="pygustus.augustus.config_set_default_bin"></a></p>
 <h4 id="config_set_default_bin">config_set_default_bin</h4>
-<pre><code class="language-python">config_set_default_bin()
+<pre><code class="language-python">def config_set_default_bin()
 </code></pre>
 <p>Sets the configured path to the AUGUSTUS executable to 'augustus'.</p>
 <p>This should exist if AUGUSTUS is properly installed on the system.</p>
-<p><a name="pygustus.augustus.show_fasta_info"></a></p>
+<p><a id="pygustus.augustus.show_fasta_info"></a></p>
 <h4 id="show_fasta_info">show_fasta_info</h4>
-<pre><code class="language-python">show_fasta_info(inputfile)
+<pre><code class="language-python">def show_fasta_info(inputfile)
 </code></pre>
 <p>Outputs information about a fasta file.</p>
 <p>This method outputs information about the contents of the passed file
@@ -169,32 +169,32 @@ in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
 <ul>
 <li><code>inputfile</code> <em>string</em> - Path to the file in fasta format as string.</li>
 </ul>
-<p><a name="pygustus.augustus.show_aug_help"></a></p>
+<p><a id="pygustus.augustus.show_aug_help"></a></p>
 <h4 id="show_aug_help">show_aug_help</h4>
-<pre><code class="language-python">show_aug_help()
+<pre><code class="language-python">def show_aug_help()
 </code></pre>
 <p>Shows the help output of AUGUSTUS.</p>
-<p><a name="pygustus.augustus.show_aug_paramlist"></a></p>
+<p><a id="pygustus.augustus.show_aug_paramlist"></a></p>
 <h4 id="show_aug_paramlist">show_aug_paramlist</h4>
-<pre><code class="language-python">show_aug_paramlist()
+<pre><code class="language-python">def show_aug_paramlist()
 </code></pre>
 <p>Shows possible parameter names of AUGUSTUS.</p>
-<p><a name="pygustus.augustus.show_species_info"></a></p>
+<p><a id="pygustus.augustus.show_species_info"></a></p>
 <h4 id="show_species_info">show_species_info</h4>
-<pre><code class="language-python">show_species_info()
+<pre><code class="language-python">def show_species_info()
 </code></pre>
 <p>Shows species information of AUGUSTUS.</p>
-<p><a name="pygustus.augustus.help"></a></p>
+<p><a id="pygustus.augustus.help"></a></p>
 <h4 id="help">help</h4>
-<pre><code class="language-python">help()
+<pre><code class="language-python">def help()
 </code></pre>
 <p>Shows usage information.</p>
-<p><a name="pygustus.etraining"></a></p>
+<p><a id="pygustus.etraining"></a></p>
 <h1 id="pygustusetraining">pygustus.etraining</h1>
 <p>A python wrapper for the training of AUGUSTUS.</p>
-<p><a name="pygustus.etraining.train"></a></p>
+<p><a id="pygustus.etraining.train"></a></p>
 <h4 id="train">train</h4>
-<pre><code class="language-python">train(*args, *, options=None, **kwargs)
+<pre><code class="language-python">def train(*args, options=None, **kwargs)
 </code></pre>
 <p>Executes etraining and passes the given parameters as command line arguments.</p>
 <p><strong>Arguments</strong>:</p>
@@ -208,18 +208,18 @@ in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
   possible parameters can be obtained from the help methods or
   the Pygustus README (only Pygustus parameters).</li>
 </ul>
-<p><a name="pygustus.etraining.config_get_bin"></a></p>
+<p><a id="pygustus.etraining.config_get_bin"></a></p>
 <h4 id="config_get_bin_1">config_get_bin</h4>
-<pre><code class="language-python">config_get_bin()
+<pre><code class="language-python">def config_get_bin()
 </code></pre>
 <p>Outputs currently configured path to the executable of etraining.</p>
 <p><strong>Returns</strong>:</p>
 <ul>
 <li><code>string</code> - The currently configured path to the executable of etraining.</li>
 </ul>
-<p><a name="pygustus.etraining.config_set_bin"></a></p>
+<p><a id="pygustus.etraining.config_set_bin"></a></p>
 <h4 id="config_set_bin_1">config_set_bin</h4>
-<pre><code class="language-python">config_set_bin(value)
+<pre><code class="language-python">def config_set_bin(value)
 </code></pre>
 <p>Updates the configured path to the executable of etraining.</p>
 <p><strong>Arguments</strong>:</p>
@@ -231,9 +231,9 @@ in fasta format. It is based on the Pearl script summarizeACGTcontent.pl.</p>
 <li><code>RuntimeError</code> - If the given path does not exist or the file
   is not executable.</li>
 </ul>
-<p><a name="pygustus.etraining.config_set_default_bin"></a></p>
+<p><a id="pygustus.etraining.config_set_default_bin"></a></p>
 <h4 id="config_set_default_bin_1">config_set_default_bin</h4>
-<pre><code class="language-python">config_set_default_bin()
+<pre><code class="language-python">def config_set_default_bin()
 </code></pre>
 <p>Sets the configured path to the etraining executable to 'etraining'.</p>
 <p>This executable should exist if AUGUSTUS is properly installed
@@ -269,15 +269,16 @@ on the system.</p>
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>
