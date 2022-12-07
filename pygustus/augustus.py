@@ -59,7 +59,7 @@ def predict(*args, options=None, **kwargs):
     partition_hints = pygustus_options.get_value_or_none('partitionHints')
     minsize = pygustus_options.get_value_or_none('minSplitSize')
     partition_sequences = pygustus_options.get_value_or_none(
-        'partitionLargeSeqeunces')
+        'partitionLargeSequences')
     debug_dir = pygustus_options.get_value_or_none('debugOutputDir')
     max_seq_size = pygustus_options.get_value_or_none('maxSeqSize')
 

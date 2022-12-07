@@ -74,10 +74,10 @@ allowed_parameters = [
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
-        NAME: 'partitionLargeSeqeunces',
+        NAME: 'partitionLargeSequences',
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
-        USAGE: 'partitionLargeSeqeunces=True/False',
+        USAGE: 'partitionLargeSequences=True/False',
         DEFAULT: 'False',
         DESCRIPTION: 'Parallelize large sequences by automatically setting the AUGUSTUS parameters predictionStart and predictionEnd based on the given values for chunksize and overlap.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
