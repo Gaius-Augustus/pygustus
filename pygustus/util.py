@@ -128,7 +128,7 @@ def get_path_to_binary(options, program):
 
 
 def get_config_item(name):
-    config = set_json_file()
+    config_file = set_json_file()
     with open(config_file, 'r') as file:
         config = json.load(file)
 
