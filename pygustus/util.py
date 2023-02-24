@@ -212,11 +212,9 @@ def set_json_file():
     else:
         homedir = os.path.expanduser('~')
         new_config =  homedir + '/.pygustus/config.json'
+        if not os.path.exists(homedir + "/.pygustus") and os.access(homedir, os.W_OK):
+             os.mkdir(homedir + '/.pygustus')
         if not os.path.isfile(new_config) and os.access(homedir, os.W_OK):
-            os.mkdir(homedir + '/.pygustus')
             shutil.copyfile(sysconfig.get_paths()["purelib"] + '/pygustus/config.json', new_config)
-        else:
-            print("ERROR: failed to copy config.json to " + homedir + "./pygustus!")
-            exit(1)
         return new_config
         
