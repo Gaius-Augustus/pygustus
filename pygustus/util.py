@@ -213,7 +213,7 @@ def set_json_file():
         homedir = os.path.expanduser('~')
         new_config =  homedir + '/.pygustus/config.json'
         if not os.path.isfile(new_config) and os.access(homedir, os.W_OK):
-            os.mkdir(homedir + '.pygustus')
+            os.mkdir(homedir + '/.pygustus')
             shutil.copyfile('config.json', new_config)
         else:
             print("ERROR: failed to copy config.json to " + homedir + "./pygustus!")
