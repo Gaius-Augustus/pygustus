@@ -205,7 +205,7 @@ def set_tmp_config_path(options=None, **kwargs):
 
 def set_json_file():
     '''If config.json file is not in a writable location, copy it to user's home and use that file hence forward.'''
-    standard_pkg_json = resource_filename('pygustus', js_file)
+    standard_pkg_json = resource_filename('pygustus', 'config.json')
     if os.access(standard_pkg_json, os.W_OK):
         return standard_pkg_json
     else:
