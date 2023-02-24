@@ -118,10 +118,10 @@
 </code></pre>
 <p>required dependencies need to be installed.</p>
 <pre><code>pip install numba property-manager pysais
-pip install --force-reinstall -v &quot;numpy==1.23&quot;
-pip install --force-reinstall -v &quot;numexpr==2.6.2&quot;
+# sometimes required: pip install --force-reinstall -v &quot;numpy==1.23&quot;
+# sometimes required: pip install --force-reinstall -v &quot;numexpr==2.6.2&quot;
 pip install -r requirements.txt
-pip install -r requirements-dev.txt
+# can be skipped for just installing the package: pip install -r requirements-dev.txt
 </code></pre>
 <p>After that Pygustus can be built and installed as follows.</p>
 <pre><code>python setup.py sdist bdist_wheel
@@ -339,5 +339,5 @@ chmod +x aug_run_examples.py
 
 <!--
 MkDocs version : 1.2.3
-Build Date UTC : 2023-02-24 14:05:02.791631+00:00
+Build Date UTC : 2023-02-24 15:53:58.600584+00:00
 -->
