@@ -1,0 +1,3 @@
+# Install dependencies from setup.py required to run Pygustus
+
+-e .

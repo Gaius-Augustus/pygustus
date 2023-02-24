@@ -11,8 +11,8 @@ different sequence segments. Based on the AUGUSTUS script join_aug_pred.pl
 
 
 class Gene:
-    def __init__(self, name, sequence, start, end, txt):
-        self.name = name
+    def __init__(self, id, sequence, start, end, txt):
+        self.id = id
         self.sequence = sequence
         self.start = start
         self.end = end
@@ -25,12 +25,12 @@ class Gene:
         return not self == o
 
     def __str__(self) -> str:
-        return f'Gene {self.name} starts at {self.start} and ends at {self.end} in sequence {self.sequence}.'
+        return f'Gene {self.id} starts at {self.start} and ends at {self.end} in sequence {self.sequence}.'
 
-    def rename(self, name):
-        old_name = self.name
-        self.name = name
-        self.txt = self.txt.replace(old_name, name)
+    def rename(self, id):
+        old_id = self.id
+        self.id = id
+        self.txt = self.txt.replace(old_id, id)
 
 
 class GFFFile:
@@ -39,8 +39,9 @@ class GFFFile:
         self.genes = list()
 
     def add_content(self, filepath):
-        """
-        Joins the given AUGUSTUS results. The files should be passed in the order of the AUGUSTUS runs.
+        """Joins the given AUGUSTUS results.
+        
+        The files should be passed in the order of the AUGUSTUS runs.
         """
         if not os.path.isfile(filepath):
             raise ValueError(f'Could not open {filepath}')
@@ -66,8 +67,8 @@ class GFFFile:
                         self.header = file_header
 
                 # read genes
-                # if back compatibility is required add condition like re.search("^### gene g", line.strip())
-                if re.search("^# start gene g", line.strip()):
+                # if back compatibility is required add condition like re.search("^### gene", line.strip())
+                if re.search("^# start gene", line.strip()):
                     gene_collection = True
 
                 if gene_collection:
@@ -77,31 +78,36 @@ class GFFFile:
                 if len(l_split) > 5:
                     if l_split[2] == 'gene':
                         if gff3:
-                            gname = l_split[-1].replace('ID=', '')
+                            gid = l_split[-1].replace('ID=', '').split('.')[-1]
                         else:
-                            gname = l_split[-1]
+                            gid = l_split[-1].split('.')[-1]
                         gseq = l_split[0]
                         gstart = l_split[3]
                         gend = l_split[4]
 
-                # if back compatibility is required add condition like re.search("^### end gene g", line.strip())
-                if re.search("^# end gene g", line.strip()):
-                    gene = Gene(gname, gseq, gstart, gend, gene_txt)
+                # if back compatibility is required add condition like re.search("^### end gene", line.strip())
+                if re.search("^# end gene", line.strip()):
+                    gene = Gene(gid, gseq, gstart, gend, gene_txt)
 
                     # use unique gene name (id)
-                    gid = int(gname.replace('g', ''))
-                    if gid <= len(self.genes):
-                        new_gid = len(self.genes) + 1
-                        gene.rename(f'g{new_gid}')
+                    int_gid = int(gid.replace('g', ''))
+                    if int_gid <= len(self.genes):
+                        new_int_gid = len(self.genes) + 1
+                        gene.rename(f'g{new_int_gid}')
 
                     # do not add redundant genes of two possibly overlapping neighboring runs
                     if len(self.genes) > 0:
                         if not gene in self.genes:
                             last_gene = self.genes[-1]
-                            if gene.sequence == last_gene.sequence and gene.start < last_gene.end:
+                            if gene.sequence == last_gene.sequence and int(gene.start) < int(last_gene.end):
                                 pass
                             else:
                                 self.genes.append(gene)
+                        else:
+                            last_gene = self.genes[-1]
+                            if gene.sequence == last_gene.sequence and int(gene.start) == int(last_gene.start):
+                                gene.rename(last_gene.id)
+                                self.genes[-1] = gene
                     else:
                         self.genes.append(gene)
 
@@ -118,16 +124,43 @@ class GFFFile:
 
 
 def join_aug_pred(out_file, pred_files):
-    """
-    Joins the given AUGUSTUS results and writes all results to the given
+    """Joins the given AUGUSTUS results.
+    
+    After all result parts are joinedand it writes the result to the given
     out_file. The files should be passed in the order of the AUGUSTUS runs.
 
     Args:
-        out_file (string): The path to the ouput file to write the joined results.
-        pred_files (list): A list of AUGUSTUS result file names ordered by runs.
-
+        out_file (string): The path to the ouput file to write the
+            joined results.
+        pred_files (list): A list of AUGUSTUS result file names
+            ordered by runs.
     """
     gff = GFFFile()
     for pred in pred_files:
         gff.add_content(pred)
     gff.write(out_file)
+
+
+def create_hint_parts(inputfile, outfile, sequences, whitespaces=False):
+    output = list()
+    with open(inputfile) as file:
+        line = file.readline()
+        while line:
+            if whitespaces:
+                l_split = re.split(' +', line.strip())
+            else:
+                l_split = line.strip().split('\t')
+
+            if len(l_split) > 1 and l_split[0] in sequences.keys():
+                start, end = sequences[l_split[0]]
+                if start > 0 and end > 0:
+                    if int(l_split[3]) >= start and int(l_split[4]) <= end:
+                        output.append(line)
+                else:
+                    output.append(line)
+
+            line = file.readline()
+
+    with open(outfile, "w") as file:
+        for line in output:
+            file.write(line)

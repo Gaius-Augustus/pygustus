@@ -2,7 +2,7 @@ loaders:
   - type: python
 processors:
   - type: filter
-  - type: smart
+  - type: google
   - type: crossref
 renderer:
   type: mkdocs

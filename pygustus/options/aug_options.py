@@ -1,4 +1,5 @@
 import json
+from distutils.util import strtobool
 
 
 class AugustusOption:
@@ -84,6 +85,7 @@ class AugustusOptions:
             self._args += args
         for option, value in kwargs.items():
             self.set_value(option, value)
+        self.setPygustusDefaultValues()
 
     def add_arguments(self, *args):
         self._args += args
@@ -118,6 +120,10 @@ class AugustusOptions:
     def get_value_or_none(self, name):
         return self._options.get(name)
 
+    def remove(self, name):
+        if name in self._options:
+            del self._options[name]
+
     def get_options(self):
         opts = []
         for option, value in self._options.items():
@@ -137,14 +143,7 @@ class AugustusOptions:
         return optstr
 
     def load_options(self):
-        with open(self._parameter_file, 'r') as file:
-            options = json.load(file)
-
-        for o in options:
-            option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
-                'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
-
-            self._allowed_options.update({option.get_name(): option})
+        self._allowed_options = load_allowed_options(self._parameter_file)
 
     def get_input_filename(self):
         if len(self._args) == 1:
@@ -159,5 +158,40 @@ class AugustusOptions:
         if len(self._args) == 1:
             self._args[0] = name
         else:
-            #TODO: throw an error?
+            # TODO: throw an error?
             print('Could not set filename!')
+
+    def setPygustusDefaultValues(self):
+        for key, item in self._allowed_options.items():
+            if not self.get_value_or_none(key) and item.default_value and \
+                    'augustus' in item.get_exclude() and \
+                    'etraining' in item.get_exclude():
+                if item.type == 'int':
+                    self.set_value(key, int(item.default_value))
+                elif item.type == 'bool':
+                    self.set_value(key, bool(strtobool(item.default_value)))
+                elif item.type == 'float':
+                    self.set_value(key, float(item.default_value))
+                else:
+                    self.set_value(key, item.default_value)
+
+
+def load_allowed_options(parameter_file, program=None):
+    allowed_options = dict()
+    with open(parameter_file, 'r') as file:
+        options = json.load(file)
+
+    for o in options:
+        option = AugustusOption(o.get('name'), o.get('type'), o.get('possible_values'), o.get(
+            'description'), o.get('usage'), o.get('default_value'), o.get('development'), o.get('exclude_apps'))
+
+        if program == 'pygustus':
+            if 'augustus' in option.get_exclude() and 'etraining' in option.get_exclude():
+                allowed_options.update({option.get_name(): option})
+        elif program:
+            if not program in option.get_exclude():
+                allowed_options.update({option.get_name(): option})
+        else:
+            allowed_options.update({option.get_name(): option})
+
+    return allowed_options

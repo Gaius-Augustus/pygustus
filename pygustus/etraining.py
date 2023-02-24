@@ -11,15 +11,25 @@ __all__ = ['train', 'config_get_bin',
            'config_set_bin', 'config_set_default_bin']
 
 
-PARAMETER_FILE = resource_filename('pygustus.options', 'parameters.json')
+PARAMETER_FILE = util.get_path_to_parameters_file()
 
 
 def train(*args, options=None, **kwargs):
     """
     Executes etraining and passes the given parameters as command line arguments.
 
-    TODO: parameter descritption
+    Args:
+        *args (tuple): Only the the queryfilename should be passed here.
+        options (AugustusOptions): Optional; If an instance of
+            AugustusOptions is passed, it will be used for the call.
+            Otherwise, a new instance is created based on the passed arguments
+            (the default is None).
+        **kwargs (dict): Arguments for Etraining or Pygustus: lists with
+            possible parameters can be obtained from the help methods or 
+            the Pygustus README (only Pygustus parameters).
     """
+
+    util.set_tmp_config_path(options, **kwargs)
 
     pygustus_options = util.get_options(
         *args, options=options, path_to_params=PARAMETER_FILE, program='pygustus', **kwargs)
@@ -46,35 +56,32 @@ def train(*args, options=None, **kwargs):
 
 
 def config_get_bin():
-    """
-    Reads the currently configured path to the executable of etraining
-    and returns it.
+    """Outputs currently configured path to the executable of etraining.
 
     Returns:
-        The currently configured path to the executable of etraining.
+        string: The currently configured path to the executable of etraining.
     """
     return util.get_config_item('etraining_bin')
 
 
 def config_set_bin(value):
-    """
-    Updates the configured path to the executable of etraining
-    with the given value.
+    """ Updates the configured path to the executable of etraining.
 
     Args:
         value (string): The path to the execuatble of etraining.
 
     Raises:
-        RuntimeError: If the given path does not exist or the file is
-        not executable.
+        RuntimeError: If the given path does not exist or the file
+        is not executable.
     """
     util.check_bin(value)
     util.set_config_item('etraining_bin', value)
 
 
 def config_set_default_bin():
-    """
-    Sets the configured path to the etraining executable to 'etraining'.
-    This should exist if AUGUSTUS is properly installed on the system.
+    """Sets the configured path to the etraining executable to 'etraining'.
+
+    This executable should exist if AUGUSTUS is properly installed
+    on the system.
     """
     util.set_config_item('etraining_bin', 'etraining')

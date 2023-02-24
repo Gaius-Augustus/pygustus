@@ -24,8 +24,71 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: 'jobs=n',
-        DEFAULT: 1,
-        DESCRIPTION: 'If this option is set, the input file is split into n chunks and AUGUSTUS is executed on each chunk in parallel. After the execution of all n jobs, the output files are merged.',
+        DEFAULT: '1',
+        DESCRIPTION: 'If this option is set, AUGUSTUS is executed in parallel on sequence segments or split input files using n jobs. After the execution of all jobs, the output files are merged.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'chunksize',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'chunksize=n',
+        DEFAULT: '2500000',
+        DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments of the maximum size n.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'overlap',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'overlap=n',
+        DEFAULT: '500000',
+        DESCRIPTION: 'If this option is set and jobs > 1, each AUGUSTUS instance is executed on sequence segments and the segments overlap by n.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'partitionHints',
+        DEVELOPMENT: False,
+        TYPE: TYPE_BOOL,
+        USAGE: 'partitionHints=True/False',
+        DEFAULT: 'False',
+        DESCRIPTION: 'If this option is set to True, a hints file is given and jobs > 1, then the hints file is split into appropriate pieces for the respective AUGUSTUS jobs.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'minSplitSize',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'minSplitSize=n',
+        DEFAULT: '0',
+        DESCRIPTION: 'The input fasta file is spilt to at least n base pairs. Set this to 0 to split the input in single sequence files.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'maxSeqSize',
+        DEVELOPMENT: False,
+        TYPE: TYPE_INT,
+        USAGE: 'maxSeqSize=n',
+        DEFAULT: '3500000',
+        DESCRIPTION: 'The maximum length of a sequence from which the sequence is started to be partitioned.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'partitionLargeSequences',
+        DEVELOPMENT: False,
+        TYPE: TYPE_BOOL,
+        USAGE: 'partitionLargeSequences=True/False',
+        DEFAULT: 'False',
+        DESCRIPTION: 'Parallelize large sequences by automatically setting the AUGUSTUS parameters predictionStart and predictionEnd based on the given values for chunksize and overlap.',
+        EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
+    },
+    {
+        NAME: 'debugOutputDir',
+        DEVELOPMENT: False,
+        TYPE: TYPE_STRING,
+        USAGE: 'debugOutputDir=path/to/dir',
+        DEFAULT: None,
+        DESCRIPTION: 'If the directory is specified, all generated files, i.e. the split of the input file and intermediate results, as well as the generated AUGUSTUS command lines are stored there. This option works only for the parallelization, i. e. jobs > 1 is set.',
         EXCLUDE_APPS: [EXCLUDE_AUGUSTUS, EXCLUDE_ETRAINING]
     },
     {
@@ -65,8 +128,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--UTR=true/false',
-        VALUES: [True, False],
-        DEFAULT: False,
+        DEFAULT: 'False',
         DESCRIPTION: 'Predict the untranslated regions in addition to the coding sequence. This works only for a subset of species for which an UTR model was trained.'
     },
     {
@@ -74,8 +136,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--singlestrand=true/false',
-        VALUES:  [True, False],
-        DEFAULT: False,
+        DEFAULT: 'False',
         DESCRIPTION: 'Predict genes independently on each strand, allow overlapping genes on opposite strands. This is less accurate on average.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -99,7 +160,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-evidence=true/false',
-        VALUES: [True, False],
         DESCRIPTION: 'Report alternative transcripts when they are suggested by hints. AUGUSTUS can then find alternative splice forms when the extrinsic evidence is not reconcilable with constitutive splicing only (1 tx per gene) and no overlaps.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -108,7 +168,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--alternatives-from-sampling=true/false',
-        VALUES: [True, False],
         DESCRIPTION: 'Report alternative transcripts generated through probabilistic sampling. This can be useful to produce suboptimal but still plausible alternative gene structures.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -117,7 +176,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--sample=n',
-        DEFAULT: 100,
+        DEFAULT: '100',
         DESCRIPTION: 'The number of sampling iterations. The higher "n" is the more accurate is the estimation of probabilities (=scores output in 6th GFF column) but it usually is not important that the posterior probability is very accurate.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -126,7 +185,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_FLOAT,
         USAGE: '--minexonintronprob=p',
-        DEFAULT: 0.0,
+        DEFAULT: '0.0',
         DESCRIPTION: 'The posterior probability of every exon and every intron in a transcript must be at least "minexonintronprob", otherwise the transcript is not reported. Value between 0 and 1 (default 0.0).',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]        
     },
@@ -135,7 +194,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_FLOAT,
         USAGE: '--minmeanexonintronprob=p',
-        DEFAULT: 0.0,
+        DEFAULT: '0.0',
         DESCRIPTION: 'The geometric mean of the probabilities of all exons and introns must be at least "minmeanexonintronprob". A value of 0.4 is reasonable if a restriction of results is desired at all. Value between 0 and 1 (default 0.0).',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -144,7 +203,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--maxtracks=n',
-        DEFAULT: -1,
+        DEFAULT: '-1',
         DESCRIPTION: 'The maximum number of tracks when displayed in a genome browser is "maxtracks" (unless maxtracks=-1, then it is unbounded). In cases where all transcripts of a gene overlap at some position this is also the maximal number of transcripts for that gene. We recommend increasing the parameter "maxtracks" for improving sensitivity and setting "maxtracks" to 1 and increasing  minmeanexonintronprob and/or minexonintronprob in order to improve specificity. (default -1)',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -161,8 +220,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--progress=true',
-        VALUES: [True, False],
-        DEFAULT: False,
+        DEFAULT: 'False',
         DESCRIPTION: 'Show a progressmeter.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -171,8 +229,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--gff3=true/false',
-        DEFAULT: False,
-        VALUES: [True, False],
+        DEFAULT: 'False',
         DESCRIPTION: 'Output in gff3 format.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -197,8 +254,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--noInFrameStop=true/false',
-        VALUES: [True, False],
-        DEFAULT: False,
+        DEFAULT: 'False',
         DESCRIPTION: 'Do not report transcripts with in-frame stop codons. Otherwise, intron-spanning stop codons could occur. Such transcripts are then removed from the output.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -207,7 +263,6 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--noprediction=true/false',
-        VALUES: [True, False],
         DESCRIPTION: 'No gene predition is performed. Useful for getting the annotated protein sequences if the input is in Genbank format.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -216,8 +271,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--uniqueGeneId=true/false',
-        VALUES: [True, False],
-        DEFAULT: False,
+        DEFAULT: 'False',
         DESCRIPTION: 'If true, output gene identifyers like this: seqname.gN. This can be useful to avoid gene name conflicts when parallelizing.',
         EXCLUDE_APPS: [EXCLUDE_ETRAINING]
     },
@@ -226,8 +280,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_BOOL,
         USAGE: '--softmasking=True/False',
-        VALUES: [True, False],
-        DEFAULT: True,
+        DEFAULT: 'True',
         DESCRIPTION: 'Softmasked regions are treated as nonexonpart hints. As a consequence, exon overlapping the masked regions are discouraged. If the bases in repeat regions are lower case (a,c,g,t instead of A,C,G,T) in the input, then softmasking should be turned on. Softmasking is on average more accurate then hard-masking with Ns.'
     },
     {
@@ -247,7 +300,7 @@ allowed_parameters = [
         DEVELOPMENT: False,
         TYPE: TYPE_INT,
         USAGE: '--/augustus/verbosity=n',
-        DEFAULT: 1,
+        DEFAULT: '1',
         DESCRIPTION: 'Value of 0, 1, 2 or 3 produce increasingly verbose output.'
     },
     {
@@ -1532,6 +1585,241 @@ allowed_parameters = [
     },
     {
         NAME: '/Testing/workingDir',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score0',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score1',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score2',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score3',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score4',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score5',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score6',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score7',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score8',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score9',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score10',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score11',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score12',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score13',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score14',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score15',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score16',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score17',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score18',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score19',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score20',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score21',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score22',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score23',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score24',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score25',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score26',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score27',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score28',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score29',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score30',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score31',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score32',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score33',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score34',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score35',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/exon_score36',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score0',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score1',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score2',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/CompPred/intron_score3',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score0',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score1',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score2',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: 'lg_exon_score3',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/NAMGene/statecount',
+        DEVELOPMENT: True,
+        DESCRIPTION: ''
+    },
+    {
+        NAME: '/NAMGene/SynchState',
         DEVELOPMENT: True,
         DESCRIPTION: ''
     }

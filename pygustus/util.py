@@ -1,5 +1,6 @@
 import subprocess
 import os
+import re
 import json
 import shutil
 import tempfile
@@ -11,110 +12,76 @@ import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
 
 
-def execute_bin_parallel(cmd, aug_options, jobs):
+def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_sequences, part_hints, minsize, max_seq_size, debug_dir):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
 
     input_file = aug_options.get_input_filename()[1]
-    size = os.path.getsize(input_file)
     joined_outfile = aug_options.get_value_or_none('outfile')
     if not joined_outfile:
         joined_outfile = 'augustus.gff'
 
-    # TODO: add more use cases
-    # TODO: add chunksize and overlap as optional parameters
-
     options = list()
     outfiles = list()
     with tempfile.TemporaryDirectory(prefix='.tmp_') as tmpdir:
-        if fm.get_sequence_count(input_file) == 1:
-            # file contains only one large sequence
-            seq_size = fm.get_sequence_size(input_file)
-            chunksize = int(seq_size / (jobs-1))
-            if chunksize > 3000000:
-                overlap = 500000
-            else:
-                overlap = int(chunksize / 5) # chunksize / 6 semms not to work reliable
-            chunks = list()
-            go_on = True
-            while go_on:
-                if len(chunks) == 0:
-                    chunks.append([1, chunksize])
-                else:
-                    last_start, last_end = chunks[-1]
-                    start = last_end + 1 - overlap
-                    end = start + chunksize -1
-                    if end >= seq_size:
-                        end = seq_size
-                        go_on = False
-                    chunks.append([start, end])
+        hintsfile = aug_options.get_value_or_none('hintsfile')
 
-            run = 0
-            for pred_start, pred_end in chunks:
-                run += 1
-                outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
-                outfiles.append(outfile)
-                aug_options.set_value('outfile', outfile)
-                aug_options.set_value('predictionStart', pred_start)
-                aug_options.set_value('predictionEnd', pred_end)
-                options.append(aug_options.get_options())
-        else:
-            # create a file per job
-            minsize = size / jobs
-            fm.split(input_file, tmpdir, minsize)
-            for run in range(1, jobs+1):
-                curfile = create_split_filenanme(input_file, tmpdir, run)
-                outfile = os.path.join(tmpdir, f'augustus_{str(run)}.gff')
-                outfiles.append(outfile)
-                aug_options.set_input_filename(curfile)
-                aug_options.set_value('outfile', outfile)
-                options.append(aug_options.get_options())
+        run_information = fm.split(
+            input_file, tmpdir, chunksize, overlap, partition_sequences, minsize, max_seq_size)
+
+        for ri in run_information:
+            runno = str(ri['run'])
+            fileidx = str(ri['fileidx'])
+            seqinfo = ri['seqinfo']
+            outfile = os.path.join(tmpdir, f'augustus_{runno}.gff')
+            outfiles.append(outfile)
+            curfile = create_split_filenanme(input_file, tmpdir, fileidx)
+            aug_options.set_input_filename(curfile)
+            aug_options.set_value('outfile', outfile)
+            aug_options.remove('predictionStart')
+            aug_options.remove('predictionEnd')
+            if len(seqinfo) == 1 and list(seqinfo.values())[0][0] > 0 and list(seqinfo.values())[0][1] > 0:
+                aug_options.set_value(
+                    'predictionStart', list(seqinfo.values())[0][0])
+                aug_options.set_value(
+                    'predictionEnd', list(seqinfo.values())[0][1])
+            if hintsfile and part_hints:
+                tmp_hintsfile = os.path.join(
+                    tmpdir, f'augustus_hints_{str(runno)}.gff')
+                gff.create_hint_parts(
+                    hintsfile, tmp_hintsfile, seqinfo)
+                aug_options.set_value('hintsfile', tmp_hintsfile)
+            options.append(aug_options.get_options())
 
         with ThreadPoolExecutor(max_workers=int(jobs)) as executor:
             for opt in options:
                 executor.submit(execute_bin, cmd, opt)
 
         gff.join_aug_pred(joined_outfile, outfiles)
+        print(f'Joined output written to: {joined_outfile}')
+
+        if debug_dir:
+            rmtree_if_exists(debug_dir, even_none_empty=True)
+            shutil.copytree(src=tmpdir, dst=debug_dir)
+            cmd_filename = os.path.join(debug_dir, 'aug_cmd_lines.txt')
+            with open(cmd_filename, "w") as file:
+                for o in options:
+                    file.write(str(o) + '\n' + '\n')
 
 
-def execute_bin(cmd, options, print_err=True, std_out_file=None, error_out_file=None, mode='w'):
+def execute_bin(cmd, options):
     # execute given binary with given options
+    result = ''
 
-    if std_out_file and error_out_file and mode:
-        with open(std_out_file, mode) as file:
-            with open(error_out_file, mode) as errfile:
-                process = subprocess.Popen(
-                    [cmd] + options,
-                    stdout=file,
-                    stderr=errfile,
-                    universal_newlines=True)
-    elif std_out_file and mode:
-        with open(std_out_file, mode) as file:
-            process = subprocess.Popen(
-                [cmd] + options,
-                stdout=file,
-                stderr=subprocess.PIPE,
-                universal_newlines=True)
-    else:
-        process = subprocess.Popen(
+    try:
+        result = subprocess.check_output(
             [cmd] + options,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
             universal_newlines=True)
+    except subprocess.CalledProcessError as cpe:
+        print("Returncode", cpe.returncode, cpe.output)
 
-    rc = process.wait()
-
-    if not std_out_file:
-        output = process.stdout.read()
-        if len(output.strip()):
-            print(output)
-
-    if print_err and process.stderr:
-        error = process.stderr.read()
-        if len(error.strip()):
-            print(error)
-
-    if rc != 0:
-        print(f'Unexpected returncode {rc}!')
+    if len(result.strip()):
+        print(result.strip())
 
 
 def check_bin(bin):
@@ -182,3 +149,54 @@ def create_split_filenanme(inputfile, outputdir, idx):
     f_name, f_ext = os.path.splitext(filename)
     s_filename = f'{f_name}.split.{str(idx)}{f_ext}'
     return os.path.join(outputdir, s_filename)
+
+
+def check_aug_version(aug_bin, min_aug_version):
+    result = subprocess.run(
+        [aug_bin, '--version'],
+        capture_output=True, encoding='UTF-8')
+
+    version_str = re.findall(r'\d+.\d+.\d+', result.stderr)[0]
+    min_version_no = version_str_to_int(min_aug_version)
+    version_no = version_str_to_int(version_str)
+
+    if version_no < min_version_no:
+        raise RuntimeError(
+            f'AUGUSTUS version {min_aug_version} or higher is required!')
+
+
+def version_str_to_int(version_str):
+    vnumbers = [int(x) for x in version_str.split('.')]
+    vnumbers.reverse()
+    version_no = sum(x * (100 ** i) for i, x in enumerate(vnumbers))
+    return version_no
+
+
+def get_path_to_parameters_file():
+    param_path = os.environ.get('AUGUSTUS_CONFIG_PATH')
+
+    if not param_path:
+        raise RuntimeError(
+            f'Environment varibale "AUGUSTUS_CONFIG_PATH" is required but not set!')
+
+    param_path = os.path.join(param_path, 'parameters',
+                              'aug_cmdln_parameters.json')
+
+    if not os.path.exists(param_path):
+        # raise RuntimeError(
+        #     f'Parameters file {param_path} cannot be found. Pelase check AUGUSTUS_CONFIG_PATH!')
+
+        # TODO: throw error above and delete the following line when
+        # Debian package contains the parameter configutration file
+        param_path = resource_filename('pygustus.options', 'parameters.json')
+
+    return param_path
+
+
+def set_tmp_config_path(options=None, **kwargs):
+    '''Set a temporary AUGUSTUS_CONFIG_PATH if it has been passed to the current AUGUSTUS call.'''
+    tmp_config_path = kwargs.get('AUGUSTUS_CONFIG_PATH')
+    if not tmp_config_path and options:
+        tmp_config_path = options.get_value_or_none('AUGUSTUS_CONFIG_PATH')
+    if tmp_config_path:
+        os.environ['AUGUSTUS_CONFIG_PATH'] = tmp_config_path
