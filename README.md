@@ -39,10 +39,10 @@ git clone git@github.com:Gaius-Augustus/pygustus.git
 required dependencies need to be installed.
 ~~~
 pip install numba property-manager pysais
-pip install --force-reinstall -v "numpy==1.23"
-pip install --force-reinstall -v "numexpr==2.6.2"
+# sometimes required: pip install --force-reinstall -v "numpy==1.23"
+# sometimes required: pip install --force-reinstall -v "numexpr==2.6.2"
 pip install -r requirements.txt
-pip install -r requirements-dev.txt
+# can be skipped for just installing the package: pip install -r requirements-dev.txt
 ~~~
 After that Pygustus can be built and installed as follows.
 ~~~
