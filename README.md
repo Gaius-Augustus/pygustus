@@ -28,6 +28,9 @@ Pygustus is in alpha development status. **Currently it is not recommended for p
 ~~~
 pip install pygustus
 ~~~
+
+:warning: PyPI currently contains version 0.7.0. We have version 0.8.0 that contains imported bugfixes. Build from source!
+
 ## Building Pygustus from source
 As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,
 ~~~
