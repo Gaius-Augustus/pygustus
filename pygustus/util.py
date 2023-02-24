@@ -1,5 +1,6 @@
 import subprocess
 import os
+import os.path
 import re
 import json
 import shutil
@@ -127,7 +128,8 @@ def get_path_to_binary(options, program):
 
 
 def get_config_item(name):
-    config_file = resource_filename('pygustus', 'config.json')
+    js_file = set_json_file()
+    config_file = resource_filename('pygustus', js_file)
     with open(config_file, 'r') as file:
         config = json.load(file)
 
@@ -135,7 +137,8 @@ def get_config_item(name):
 
 
 def set_config_item(name, value):
-    config_file = resource_filename('pygustus', 'config.json')
+    js_file = set_json_file()
+    config_file = resource_filename('pygustus', js_file)
     with open(config_file, 'r+') as file:
         config = json.load(file)
         config.update({name: value})
@@ -200,3 +203,20 @@ def set_tmp_config_path(options=None, **kwargs):
         tmp_config_path = options.get_value_or_none('AUGUSTUS_CONFIG_PATH')
     if tmp_config_path:
         os.environ['AUGUSTUS_CONFIG_PATH'] = tmp_config_path
+
+
+def set_json_file():
+    '''If config.json file is not in a writable location, copy it to user's home and use that file hence forward.'''
+    if os.access('config.json', os.W_OK):
+        return 'config.json'
+    else:
+        homedir = os.path.expanduser('~')
+        new_config =  homedir + '/.pygustus/config.json'
+        if not os.path.isfile(new_config) and os.access(homedir, os.W_OK):
+            os.mkdir(homedir + '.pygustus')
+            shutil.copyfile('config.json', new_config)
+        else:
+            print("ERROR: failed to copy config.json to " + homedir + "./pygustus!")
+            exit(1)
+        return new_config
+        
