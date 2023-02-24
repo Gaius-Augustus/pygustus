@@ -11,7 +11,7 @@ from pkg_resources import resource_filename
 import pygustus.fasta_methods as fm
 import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
-
+import sysconfig
 
 def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_sequences, part_hints, minsize, max_seq_size, debug_dir):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
@@ -207,14 +207,14 @@ def set_tmp_config_path(options=None, **kwargs):
 
 def set_json_file():
     '''If config.json file is not in a writable location, copy it to user's home and use that file hence forward.'''
-    if os.access('config.json', os.W_OK):
-        return 'config.json'
+    if os.access(sysconfig.get_paths()["purelib"] + '/pygustus/config.json', os.W_OK):
+        return sysconfig.get_paths()["purelib"] + '/pygustus/config.json'
     else:
         homedir = os.path.expanduser('~')
         new_config =  homedir + '/.pygustus/config.json'
         if not os.path.isfile(new_config) and os.access(homedir, os.W_OK):
             os.mkdir(homedir + '/.pygustus')
-            shutil.copyfile('config.json', new_config)
+            shutil.copyfile(sysconfig.get_paths()["purelib"] + '/pygustus/config.json', new_config)
         else:
             print("ERROR: failed to copy config.json to " + homedir + "./pygustus!")
             exit(1)
