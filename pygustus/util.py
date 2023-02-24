@@ -215,5 +215,8 @@ def set_json_file():
              os.mkdir(homedir + '/.pygustus')
         if not os.path.isfile(new_config) and os.access(homedir, os.W_OK):
             shutil.copyfile(standard_pkg_json, new_config)
+        if not os.access(new_config, os.W_OK):
+            print("ERROR: Cannot write in file " + new_config + "!")
+            exit(1)
         return new_config
         
