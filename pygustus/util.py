@@ -1,4 +1,4 @@
-import subprocess
+\65;6003;1cimport subprocess
 import os
 import os.path
 import re
@@ -128,8 +128,7 @@ def get_path_to_binary(options, program):
 
 
 def get_config_item(name):
-    js_file = set_json_file()
-    config_file = resource_filename('pygustus', js_file)
+    config = set_json_file()
     with open(config_file, 'r') as file:
         config = json.load(file)
 
@@ -137,8 +136,7 @@ def get_config_item(name):
 
 
 def set_config_item(name, value):
-    js_file = set_json_file()
-    config_file = resource_filename('pygustus', js_file)
+    config_file = set_json_file()
     with open(config_file, 'r+') as file:
         config = json.load(file)
         config.update({name: value})
@@ -207,14 +205,15 @@ def set_tmp_config_path(options=None, **kwargs):
 
 def set_json_file():
     '''If config.json file is not in a writable location, copy it to user's home and use that file hence forward.'''
-    if os.access(sysconfig.get_paths()["purelib"] + '/pygustus/config.json', os.W_OK):
-        return sysconfig.get_paths()["purelib"] + '/pygustus/config.json'
+    standard_pkg_json = resource_filename('pygustus', js_file)
+    if os.access(standard_pkg_json, os.W_OK):
+        return standard_pkg_json
     else:
         homedir = os.path.expanduser('~')
         new_config =  homedir + '/.pygustus/config.json'
         if not os.path.exists(homedir + "/.pygustus") and os.access(homedir, os.W_OK):
              os.mkdir(homedir + '/.pygustus')
         if not os.path.isfile(new_config) and os.access(homedir, os.W_OK):
-            shutil.copyfile(sysconfig.get_paths()["purelib"] + '/pygustus/config.json', new_config)
+            shutil.copyfile(standard_pkg_json, new_config)
         return new_config
         
