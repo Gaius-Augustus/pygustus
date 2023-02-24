@@ -1,4 +1,4 @@
-\65;6003;1cimport subprocess
+import subprocess
 import os
 import os.path
 import re
