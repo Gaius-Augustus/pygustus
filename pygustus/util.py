@@ -235,9 +235,9 @@ def set_json_file():
 
     # generate a random file name that does not exist, yet
     characters = string.ascii_letters + string.digits
-    new_config = pygustus_cfg_dir + "/json_" + ''.join(random.choice(characters) for i in range(10)).config
+    new_config = pygustus_cfg_dir + "/json_" + ''.join(random.choice(characters) for i in range(10)) + ".config"
     while os.path.isfile(new_config):
-        new_config = pygustus_cfg_dir + "/json_" + ''.join(random.choice(characters) for i in range(10)).config
+        new_config = pygustus_cfg_dir + "/json_" + ''.join(random.choice(characters) for i in range(10)) + ".config"
 
     # copy the file
     shutil.copyfile(standard_pkg_json, new_config)
