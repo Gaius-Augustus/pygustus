@@ -1,5 +1,6 @@
 import subprocess
 import os
+import os.path
 import re
 import json
 import shutil
@@ -10,7 +11,10 @@ from pkg_resources import resource_filename
 import pygustus.fasta_methods as fm
 import pygustus.gff_methods as gff
 from concurrent.futures import ThreadPoolExecutor
-
+import sysconfig
+import time
+import random
+import string
 
 def execute_bin_parallel(cmd, aug_options, jobs, chunksize, overlap, partition_sequences, part_hints, minsize, max_seq_size, debug_dir):
     print(f'Execute AUGUSTUS with {jobs} jobs in parallel.')
@@ -127,7 +131,7 @@ def get_path_to_binary(options, program):
 
 
 def get_config_item(name):
-    config_file = resource_filename('pygustus', 'config.json')
+    config_file = set_json_file()
     with open(config_file, 'r') as file:
         config = json.load(file)
 
@@ -135,7 +139,7 @@ def get_config_item(name):
 
 
 def set_config_item(name, value):
-    config_file = resource_filename('pygustus', 'config.json')
+    config_file = set_json_file()
     with open(config_file, 'r+') as file:
         config = json.load(file)
         config.update({name: value})
@@ -200,3 +204,41 @@ def set_tmp_config_path(options=None, **kwargs):
         tmp_config_path = options.get_value_or_none('AUGUSTUS_CONFIG_PATH')
     if tmp_config_path:
         os.environ['AUGUSTUS_CONFIG_PATH'] = tmp_config_path
+
+
+def set_json_file():
+    '''Copy contents of json.config to user's home and use that file hence forward.
+    Also delete existing json.config files that are older than 4 weeks.'''
+
+    # create ~/.pygustus folder if required
+    homedir = os.path.expanduser('~')
+    pygustus_cfg_dir = homedir + "/.pygustus"
+    if not os.path.exists(pygustus_cfg_dir) and os.access(homedir, os.W_OK):
+        os.mkdir(pygustus_cfg_dir)
+
+    # read .pygustus directory contents and delete files that are older than 4 weeks
+    # Get the current time
+    current_time = time.time()
+    # Loop through the files in the directory
+    for file_name in os.listdir(pygustus_cfg_dir):
+        file_path = os.path.join(pygustus_cfg_dir, file_name)
+        # Get the file's creation time in seconds since the epoch
+        file_creation_time = os.path.getctime(file_path)
+        # Calculate the age of the file in seconds
+        file_age = current_time - file_creation_time
+        # If the file is older than 2 weeks, delete it
+        if file_age > 2 * 7 * 24 * 60 * 60:
+            os.remove(file_path)
+
+    # find template json file
+    standard_pkg_json = resource_filename('pygustus', 'config.json')
+
+    # generate a random file name that does not exist, yet
+    characters = string.ascii_letters + string.digits
+    new_config = pygustus_cfg_dir + "/json_" + ''.join(random.choice(characters) for i in range(10)) + ".config"
+    while os.path.isfile(new_config):
+        new_config = pygustus_cfg_dir + "/json_" + ''.join(random.choice(characters) for i in range(10)) + ".config"
+
+    # copy the file
+    shutil.copyfile(standard_pkg_json, new_config)
+    return new_config
