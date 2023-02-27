@@ -226,8 +226,8 @@ def set_json_file():
         file_creation_time = os.path.getctime(file_path)
         # Calculate the age of the file in seconds
         file_age = current_time - file_creation_time
-        # If the file is older than 4 weeks, delete it
-        if file_age > 4 * 7 * 24 * 60 * 60:
+        # If the file is older than 2 weeks, delete it
+        if file_age > 2 * 7 * 24 * 60 * 60:
             os.remove(file_path)
 
     # find template json file
