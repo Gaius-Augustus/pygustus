@@ -29,8 +29,6 @@ Pygustus is in alpha development status. **Currently it is not recommended for p
 pip install pygustus
 ~~~
 
-:warning: PyPI currently contains version 0.7.0. We have version 0.8.0 that contains imported bugfixes. Build from source!
-
 ## Building Pygustus from source
 
 :warning: Pygustus currently only works with Augustus from git, not with Augustus from package managers or third parties. The crucial commit was performed on Feb 28 2023.
