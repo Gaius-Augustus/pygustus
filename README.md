@@ -32,6 +32,9 @@ pip install pygustus
 :warning: PyPI currently contains version 0.7.0. We have version 0.8.0 that contains imported bugfixes. Build from source!
 
 ## Building Pygustus from source
+
+:warning: Pygustus currently only works with Augustus from git, not with Augustus from package managers or third parties. The crucial commit was performed on Feb 28 2023.
+
 As an alternative to installing Pygustus from PyPi, Pygustus can also be built from source as follows. After cloning the repository from GitHub,
 ~~~
 git clone git@github.com:Gaius-Augustus/pygustus.git
